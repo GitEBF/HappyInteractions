@@ -16,13 +16,17 @@ session_start()
 </head>
 
 <body>
-  <?php
-  //database informations
-  $servername = "localhost";
-  $username = "root";
-  $password = "root";
-  $db = "happyinteractions";
-  $table = "user";
+    <?php
+      session_unset();
+      session_destroy();
+    ?>
+    <?php
+        //database informations
+        $servername = "localhost";
+        $username = "root";
+        $password = "root";
+        $db = "happyinteractions";
+        $table = "user";
 
   //Create Connection to DB
   $conn = new mysqli($servername, $username, $password, $db);
