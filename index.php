@@ -102,10 +102,8 @@ session_start()
       </div>
       <div class="sidebar" id="loginSidebar">
         <h2>Settings</h2>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-          Mot de passe : <input type="password" name="password"> <br>
-          <input type="submit">
-        </form>
+        mot de passe<input type="text" name="passworde" id="passworde"><br>
+        <button id="test">allo</button>
       </div>
       <?php
     }
