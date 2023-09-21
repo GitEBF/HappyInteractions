@@ -2,7 +2,7 @@ const button = document.getElementById("loginButton");
 const sidebar = document.getElementById("loginSidebar");
 const buttonIcon = document.getElementById("buttonIcon");
 const buttonIconSetings = document.getElementById("buttonIconSetings");
-
+const happyEmoticon = document.getElementById("happyIcon");
 
 button.addEventListener("click", function() {
   if (sidebar.style.width === "250px") {
