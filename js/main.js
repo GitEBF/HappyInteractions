@@ -2,6 +2,7 @@ const button = document.getElementById("loginButton");
 const sidebar = document.getElementById("loginSidebar");
 const buttonIcon = document.getElementById("buttonIcon");
 const buttonIconSetings = document.getElementById("buttonIconSetings");
+const test = document.getElementById("test");
 
 
 button.addEventListener("click", function() {
@@ -18,4 +19,10 @@ button.addEventListener("click", function() {
     buttonIconSetings.innerHTML = '<i class="fa fa-bars"></i>';
     button.classList.add("active");
   }
+});
+
+
+test.addEventListener("click", function() {
+  const password = document.getElementById("passworde").value;
+  
 });
