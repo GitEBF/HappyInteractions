@@ -17,10 +17,6 @@ session_start()
 
 <body>
     <?php
-      session_unset();
-      session_destroy();
-    ?>
-    <?php
         //database informations
         $servername = "localhost";
         $username = "root";
@@ -38,7 +34,16 @@ session_start()
 
 
 
+
+
   <div class="container">
+  <?php
+  if (!isset($_SESSION["connexion"])) {
+    $_SESSION["connexion"] = false;
+  }
+  
+  
+  if ($_SESSION["connexion"] == false) {?>
     <div class="button" id="loginButton">
       <div class="icon" id="buttonIcon">
         <i class="fa fa-user"></i>
@@ -46,6 +51,9 @@ session_start()
     </div>
 
     <div class="sidebar" id="loginSidebar">
+
+      
+
       <h2>Login</h2>
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                 Nom : <input type="text" name="name"><br>
@@ -53,7 +61,9 @@ session_start()
                 <input type="submit">
             </form>
     </div>
+    <?php } ?>
   </div>
+
   <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $user = $_POST['name'];
@@ -77,12 +87,17 @@ session_start()
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
                 $_SESSION["connexion"] = true;
+                echo "h tkdriojh";
             }
             else {
                 echo "Nom ou mot de passe invalide";
                 $_SESSION["connexion"] = false;
             }
             $connn->close(); 
+
+            if ($_SESSION["connexion"] == true) {
+              
+            }
           }
         ?>
 
