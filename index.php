@@ -16,6 +16,7 @@ session_start()
 </head>
 
 <body>
+
     <?php
         //database informations
         $servername = "localhost";
@@ -42,7 +43,6 @@ session_start()
     $_SESSION["connexion"] = false;
   }
   
-  
   if ($_SESSION["connexion"] == false) {?>
     <div class="button" id="loginButton">
       <div class="icon" id="buttonIcon">
@@ -51,9 +51,6 @@ session_start()
     </div>
 
     <div class="sidebar" id="loginSidebar">
-
-      
-
       <h2>Login</h2>
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                 Nom : <input type="text" name="name"><br>
@@ -87,7 +84,7 @@ session_start()
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
                 $_SESSION["connexion"] = true;
-                echo "h tkdriojh";
+                echo "sa marche big";
             }
             else {
                 echo "Nom ou mot de passe invalide";
@@ -95,9 +92,10 @@ session_start()
             }
             $connn->close(); 
 
-            if ($_SESSION["connexion"] == true) {
-              
-            }
+          }
+
+          if ($_SESSION["connexion"] == true) {
+            header("Location: settings.php");
           }
         ?>
 
