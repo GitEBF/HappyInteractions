@@ -47,13 +47,48 @@ session_start()
 
     <div class="sidebar" id="loginSidebar">
       <h2>Login</h2>
-
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                Nom : <input type="text" name="name"><br>
+                Mot de passe : <input type="password" name="password"> <br>
+                <input type="submit">
+            </form>
     </div>
   </div>
+  <?php
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $user = $_POST['name'];
+            $password = $_POST['password'];
+
+            //$password = md5($password,false);
+
+            $servernamebd = "localhost";
+            $usernamebd = "root";
+            $passwordbd = "root";
+            $dbname = "happyinteractions";
+            $connn = new mysqli($servernamebd,$usernamebd,$passwordbd,$dbname);
+
+            if ($connn->connect_error) {
+                die("Connection failed: " . $connn->connect_error);
+            }   
+
+            $sqll = "SELECT * FROM user where name='$user' and password='$password'";
+            $result = $connn->query($sqll);
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $_SESSION["connexion"] = true;
+            }
+            else {
+                echo "Nom ou mot de passe invalide";
+                $_SESSION["connexion"] = false;
+            }
+            $connn->close(); 
+          }
+        ?>
+
+
   <script src="js/main.js"></script>
-
 </body>
-
 </html>
 
 <!-- 2.5h visuel index.php | 2h dispositions des settings | 2h creation des settings pour la customisation |  etc...
