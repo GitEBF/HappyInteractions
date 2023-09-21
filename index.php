@@ -88,3 +88,5 @@ session_start()
        
     </body>
 </html>
+
+<!-- 2.5h visuel index.php | 2h dispositions des settings | 2h creation des settings pour la customisation |  etc...
