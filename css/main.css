@@ -1,7 +1,11 @@
-body {
+html, body {
     background-color: #F7F4F3;
+    margin: 0;
+    height: 100%;
 }
-
+.iconContainer {
+    height: 100vh;
+}
 .button {
     font-size: 1.5rem;
     border-radius: 100px;
@@ -20,6 +24,11 @@ body {
     top: 50%;
     transform: translateY(-50%);
     text-align: center;
+}
+
+.emotionIcon {
+    margin-left: 1.5em;
+    margin-right: 1.5em;
 }
 
 .sidebar {
