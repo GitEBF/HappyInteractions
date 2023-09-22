@@ -22,7 +22,5 @@ button.addEventListener("click", function() {
 });
 
 
-test.addEventListener("click", function() {
-  const password = document.getElementById("passworde").value;
-  
-});
+};
+
