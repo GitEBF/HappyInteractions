@@ -18,6 +18,8 @@ session_start()
 <body id="body">
 
   <?php
+  //session_unset();
+  //session_destroy();
   //database informations
   $servername = "localhost";
   $username = "root";
@@ -62,7 +64,7 @@ session_start()
 
 
     <?php
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if ($_SERVER['REQUEST_METHOD'] == "POST" && !isset($_POST['settingsSubmit'])) {
       $user = $_POST['name'];
       $password = $_POST['password'];
 
@@ -72,26 +74,26 @@ session_start()
       $usernamebd = "root";
       $passwordbd = "root";
       $dbname = "happyinteractions";
-      $connn = new mysqli($servernamebd, $usernamebd, $passwordbd, $dbname);
+      $con = new mysqli($servernamebd, $usernamebd, $passwordbd, $dbname);
 
-      if ($connn->connect_error) {
-        die("Connection failed: " . $connn->connect_error);
+      if ($con->connect_error) {
+        die("Connection failed: " . $con->connect_error);
       }
 
-      $sqll = "SELECT * FROM user where name='$user' and password='$password'";
-      $result = $connn->query($sqll);
+      $sql = "SELECT * FROM user where name='$user' and password='$password'";
+      $result = $con->query($sql);
 
       if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $_SESSION["connexion"] = true;
-        $_SESSION["username"] = $row['name'];
+        $_SESSION["username"] = $user;
         echo "sa marche big";
+        Header('Location: ' . $_SERVER['PHP_SELF']);
       } else {
         echo "Nom ou mot de passe invalide";
         $_SESSION["connexion"] = false;
       }
-      $connn->close();
-
+      $con->close();
     }
 
     if ($_SESSION["connexion"] == true) {
@@ -103,27 +105,63 @@ session_start()
       </div>
       <div class="sidebar" id="loginSidebar">
         <h2>Settings</h2>
-        mot de passe<input type="text" name="passworde" id="passworde"><br>
-        <button id="test" onclick="document.getElementById('msg').innerHTML = ('<?php checkPswd() ?>')">allo</button>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+          mot de passe<input type="text" name="password" id="password"><br>
+          <input type="submit" name='settingsSubmit'>
+        </form>
       </div>
       <?php
+
+      if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['settingsSubmit'])) {
+        if ($_SESSION["connexion"] == true) {
+
+          $enteredPassword = $_POST['password'];
+
+          $servernamebd = "localhost";
+          $usernamebd = "root";
+          $passwordbd = "root";
+          $dbname = "happyinteractions";
+          $con = new mysqli($servernamebd, $usernamebd, $passwordbd, $dbname);
+
+          if ($con->connect_error) {
+            die("Connection failed: " . $con->connect_error);
+          }
+          $user = $_SESSION["username"];
+          echo $user;
+          $sql = "SELECT * FROM user where name='$user' AND password='$enteredPassword'";
+          $result = $con->query($sql);
+
+          if ($result->num_rows > 0) {
+            Header('Location:settings.php');
+            $_SESSION['settings'] = 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65';
+          } else {
+            $_SESSION['settings'] = 'non';
+          }
+          $con->close();
+        }
+      }
     }
     ?>
   </div>
 
   <!-- emoticons fr fr -->
   <div class="d-flex justify-content-center justify-content-center iconContainer align-items-center" id="buttonWrapper">
-    <svg class="btn emotionIcon happyIcon" id="happyIcon" onclick="document.getElementById('msg').innerHTML += ('<?php emotion("happyIcon") ?>');" xmlns="http://www.w3.org/2000/svg" height="13em"
-      viewBox="0 0 512 512" style="fill:#25D937">
+    <svg class="btn emotionIcon happyIcon" id="happyIcon"
+      onclick="document.getElementById('msg').innerHTML += ('<?php emotion("happyIcon") ?>');"
+      xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512" style="fill:#25D937">
       <path id="happyIcon"
         d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
     </svg>
-    <svg class="btn emotionIcon midIcon" id="midIcon" style="fill:#E5E827" onclick="document.getElementById('msg').innerHTML += ('<?php emotion("midIcon") ?>'); "xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
+    <svg class="btn emotionIcon midIcon" id="midIcon" style="fill:#E5E827"
+      onclick="document.getElementById('msg').innerHTML += ('<?php emotion("midIcon") ?>'); "
+      xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
       <path id="midIcon"
         d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM176.4 176a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 32a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM160 336H352c8.8 0 16 7.2 16 16s-7.2 16-16 16H160c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
     </svg>
 
-    <svg class="btn emotionIcon sadIcon" id="sadIcon" style="fill:#DA2626" onclick="document.getElementById('msg').innerHTML += ('<?php emotion("sadIcon") ?>');" xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
+    <svg class="btn emotionIcon sadIcon" id="sadIcon" style="fill:#DA2626"
+      onclick="document.getElementById('msg').innerHTML += ('<?php emotion("sadIcon") ?>');"
+      xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
       <path id="sadIcon"
         d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM159.3 388.7c-2.6 8.4-11.6 13.2-20 10.5s-13.2-11.6-10.5-20C145.2 326.1 196.3 288 256 288s110.8 38.1 127.3 91.3c2.6 8.4-2.1 17.4-10.5 20s-17.4-2.1-20-10.5C340.5 349.4 302.1 320 256 320s-84.5 29.4-96.7 68.7zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
     </svg>
@@ -131,14 +169,11 @@ session_start()
   <div id="msg"></div>
   <script src="js/main.js"></script>
   <?php
-function emotion($id){
-  
-}
+  function emotion($id)
+  {
 
-function checkPswd() {
-
-}
-?>
+  }
+  ?>
 </body>
 
 </html>
