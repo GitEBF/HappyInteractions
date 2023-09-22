@@ -106,7 +106,7 @@ html, body {
 
 .btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    filter:brightness(85%);
 }
 
 .btn:active {
@@ -121,7 +121,6 @@ html, body {
 
 .btn::after {
     content: "";
-    display: inline-block;
     height: 100%;
     width: 100%;
     border-radius: 100px;
@@ -155,5 +154,49 @@ html, body {
     100% {
         opacity: 1;
         transform: translateY(0px);
+    }
+}
+
+.emotionDisapear {
+    animation: scaleToZero 0.8s linear;
+    animation-fill-mode: forwards;
+}
+
+.emotionBiggify {
+    animation: scaleBiggify 0.8s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes scaleToZero {
+    0% {
+        width: 13em;
+        z-index: 0;
+    }
+
+    20% {
+        width: 14em;
+    }
+
+    100% {
+        width: 0em;
+    }
+}
+
+@keyframes scaleBiggify {
+    0% {
+        transform: scaleX(1) scaleY(1);
+        height: 13em;
+        z-index: 1;
+    }
+
+    20% {
+        transform: scaleX(0.8) scaleY(0.8);
+        height: 13em;
+    }
+
+    100% {
+        transform: scaleX(1.5) scaleY(1.5);
+        margin: 0 0 0 0;
+        height: 13em;
     }
 }
