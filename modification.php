@@ -1,3 +1,7 @@
+<?php
+session_start()
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +10,9 @@
     <title>Modification</title>
 </head>
 <body>
-    allo
+   <?php 
+    $id = $_GET['id'];
+    echo "$id";
+   ?>
 </body>
 </html>
