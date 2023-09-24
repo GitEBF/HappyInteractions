@@ -165,19 +165,6 @@ if (!isset($_SESSION["connexion"])) {
   <?php
   function emotion($id)
   {
-    $emotionMeter = 50;
-    switch ($id) {
-
-      case "happyIcon":
-        $emotionMeter = 100;
-        break;
-
-      case "sadIcon":
-        $emotionMeter = 0;
-        break;
-
-    }
-
     $dbConnection = createConnection();
 
     $sql = "INSERT INTO visitor (idActivity, emotion)
