@@ -42,14 +42,14 @@ CREATE TABLE `activity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `worker` (
-  `idActivity` int(11) NOT NULL PRIMARY KEY,
+  `idActivity` int(11) NOT NULL,
   `emotion` int,
   FOREIGN KEY (idActivity) REFERENCES activity (id),
   CONSTRAINT CHK_matemanger CHECK (emotion>=0 AND emotion<=100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `visitor` (
-  `idActivity` int(11) NOT NULL PRIMARY KEY,
+  `idActivity` int(11) NOT NULL,
   `emotion` int,
   FOREIGN KEY (idActivity) REFERENCES activity (id),
   CONSTRAINT CHK_matemanger CHECK (emotion>=0 AND emotion<=100)

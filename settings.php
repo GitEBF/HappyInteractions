@@ -11,6 +11,7 @@ session_start()
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
+    <link rel="stylesheet" href="css/settings.css">
 </head>
 
 <body>
@@ -21,16 +22,16 @@ session_start()
         $name = $description = "";
         $erreur = false;
 
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['ajouter'])){
-            if(empty($_POST['name'])){
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['ajouter'])) {
+            if (empty($_POST['name'])) {
                 $nomErreur = "Le nom ne peut pas être vide";
-                $erreur  = true;
-            } else if (empty($_POST['date'])){
+                $erreur = true;
+            } else if (empty($_POST['date'])) {
                 $dateErreur = "La date ne peut pas être vide";
-                $erreur  = true;
-            } else if (empty($_POST['description'])){
+                $erreur = true;
+            } else if (empty($_POST['description'])) {
                 $descriptionErreur = "La date ne peut pas être vide";
-                $erreur  = true;
+                $erreur = true;
             }
             if (!$erreur) {
                 $name = $_POST['name'];
@@ -40,33 +41,79 @@ session_start()
                 $username = "root";
                 $passwordSQL = "root";
                 $db = "happyinteractions";
-                $con = new mysqli($servername,$username,$passwordSQL,$db);
+                $con = new mysqli($servername, $username, $passwordSQL, $db);
                 if ($con->connect_error) {
                     die("Connection failed: " . $con->connect_error);
-                }   
+                }
                 echo "Connected succesfully";
                 $sql = "INSERT INTO activity (name,date,description,idDepartement) VALUES('$name','$date','$description','1')"; //FAUT CHANGER LES DEPARTEMENTS
                 if (mysqli_query($con, $sql)) {
                     echo "<br>Enregistrement réussi";
                 } else {
-                    echo "Error: " . $sql . "<br>" , mysqli_error($con);
+                    echo "Error: " . $sql . "<br>", mysqli_error($con);
                 }
 
                 mysqli_close($con);
             }
         }
-        ?> 
+        ?>
+        <a href="index.php"><svg xmlns="http://www.w3.org/2000/svg" height="2em"
+                viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <style>
+                    svg {
+                        fill: #000000
+                    }
+                </style>
+                <path
+                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
+            </svg></a>
         <h2>Ajouter type beat</h2>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-          Nom : <input type="text" name="name"><br>
-          <p style="color:red;"><?php echo $nomErreur; ?></p>
-          Date : <input type="date" name="date"><br>
-          <p style="color:red;"><?php echo $dateErreur; ?></p>
-          Description : <input type="text" name="description"><br>
-          <p style="color:red;"><?php echo $descriptionErreur; ?></p>
-          <input type="submit" name="ajouter">
+            Nom : <input type="text" name="name"><br>
+            <p style="color:red;">
+                <?php echo $nomErreur; ?>
+            </p>
+            Date : <input type="date" name="date"><br>
+            <p style="color:red;">
+                <?php echo $dateErreur; ?>
+            </p>
+            Description : <input type="text" name="description"><br>
+            <p style="color:red;">
+                <?php echo $descriptionErreur; ?>
+            </p>
+            <input type="submit" name="ajouter">
         </form>
+
+        <!-- Afficher les différentes activités -->
+
         <?php
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "root";
+        $db = "happyinteractions";
+        $conn = new mysqli($servername, $username, $password, $db);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $conn->query('SET NAMES utf8');
+        $sql = "SELECT * FROM activity";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            echo '';
+            while ($row = $result->fetch_assoc()) {
+                ?>
+                <p><?php echo $row["name"]?></p>
+                <button></button>
+                <button ><a href="modification.php?id=<?php echo $row["id"] ?>">modificationne</a></button>
+                <?php
+            }
+        } else {
+            echo "non";
+        }
+        $conn->close();
     } else {
         Header('Location:index.php');
     }
