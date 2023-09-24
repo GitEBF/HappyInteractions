@@ -26,161 +26,47 @@ SET time_zone = "+00:00";
 -- Structure de la table `activity`
 --
 
-CREATE TABLE `activity` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `date` date NOT NULL,
-  `idDepartement` int(11) NOT NULL,
-  `description` varchar(255) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Contenu de la table `activity`
---
-
-INSERT INTO `activity` (`id`, `name`, `date`, `idDepartement`, `description`) VALUES
-(1, 'Pizza party', '2023-09-30', 1, 'on mange d\'la pizza toute le kit');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `departement`
---
-
 CREATE TABLE `departement` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Contenu de la table `departement`
---
 
-INSERT INTO `departement` (`id`, `name`) VALUES
-(1, 'Informatique');
+CREATE TABLE `activity` (
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `date` date NOT NULL,
+  `idDepartement` int(11) NOT NULL,
+  `description` varchar(255) COLLATE utf8_bin NOT NULL,
+  FOREIGN KEY (idDepartement) REFERENCES departement (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- --------------------------------------------------------
+CREATE TABLE `worker` (
+  `idActivity` int(11) NOT NULL PRIMARY KEY,
+  `emotion` int,
+  FOREIGN KEY (idActivity) REFERENCES activity (id),
+  CONSTRAINT CHK_matemanger CHECK (emotion>=0 AND emotion<=100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Structure de la table `user`
---
+CREATE TABLE `visitor` (
+  `idActivity` int(11) NOT NULL PRIMARY KEY,
+  `emotion` int,
+  FOREIGN KEY (idActivity) REFERENCES activity (id),
+  CONSTRAINT CHK_matemanger CHECK (emotion>=0 AND emotion<=100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `password` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Contenu de la table `user`
---
+INSERT INTO `departement` (`id`, `name`) VALUES
+(1, 'Informatique');
+
+INSERT INTO `activity` (`id`, `name`, `date`, `idDepartement`, `description`) VALUES
+(1, 'Pizza party', '2023-09-30', 1, 'on mange dla pizza toute le kit');
 
 INSERT INTO `user` (`id`, `name`, `password`) VALUES
 (1, 'etijay', 'bebou');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `visitor`
---
-
-CREATE TABLE `visitor` (
-  `idActivity` int(11) NOT NULL,
-  `happy` int(11) NOT NULL,
-  `neutral` int(11) NOT NULL,
-  `unhappy` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Contenu de la table `visitor`
---
-
-INSERT INTO `visitor` (`idActivity`, `happy`, `neutral`, `unhappy`) VALUES
-(1, 0, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `worker`
---
-
-CREATE TABLE `worker` (
-  `idActivity` int(11) NOT NULL,
-  `happy` int(11) NOT NULL,
-  `neutral` int(11) NOT NULL,
-  `unhappy` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Contenu de la table `worker`
---
-
-INSERT INTO `worker` (`idActivity`, `happy`, `neutral`, `unhappy`) VALUES
-(1, 0, 0, 0);
-
---
--- Index pour les tables exportées
---
-
---
--- Index pour la table `activity`
---
-ALTER TABLE `activity`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `departement`
---
-ALTER TABLE `departement`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`);
-
---
--- Index pour la table `visitor`
---
-ALTER TABLE `visitor`
-  ADD PRIMARY KEY (`idActivity`);
-
---
--- Index pour la table `worker`
---
-ALTER TABLE `worker`
-  ADD PRIMARY KEY (`idActivity`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `activity`
---
-ALTER TABLE `activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `departement`
---
-ALTER TABLE `departement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `visitor`
---
-ALTER TABLE `visitor`
-  MODIFY `idActivity` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT pour la table `worker`
---
-ALTER TABLE `worker`
-  MODIFY `idActivity` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
