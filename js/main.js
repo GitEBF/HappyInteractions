@@ -28,23 +28,27 @@ buttonWrapper.addEventListener('click', (event) => {
     for (i = 0; i < emotionIcons.length; i++) {
       if (emotionIcons[i].id != event.target.id) {
         emotionIcons[i].classList.add("emotionDisapear");
-      } else {  
+      } else {
         emotionIcons[i].classList.add("emotionBiggify");
       }
     }
-  }
+    
+    var id = event.target.id;
+    var emotionMeter = 50;
+    switch (id) {
 
-  wait(4);
+      case "happyIcon":
+        emotionMeter = 100;
+        break;
 
-  var emotionIcons = document.getElementsByClassName("emotionIcon");
-  console.dir(event.target.id);
-  if (event.target.id != null && event.target.id != "buttonWrapper") {
-    for (i = 0; i < emotionIcons.length; i++) {
-      if (emotionIcons[i].id != event.target.id) {
-        emotionIcons[i].classList.remove("emotionDisapear");
-      } else {  
-        emotionIcons[i].classList.remove("emotionBiggify");
-      }
+      case "sadIcon":
+        emotionMeter = 0;
+        break;
+
+      default: break;
     }
+    
+    document.getElementById('msg').innerHTML += ('<?php emotion(' + emotionMeter + ') ?>');
+    console.dir(emotionMeter);
   }
 })
