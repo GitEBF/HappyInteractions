@@ -18,23 +18,9 @@ button.addEventListener("click", function () {
     button.classList.add("active");
   }
 });
-/*
-for (i=0;i<emotionIcons.length;i++) {
-  emotionIcons[i].addEventListener("click", emotionClick(emotionIcons[i]));
-};
-
-Array.from(emotionIcons).forEach((icon) =>
-{
-  var divMessage = document.getElementById("msg");
-  divMessage.innerHTML = icon.id;
-});
 
 
-function emotionClick(emotionButton) {
-  console.log(emotionButton.id);
-}
-*/
-
+//Get all children of buttonWrapper and listen to the click event of each one
 buttonWrapper.addEventListener('click', (event) => {
   var emotionIcons = document.getElementsByClassName("emotionIcon");
   console.dir(event.target.id);
@@ -46,7 +32,5 @@ buttonWrapper.addEventListener('click', (event) => {
         emotionIcons[i].classList.add("emotionBiggify");
       }
     }
-
-
   }
 })
