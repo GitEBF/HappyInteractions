@@ -160,3 +160,5 @@ html, body {
         height: 13em;
     }
 }
+
+form.hide-submit input[type="submit"] { display: none;}
