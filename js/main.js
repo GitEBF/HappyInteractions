@@ -32,23 +32,5 @@ buttonWrapper.addEventListener('click', (event) => {
         emotionIcons[i].classList.add("emotionBiggify");
       }
     }
-    
-    var id = event.target.id;
-    var emotionMeter = 50;
-    switch (id) {
-
-      case "happyIcon":
-        emotionMeter = 100;
-        break;
-
-      case "sadIcon":
-        emotionMeter = 0;
-        break;
-
-      default: break;
-    }
-    
-    document.getElementById('msg').innerHTML += ('<?php emotion(' + emotionMeter + ') ?>');
-    console.dir(emotionMeter);
   }
 })
