@@ -11,6 +11,8 @@ session_start()
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="css/settings.css">
 </head>
 
@@ -102,12 +104,15 @@ session_start()
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            echo '';
             while ($row = $result->fetch_assoc()) {
                 ?>
-                <p><?php echo $row["name"]?></p>
-                <button></button>
-                <button ><a href="modification.php?id=<?php echo $row["id"] ?>">modificationne</a></button>
+                <div class="activity">
+                    <p>
+                        <?php echo $row["name"] ?>
+                    </p>
+                    <input type="radio" name="selection" value="<?php echo $row["id"] ?>">Selectionner</input>
+                    <button><a href="modification.php?id=<?php echo $row["id"] ?>">modificationne</a></button>
+                </div>
                 <?php
             }
         } else {
@@ -118,6 +123,6 @@ session_start()
         Header('Location:index.php');
     }
     ?>
+    <script src="js/main.js"></script>
 </body>
-
 </html>
