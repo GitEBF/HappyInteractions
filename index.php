@@ -100,7 +100,7 @@ if (!isset($_SESSION["connexion"])) {
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-          mot de passe<input type="text" name="password" id="password"><br>
+          mot de passe<input type="password" name="password" id="password"><br>
           <input type="submit" name='settingsSubmit'>
         </form>
       </div>
