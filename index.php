@@ -1,5 +1,13 @@
 <?php
-session_start()
+session_start();
+require "dbController.php";
+//$dbConnection = createConnection(); -- create a connection
+//endConnection($dbConnection); -- end the connection
+// Create the variable connexion if it doesnt exist
+if (!isset($_SESSION["connexion"])) {
+  $_SESSION["connexion"] = false;
+}
+
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,32 +28,14 @@ session_start()
   <?php
   //session_unset();
   //session_destroy();
-  //database informations
-  $servername = "localhost";
-  $username = "root";
-  $password = "root";
-  $db = "happyinteractions";
-  $table = "user";
-
-  //Create Connection to DB
-  $conn = new mysqli($servername, $username, $password, $db);
-  // Check Connection of DB
-  if ($conn->connect_error) {
-    die("Connection failed " . $conn->connect_error);
-  }
   ?>
-
-
-
-
 
   <div class="container">
     <?php
-    if (!isset($_SESSION["connexion"])) {
-      $_SESSION["connexion"] = false;
-    }
 
-    if ($_SESSION["connexion"] == false) { ?>
+    // if not connected show connection sidebar
+    if (!connected()) { ?>
+
       <div class="button" id="loginButton">
         <div class="icon" id="buttonIcon">
           <i class="fa fa-user"></i>
@@ -54,7 +44,9 @@ session_start()
 
       <div class="sidebar" id="loginSidebar">
         <h2>Login</h2>
+
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
           Nom : <input type="text" name="name"><br>
           Mot de passe : <input type="password" name="password"> <br>
           <input type="submit">
@@ -105,7 +97,9 @@ session_start()
       </div>
       <div class="sidebar" id="loginSidebar">
         <h2>Settings</h2>
+
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
           mot de passe<input type="text" name="password" id="password"><br>
           <input type="submit" name='settingsSubmit'>
         </form>

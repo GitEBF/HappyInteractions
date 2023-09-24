@@ -33,4 +33,18 @@ buttonWrapper.addEventListener('click', (event) => {
       }
     }
   }
+
+  wait(4);
+
+  var emotionIcons = document.getElementsByClassName("emotionIcon");
+  console.dir(event.target.id);
+  if (event.target.id != null && event.target.id != "buttonWrapper") {
+    for (i = 0; i < emotionIcons.length; i++) {
+      if (emotionIcons[i].id != event.target.id) {
+        emotionIcons[i].classList.remove("emotionDisapear");
+      } else {  
+        emotionIcons[i].classList.remove("emotionBiggify");
+      }
+    }
+  }
 })
