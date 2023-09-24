@@ -8,7 +8,7 @@ if (!isset($_SESSION["connexion"])) {
   $_SESSION["connexion"] = false;
 }
 
-  ?>
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -165,11 +165,33 @@ if (!isset($_SESSION["connexion"])) {
   <?php
   function emotion($id)
   {
+    $emotionMeter = 50;
+    switch ($id) {
 
+      case "happyIcon":
+        $emotionMeter = 100;
+        break;
+
+      case "sadIcon":
+        $emotionMeter = 0;
+        break;
+
+    }
+
+    $dbConnection = createConnection();
+
+    $sql = "INSERT INTO visitor (idActivity, emotion)
+            VALUES (1, $emotionMeter)";
+
+    if ($dbConnection->query($sql) === TRUE) {
+
+    } else {
+      echo "Error: " . $sql . "<br>" . $dbConnection->error;
+    }
+    
   }
   ?>
 </body>
 
 </html>
-
-<!-- 2.5h visuel index.php | 2h dispositions des settings | 2h creation des settings pour la customisation |  etc...
+<!-- 2.5h visuel index.php | 2h dispositions des settings | 2h creation des settings pour la customisation |  etc... -->
