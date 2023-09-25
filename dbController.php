@@ -33,6 +33,9 @@ function ifActivity()
 {
     $dbConnection = createConnection();
     $activity = null;
+    if (!isset($_SESSION["username"])) {
+        return false;
+    }
     $user = $_SESSION["username"];
 
     $sql = "SELECT * FROM user where name='$user'";
@@ -82,6 +85,10 @@ function activityExists($activity)
 
 function connected()
 {
-    return $_SESSION["connexion"];
+    if (isset($_SESSION['action'])) {
+        return true;
+    } else {
+        return false;
+    }
 }
 ?>

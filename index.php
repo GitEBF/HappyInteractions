@@ -4,9 +4,7 @@ require "dbController.php";
 //$dbConnection = createConnection(); -- create a connection
 //endConnection($dbConnection); -- end the connection
 // Create the variable connexion if it doesnt exist
-if (!isset($_SESSION["connexion"])) {
-  $_SESSION["connexion"] = false;
-}
+
 
 ?>
 <!DOCTYPE html>
@@ -71,17 +69,18 @@ if (!isset($_SESSION["connexion"])) {
 
       if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $_SESSION["connexion"] = true;
+        
         $_SESSION["username"] = $user;
+        $_SESSION["action"] = "login";
         Header('Location: ' . $_SERVER['PHP_SELF']);
       } else {
-        $_SESSION["connexion"] = false;
+        
       }
 
       endConnection($connection);
     }
 
-    if ($_SESSION["connexion"] == true) {
+    if (connected()) {
       ?>
       <div class="button" id="loginButton">
         <div class="icon" id="buttonIconSettings">
@@ -102,7 +101,7 @@ if (!isset($_SESSION["connexion"])) {
       <?php
 
       if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['action'] == "settings") {
-        if ($_SESSION["connexion"] == true) {
+
 
           $enteredPassword = $_POST['password'];
 
@@ -125,12 +124,11 @@ if (!isset($_SESSION["connexion"])) {
           }
 
           endConnection($connection);
-        }
       }
     }
     ?>
   </div>
-  <?php if (ifActivity()) { ?>
+  <?php if (session_status() == PHP_SESSION_ACTIVE && ifActivity()) { ?>
     <!-- emoticons fr fr -->
     <form method='post'
       class="hide-submit d-flex justify-content-center justify-content-center iconContainer align-items-center"
@@ -208,7 +206,7 @@ if (!isset($_SESSION["connexion"])) {
     }
     ?>
 
-    <?php //print_r($_SESSION); ?>
+    <?php print_r($_SESSION); ?>
 </body>
 
 </html>
