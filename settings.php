@@ -19,7 +19,28 @@ require "dbController.php";
 
 <body>
     <?php
-    if ($_SESSION['settings'] == 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65' && $_SESSION['connexion'] == true) {
+    if ($_SESSION['settings'] == 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65') {
+
+        $dbConnection = createConnection();
+        $user = $_SESSION['username'];
+
+        $sql = "SELECT * FROM user WHERE name = '$user'";
+
+        $result = $dbConnection->query($sql);
+
+     
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $_SESSION['id'] = $row["lastUsedActivity"];
+            }
+         else {
+            echo "Error: " . $sql . "<br>" . $dbConnection->error;
+        }
+        endConnection($dbConnection);
+
+
+
+
         //$_SESSION['settings'] = 'non';
         $nomErreur = $dateErreur = $descriptionErreur = "";
         $name = $description = "";
