@@ -32,7 +32,7 @@ if (!isset($_SESSION["connexion"])) {
 
   <div class="container">
     <?php
-    $_SESSION['settings'] = 'non';
+    $_SESSION['settings'] = 'nuh uh';
     // if not connected show connection sidebar
     if (!connected()) { ?>
 
@@ -117,13 +117,13 @@ if (!isset($_SESSION["connexion"])) {
           echo $user;
           $sql = "SELECT * FROM user where name='$user' AND password='$enteredPassword'";
 
-          $result = $con->query($sql);
+          $result = $connection->query($sql);
 
           if ($result->num_rows > 0) {
             Header('Location:settings.php');
             $_SESSION['settings'] = 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65';
           } else {
-            $_SESSION['settings'] = 'non';
+            $_SESSION['settings'] = 'nuh uh';
           }
 
           endConnection($connection);
