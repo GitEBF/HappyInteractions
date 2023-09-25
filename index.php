@@ -208,7 +208,7 @@ if (!isset($_SESSION["connexion"])) {
     }
     ?>
 
-    <?php print_r($_SESSION); ?> 
+    <?php //print_r($_SESSION); ?> 
 </body>
 
 </html>
