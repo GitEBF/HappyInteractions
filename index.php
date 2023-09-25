@@ -24,8 +24,8 @@ require "dbController.php";
 <body id="body">
 
   <?php
-  session_unset();
-  session_destroy();
+  //session_unset();
+  //session_destroy();
   ?>
 
     <!-- ---------------------------------- -->
@@ -197,7 +197,7 @@ require "dbController.php";
       $dbConnection = createConnection();
       $idActivity = getIdActivity();
       $sql = "INSERT INTO visitor (idActivity, emotion)
-            VALUES (1, $emotionMeter)";
+            VALUES ($idActivity, $emotionMeter)";
 
       if ($dbConnection->query($sql) === TRUE) {
 
