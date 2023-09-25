@@ -23,17 +23,65 @@ function createConnection()
     }
 }
 
-function endConnection($connection) {
+function endConnection($connection)
+{
     //Close Connection to DB
     $connection->close();
+}
+
+function ifActivity()
+{
+    $dbConnection = createConnection();
+    $activity = null;
+    $user = $_SESSION["username"];
+
+    $sql = "SELECT * FROM user where name='$user'";
+    $result = $dbConnection->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $activity = $row["lastUsedActivity"];
+    }
+
+
+    if ($activity != null && activityExists($activity)) {
+        endConnection($dbConnection);
+        return true;
+    } else {
+        $sql = "UPDATE user SET lastUsedActivity = null WHERE name='$user'";
+
+        if ($dbConnection->query($sql) === TRUE) {
+
+        } else {
+            echo "Error: " . $sql . "<br>" . $dbConnection->error;
+        }
+        endConnection($dbConnection);
+        return false;
+    }
+}
+
+function activityExists($activity)
+{
+    $dbConnection = createConnection();
+
+    $sql = "SELECT * FROM activity where id='$activity'";
+    $result = $dbConnection->query($sql);
+
+    endConnection($dbConnection);
+
+    if ($result->num_rows > 0) {
+        return true;
+    } else {
+
+        return false;
+    }
+
 }
 
 
 
 
-
-
-function connected() {
+function connected()
+{
     return $_SESSION["connexion"];
 }
 ?>
