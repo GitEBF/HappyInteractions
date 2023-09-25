@@ -27,29 +27,29 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `departement` (
-  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 
 CREATE TABLE `activity` (
-  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `date` date NOT NULL,
-  `idDepartement` int(11) NOT NULL,
+  `idDepartement` int(30) NOT NULL,
   `description` varchar(255) COLLATE utf8_bin NOT NULL,
   FOREIGN KEY (idDepartement) REFERENCES departement (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `worker` (
-  `idActivity` int(11) NOT NULL,
+  `idActivity` int(30) NOT NULL,
   `emotion` int,
   FOREIGN KEY (idActivity) REFERENCES activity (id),
   CONSTRAINT CHK_matemanger CHECK (emotion>=0 AND emotion<=100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE `visitor` (
-  `idActivity` int(11) NOT NULL,
+  `idActivity` int(30) NOT NULL,
   `emotion` int,
   FOREIGN KEY (idActivity) REFERENCES activity (id),
   CONSTRAINT CHK_matemanger CHECK (emotion>=0 AND emotion<=100)
@@ -57,9 +57,11 @@ CREATE TABLE `visitor` (
 
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `id` int(30) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
-  `password` varchar(255) COLLATE utf8_bin NOT NULL
+  `password` varchar(255) COLLATE utf8_bin NOT NULL,
+  `lastUsedActivity` int(30),
+  FOREIGN KEY (lastUsedActivity) REFERENCES activity(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `departement` (`id`, `name`) VALUES
