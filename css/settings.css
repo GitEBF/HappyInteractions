@@ -2,5 +2,8 @@
     margin: 1px;
     background-color: aliceblue;
     border: 1px black solid;
-    max-width: 500px;
+    width: 500px;
 }
+
+
+form.hide-submit input[type="submit"] { display: none;}
