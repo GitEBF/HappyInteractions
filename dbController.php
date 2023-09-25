@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "root";
+$usernamedb = "root";
+$passworddb = "root";
 $db = "happyinteractions";
 $userTable = "user";
 $visitorTable = "visitor";
@@ -13,8 +13,8 @@ $activityTable = "activity";
 function createConnection()
 {
     //Create Connection to DB
-    global $servername, $username, $password, $db;
-    $conn = new mysqli($servername, $username, $password, $db);
+    global $servername, $usernamedb, $passworddb, $db;
+    $conn = new mysqli($servername, $usernamedb, $passworddb, $db);
     // Check Connection of DB
     if ($conn->connect_error) {
         die("Connection failed " . $conn->connect_error);
