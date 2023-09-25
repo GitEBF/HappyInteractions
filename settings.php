@@ -19,7 +19,7 @@ require "dbController.php";
 
 <body>
     <?php
-    if ($_SESSION['settings'] == 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65' && $_SESSION['connexion'] == true) {
+    if ($_SESSION['settings'] == 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65') {
         //$_SESSION['settings'] = 'non';
         $nomErreur = $dateErreur = $descriptionErreur = "";
         $name = $description = "";
