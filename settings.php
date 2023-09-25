@@ -1,7 +1,7 @@
 <?php
 session_start();
 require "dbController.php";
-    ?>
+?>
 
 
 <!DOCTYPE html>
@@ -112,7 +112,7 @@ require "dbController.php";
                 while ($row = $result->fetch_assoc()) {
                     ?>
                     <label>
-                        <div class="activity">
+                        <div class="activity" id="<?php echo $row["id"] ?>selection">
                             <input type="submit" name="selection" value="<?php echo $row["id"] ?>" />
                             <p>
                                 <?php echo $row["name"] ?>
@@ -159,6 +159,8 @@ require "dbController.php";
             }
             endConnection($dbConnection);
 
+
+
         }
 
 
@@ -166,7 +168,12 @@ require "dbController.php";
         Header('Location:index.php');
     }
     ?>
-        <script src="js/main.js"></script>
+        <script>
+            var id = <?php echo json_encode($_SESSION['id']); ?>+'selection';
+            console.log(id);
+            const mallo = document.getElementById(id);
+            mallo.style.backgroundColor = 'greenyellow';
+        </script>
 </body>
 
 </html>
