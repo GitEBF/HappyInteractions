@@ -5,5 +5,8 @@
     width: 500px;
 }
 
+.leave {
+    z-index: -1;
+}
 
 form.hide-submit input[type="submit"] { display: none;}

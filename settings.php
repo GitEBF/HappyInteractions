@@ -28,12 +28,11 @@ require "dbController.php";
 
         $result = $dbConnection->query($sql);
 
-     
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $_SESSION['id'] = $row["lastUsedActivity"];
-            }
-         else {
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $_SESSION['id'] = $row["lastUsedActivity"];
+        } else {
             echo "Error: " . $sql . "<br>" . $dbConnection->error;
         }
         endConnection($dbConnection);
@@ -159,6 +158,7 @@ require "dbController.php";
         } else {
             echo "non";
         }
+        echo '</form>';
         $conn->close();
 
 
@@ -184,13 +184,27 @@ require "dbController.php";
 
         }
 
+        ?>
+            <form method='post'>
+                <input type="submit" name="deco" value="Déconnexion">
+            </form>
+            <?php
+
+            if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['deco'])) {
+                session_unset();
+                session_destroy();
+                Header('Location:index.php');
+            }
+
 
     } else {
         Header('Location:index.php');
     }
     ?>
+
+
         <script>
-            var id = <?php echo json_encode($_SESSION['id']); ?>+'selection';
+            var id = <?php echo json_encode($_SESSION['id']); ?> + 'selection';
             console.log(id);
             const mallo = document.getElementById(id);
             mallo.style.backgroundColor = 'greenyellow';
