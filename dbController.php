@@ -29,6 +29,22 @@ function endConnection($connection)
     $connection->close();
 }
 
+function getIdActivity() {
+    $dbConnection = createConnection();
+    $user = $_SESSION["username"];
+    $sql = "SELECT * FROM user where name='$user'";
+    $result = $dbConnection->query($sql);
+    endConnection($dbConnection);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        
+        return $row["lastUsedActivity"];
+    } else {
+
+        return null;
+    }
+
+}
 function ifActivity()
 {
     $dbConnection = createConnection();

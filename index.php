@@ -24,9 +24,13 @@ require "dbController.php";
 <body id="body">
 
   <?php
-  //session_unset();
-  //session_destroy();
+  session_unset();
+  session_destroy();
   ?>
+
+    <!-- ---------------------------------- -->
+    <!--               SideBar              -->
+    <!-- ---------------------------------- -->
 
   <div class="container">
     <?php
@@ -34,13 +38,6 @@ require "dbController.php";
     // if not connected show connection sidebar
     if (!connected()) { ?>
 
-      <div class="button" id="loginButton">
-        <div class="icon" id="buttonIcon">
-          <i class="fa fa-user"></i>
-        </div>
-      </div>
-
-      <div class="sidebar" id="loginSidebar">
         <h2>Login</h2>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -51,7 +48,6 @@ require "dbController.php";
           <input type="submit">
 
         </form>
-      </div>
     <?php } ?>
 
 
@@ -128,6 +124,12 @@ require "dbController.php";
     }
     ?>
   </div>
+
+
+  <!-- ---------------------------------- -->
+  <!--            Page content            -->
+  <!-- ---------------------------------- -->
+
   <?php if (session_status() == PHP_SESSION_ACTIVE && ifActivity()) { ?>
     <!-- emoticons fr fr -->
     <form method='post'
@@ -193,7 +195,7 @@ require "dbController.php";
     function emotion($emotionMeter)
     {
       $dbConnection = createConnection();
-
+      $idActivity = getIdActivity();
       $sql = "INSERT INTO visitor (idActivity, emotion)
             VALUES (1, $emotionMeter)";
 
