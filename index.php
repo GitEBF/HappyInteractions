@@ -64,18 +64,10 @@ if (!isset($_SESSION["connexion"])) {
 
       //$password = md5($password,false);
     
-      $servernamebd = "localhost";
-      $usernamebd = "root";
-      $passwordbd = "root";
-      $dbname = "happyinteractions";
-      $con = new mysqli($servernamebd, $usernamebd, $passwordbd, $dbname);
-
-      if ($con->connect_error) {
-        die("Connection failed: " . $con->connect_error);
-      }
+      $connection = createConnection();
 
       $sql = "SELECT * FROM user where name='$user' and password='$password'";
-      $result = $con->query($sql);
+      $result = $connection->query($sql);
 
       if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -87,7 +79,8 @@ if (!isset($_SESSION["connexion"])) {
         echo "Nom ou mot de passe invalide";
         $_SESSION["connexion"] = false;
       }
-      $con->close();
+
+      endConnection($connection);
     }
 
     if ($_SESSION["connexion"] == true) {
@@ -115,18 +108,15 @@ if (!isset($_SESSION["connexion"])) {
 
           $enteredPassword = $_POST['password'];
 
-          $servernamebd = "localhost";
-          $usernamebd = "root";
-          $passwordbd = "root";
-          $dbname = "happyinteractions";
-          $con = new mysqli($servernamebd, $usernamebd, $passwordbd, $dbname);
+          $connection = createConnection();
 
-          if ($con->connect_error) {
-            die("Connection failed: " . $con->connect_error);
+          if ($connection->connect_error) {
+            die("Connection failed: " . $connection->connect_error);
           }
           $user = $_SESSION["username"];
           echo $user;
           $sql = "SELECT * FROM user where name='$user' AND password='$enteredPassword'";
+
           $result = $con->query($sql);
 
           if ($result->num_rows > 0) {
@@ -135,7 +125,8 @@ if (!isset($_SESSION["connexion"])) {
           } else {
             $_SESSION['settings'] = 'non';
           }
-          $con->close();
+
+          endConnection($connection);
         }
       }
     }
@@ -216,6 +207,8 @@ if (!isset($_SESSION["connexion"])) {
       endConnection($dbConnection);
     }
     ?>
+
+    <?php print_r($_SESSION); ?> 
 </body>
 
 </html>
