@@ -32,7 +32,7 @@ if (!isset($_SESSION["connexion"])) {
 
   <div class="container">
     <?php
-
+    $_SESSION['settings'] = 'non';
     // if not connected show connection sidebar
     if (!connected()) { ?>
 
