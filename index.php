@@ -35,8 +35,8 @@ require "dbController.php";
   <div class="container">
     <?php
     $_SESSION['settings'] = 'nuh uh';
-    // if not connected show connection sidebar
-    if (!connected()) { ?>
+  // connection content
+  if (!connected()) { ?>
 
         <h2>Login</h2>
 
