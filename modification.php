@@ -57,11 +57,11 @@ require "dbController.php";
             $connectionDelete = createConnection();
             $sqlDelete = "DELETE FROM activity WHERE id='$id'";
             if ($connectionDelete->query($sqlDelete) === TRUE) {
-
+                
+                Header('Location:settings.php');
             } else {
                 echo "Error: " . $sql . "<br>" . $connectionDelete->error;
             }
-            Header('Location:settings.php');
             endConnection($connectionDelete);
 
         }
