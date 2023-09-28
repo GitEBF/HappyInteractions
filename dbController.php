@@ -1,8 +1,5 @@
 <?php
-$servername = "localhost";
-$usernamedb = "root";
-$passworddb = "root";
-$db = "happyinteractions";
+include "BD/connexion.php";
 $userTable = "user";
 $visitorTable = "visitor";
 $workerTable = "worker";

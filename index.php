@@ -18,36 +18,45 @@ require "dbController.php";
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/login.css">
   <title>Index</title>
 </head>
 
-<body id="body">
+<body id="body body-main">
 
   <?php
   //session_unset();
   //session_destroy();
   ?>
 
-    <!-- ---------------------------------- -->
-    <!--               SideBar              -->
-    <!-- ---------------------------------- -->
+  <!-- ---------------------------------- -->
+  <!--               SideBar              -->
+  <!-- ---------------------------------- -->
 
-  <div class="container">
-    <?php
-    $_SESSION['settings'] = 'nuh uh';
-    // if not connected show connection sidebar
-    if (!connected()) { ?>
 
-        <h2>Login</h2>
+  <?php
+  $_SESSION['settings'] = 'nuh uh';
+  // connection content
+  if (!connected()) { ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-
-          Nom : <input type="text" name="name"><br>
-          Mot de passe : <input type="password" name="password"> <br>
-          <input type="hidden" name="action" value="login">
-          <input type="submit">
-
+    <div class="container bodyContainer">
+      <div class="bg-layer">
+        <div class="position-absolute top-50 start-50 translate-middle scaledDiv">
+          <h2 class="loginText">Login</h2>
+          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="icon1">
+              <span class="fa fa-user"></span>
+              <input class="beautiful-input" type="text" name="name" placeholder="Nom d'utilisateur" required>
+            </div>
+            <div class="icon1">
+              <span class="fa fa-lock"></span>
+              <input class="beautiful-input" type="password" name="password" placeholder="Mot de passe" required>
+            </div>
+        </div>
         </form>
+      </div>
+
+
     <?php } ?>
 
 
@@ -65,12 +74,12 @@ require "dbController.php";
 
       if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        
+
         $_SESSION["username"] = $user;
         $_SESSION["action"] = "login";
         Header('Location: ' . $_SERVER['PHP_SELF']);
       } else {
-        
+
       }
 
       endConnection($connection);
@@ -78,25 +87,26 @@ require "dbController.php";
 
     if (connected()) {
       ?>
-      <div class="button" id="loginButton">
-        <div class="icon" id="buttonIconSettings">
-          <i class="fa fa-bars"></i>
+      <div class="container">
+        <div class="button" id="loginButton">
+          <div class="icon" id="buttonIconSettings">
+            <i class="fa fa-bars"></i>
+          </div>
         </div>
-      </div>
-      <div class="sidebar" id="loginSidebar">
-        <h2>Settings</h2>
+        <div class="sidebar" id="loginSidebar">
+          <h2>Settings</h2>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 
-          mot de passe<input type="password" name="password" id="password"><br>
-          <input type="hidden" name="action" value="settings">
-          <input type="submit">
+            mot de passe<input type="password" name="password" id="password"><br>
+            <input type="hidden" name="action" value="settings">
+            <input type="submit">
 
-        </form>
-      </div>
-      <?php
+          </form>
+        </div>
+        <?php
 
-      if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['action'] == "settings") {
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['action'] == "settings") {
 
 
           $enteredPassword = $_POST['password'];
@@ -120,95 +130,96 @@ require "dbController.php";
           }
 
           endConnection($connection);
-      }
+        }
     }
     ?>
-  </div>
 
 
-  <!-- ---------------------------------- -->
-  <!--            Page content            -->
-  <!-- ---------------------------------- -->
 
-  <?php if (session_status() == PHP_SESSION_ACTIVE && ifActivity()) { ?>
-    <!-- emoticons fr fr -->
-    <form method='post'
-      class="hide-submit d-flex justify-content-center justify-content-center iconContainer align-items-center"
-      id="buttonWrapper">
+      <!-- ---------------------------------- -->
+      <!--            Page content            -->
+      <!-- ---------------------------------- -->
 
-      <input type="hidden" name="action" value="emotion" />
-      <label>
-        <input type="submit" name=happyIcon id="happyIcon" />
-        <svg class="btn emotionIcon happyIcon" id="happyIcon"
-          onclick="document.getElementById('msg').innerHTML += ('<?php emotion("happyIcon") ?>');"
-          xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512" style="fill:#25D937">
-          <path id="happyIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-        </svg>
-      </label>
-      <label>
-        <input type="submit" name=midIcon id="midIcon" />
-        <svg class="btn emotionIcon midIcon" id="midIcon" style="fill:#E5E827"
-          onclick="document.getElementById('msg').innerHTML += ('<?php emotion("midIcon") ?>'); "
-          xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
-          <path id="midIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM176.4 176a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 32a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM160 336H352c8.8 0 16 7.2 16 16s-7.2 16-16 16H160c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-        </svg>
-      </label>
-      <label>
-        <input type="submit" name=sadIcon id="sadIcon" />
-        <svg class="btn emotionIcon sadIcon" id="sadIcon" style="fill:#DA2626"
-          onclick="document.getElementById('msg').innerHTML += ('<?php emotion("sadIcon") ?>');"
-          xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
-          <path id="sadIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM159.3 388.7c-2.6 8.4-11.6 13.2-20 10.5s-13.2-11.6-10.5-20C145.2 326.1 196.3 288 256 288s110.8 38.1 127.3 91.3c2.6 8.4-2.1 17.4-10.5 20s-17.4-2.1-20-10.5C340.5 349.4 302.1 320 256 320s-84.5 29.4-96.7 68.7zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-        </svg>
-      </label>
-      </div>
-    <?php } ?>
-    <div id="msg"></div>
-    <script src="js/main.js"></script>
+      <?php if (session_status() == PHP_SESSION_ACTIVE && ifActivity()) { ?>
+        <!-- emoticons fr fr -->
+        <form method='post'
+          class="hide-submit d-flex justify-content-center justify-content-center iconContainer align-items-center"
+          id="buttonWrapper">
+
+          <input type="hidden" name="action" value="emotion" />
+          <label>
+            <input type="submit" name=happyIcon id="happyIcon" />
+            <svg class="btn emotionIcon happyIcon" id="happyIcon"
+              onclick="document.getElementById('msg').innerHTML += ('<?php emotion("happyIcon") ?>');"
+              xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512" style="fill:#25D937">
+              <path id="happyIcon"
+                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+            </svg>
+          </label>
+          <label>
+            <input type="submit" name=midIcon id="midIcon" />
+            <svg class="btn emotionIcon midIcon" id="midIcon" style="fill:#E5E827"
+              onclick="document.getElementById('msg').innerHTML += ('<?php emotion("midIcon") ?>'); "
+              xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
+              <path id="midIcon"
+                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM176.4 176a32 32 0 1 1 0 64 32 32 0 1 1 0-64zm128 32a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM160 336H352c8.8 0 16 7.2 16 16s-7.2 16-16 16H160c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
+            </svg>
+          </label>
+          <label>
+            <input type="submit" name=sadIcon id="sadIcon" />
+            <svg class="btn emotionIcon sadIcon" id="sadIcon" style="fill:#DA2626"
+              onclick="document.getElementById('msg').innerHTML += ('<?php emotion("sadIcon") ?>');"
+              xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
+              <path id="sadIcon"
+                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM159.3 388.7c-2.6 8.4-11.6 13.2-20 10.5s-13.2-11.6-10.5-20C145.2 326.1 196.3 288 256 288s110.8 38.1 127.3 91.3c2.6 8.4-2.1 17.4-10.5 20s-17.4-2.1-20-10.5C340.5 349.4 302.1 320 256 320s-84.5 29.4-96.7 68.7zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+            </svg>
+          </label>
+        </form>
+      <?php } ?>
+      <div id="msg"></div>
+      <script src="js/main.js"></script>
 
 
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['action'] == "emotion") {
-      sleep(2);
-      $emotionMeter = 50;
-      if (isset($_POST['happyIcon'])) {
-        $emotionMeter = 100;
-      }
-      if (isset($_POST['midIcon'])) {
+      <?php
+      if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['action'] == "emotion") {
+        sleep(2);
         $emotionMeter = 50;
+        if (isset($_POST['happyIcon'])) {
+          $emotionMeter = 100;
+        }
+        if (isset($_POST['midIcon'])) {
+          $emotionMeter = 50;
+        }
+        if (isset($_POST['sadIcon'])) {
+          $emotionMeter = 0;
+        }
+        emotion($emotionMeter);
+        $_POST['action'] == "settings";
       }
-      if (isset($_POST['sadIcon'])) {
-        $emotionMeter = 0;
-      }
-      emotion($emotionMeter);
-      $_POST['action'] == "settings";
-    }
-    ?>
+      ?>
 
 
-    <?php
+      <?php
 
 
-    function emotion($emotionMeter)
-    {
-      $dbConnection = createConnection();
-      $idActivity = getIdActivity();
-      $sql = "INSERT INTO visitor (idActivity, emotion)
+      function emotion($emotionMeter)
+      {
+        $dbConnection = createConnection();
+        $idActivity = getIdActivity();
+        $sql = "INSERT INTO visitor (idActivity, emotion)
             VALUES ($idActivity, $emotionMeter)";
 
-      if ($dbConnection->query($sql) === TRUE) {
+        if ($dbConnection->query($sql) === TRUE) {
 
-      } else {
-        echo "Error: " . $sql . "<br>" . $dbConnection->error;
+        } else {
+          echo "Error: " . $sql . "<br>" . $dbConnection->error;
+        }
+        endConnection($dbConnection);
       }
-      endConnection($dbConnection);
-    }
-    ?>
+      ?>
 
-    <?php print_r($_SESSION); ?>
+      <?php //print_r($_SESSION); ?>
+    </div>
 </body>
 
 </html>
