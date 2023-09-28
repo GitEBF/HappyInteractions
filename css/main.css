@@ -1,11 +1,11 @@
 html, body {
-    background-color: #F7F4F3;
     margin: 0;
     height: 100%;
 }
 .iconContainer {
     height: 100vh;
 }
+
 .button {
     font-size: 1.5rem;
     border-radius: 100px;
@@ -17,6 +17,32 @@ html, body {
     left: 0;
     transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     cursor: pointer;
+}
+
+.scaledDiv {
+    background-color: #5c9ead77;
+    padding: 15vh 10vw 15vh 10vw;
+    border-radius: 4%;
+}
+
+.beautiful-input{
+    background: none;
+    border: none;
+}
+
+.loginText{
+    transform: translateX(-9vw) translateY(-14vh);
+}
+
+.beautiful-input:focus {
+    outline: none;
+    border: none;
+  }
+
+.icon1 {
+    margin: 0 0 1em;
+    padding: .8em 1em;
+    background: rgba(255, 255, 255, 0.94);
 }
 
 .icon {
