@@ -53,6 +53,19 @@ require "dbController.php";
             }
         }
 
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['delete'])) {
+            $connectionDelete = createConnection();
+            $sqlDelete = "DELETE FROM activity WHERE id='$id'";
+            if ($connectionDelete->query($sqlDelete) === TRUE) {
+
+            } else {
+                echo "Error: " . $sql . "<br>" . $connectionDelete->error;
+            }
+            Header('Location:settings.php');
+            endConnection($connectionDelete);
+
+        }
+
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             ?>
@@ -80,7 +93,10 @@ require "dbController.php";
                 <p style="color:red;">
                     <?php echo $descriptionErreur; ?>
                 </p>
-                <input type="submit" name="modifier">
+                <input type="submit" name="modifier" value="Modifier">
+            </form>
+            <form method="post">
+                <input type="submit" name="delete" value="Supprimer">
             </form>
             <?php
         } else {
