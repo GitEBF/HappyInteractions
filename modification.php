@@ -1,17 +1,86 @@
 <?php
-session_start()
-    ?>
+session_start();
+require "dbController.php";
+?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
 <body>
-   <?php 
-    $id = $_GET['id'];
-   ?>
+    <?php
+    if ($_SESSION['settings'] == 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65') {
+        $nomErreur = $dateErreur = $descriptionErreur = "";
+        $name = $description = "";
+        $erreur = false;
+        $id = $_GET['id'];
+        $connection = createConnection();
+
+        $sql = "SELECT * FROM activity where id='$id'";
+        $result = $connection->query($sql);
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['modifier'])) {
+            if (empty($_POST['name'])) {
+                $nomErreur = "Le nom ne peut pas être vide";
+                $erreur = true;
+            } else if (empty($_POST['date'])) {
+                $dateErreur = "La date ne peut pas être vide";
+                $erreur = true;
+            } else if (empty($_POST['description'])) {
+                $descriptionErreur = "La date ne peut pas être vide";
+                $erreur = true;
+            }
+            if (!$erreur) {
+                $name = $_POST['name'];
+                $date = $_POST['date'];
+                $description = $_POST['description'];
+                $connectionModifier = createConnection();
+                $sqlModifier = "UPDATE activity SET name='$name',date='$date',description='$description' WHERE id='$id'";
+                if ($connectionModifier->query($sqlModifier) === TRUE) {
+
+                } else {
+                    echo "Error: " . $sql . "<br>" . $connectionModifier->error;
+                }
+                Header('Location:settings.php');
+                endConnection($connectionModifier);
+            }
+        }
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            ?>
+            <form method="post">
+                Nom : <input type="text" name="name" value="<?php echo $row["name"] ?>"><br>
+                <p style="color:red;">
+                    <?php echo $nomErreur; ?>
+                </p>
+                Date : <input type="date" name="date" value="<?php echo $row["date"] ?>"><br>
+                <p style="color:red;">
+                    <?php echo $dateErreur; ?>
+                </p>
+                Description : <input type="text" name="description" value="<?php echo $row["description"] ?>"><br>
+                <p style="color:red;">
+                    <?php echo $descriptionErreur; ?>
+                </p>
+                <input type="submit" name="modifier">
+            </form>
+            <?php
+        } else {
+            echo 'hey big ta toute chier';
+        }
+
+        endConnection($connection);
+        ?>
+        <?php
+    }
+    ?>
 </body>
+
 </html>
