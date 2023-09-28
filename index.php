@@ -52,6 +52,8 @@ require "dbController.php";
               <span class="fa fa-lock"></span>
               <input class="beautiful-input" type="password" name="password" placeholder="Mot de passe" required>
             </div>
+            <input type="hidden" name="action" value="login">
+            <input type="submit">
         </div>
         </form>
       </div>
