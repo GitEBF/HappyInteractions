@@ -180,7 +180,7 @@ require "dbController.php";
             $id = $_SESSION['id'];
             $user = $_SESSION['username'];
 
-            $sql = "UPDATE user SET lastUsedActivity =  $id WHERE name = '$user'";
+            $sql = "UPDATE user SET lastUsedActivity = $id WHERE name = '$user'";
 
             if ($dbConnection->query($sql) === TRUE) {
 

@@ -56,6 +56,20 @@ require "dbController.php";
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['delete'])) {
             $connectionDelete = createConnection();
             $sqlDelete = "DELETE FROM activity WHERE id='$id'";
+            $user = $_SESSION['username'];
+            $sqlVerification = "SELECT * FROM user WHERE name = '$user'";
+            $result = $connectionDelete->query($sqlVerification);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                if ($row['lastUsedActivity'] == $id) {
+                    $sql = "UPDATE user SET lastUsedActivity = null WHERE name='$user'";
+                    if ($connectionDelete->query($sql) === TRUE) {
+
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $connectionDelete->error;
+                    }
+                }
+            }
             if ($connectionDelete->query($sqlDelete) === TRUE) {
                 
                 Header('Location:settings.php');
