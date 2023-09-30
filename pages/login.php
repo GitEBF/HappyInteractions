@@ -33,8 +33,9 @@
             </div>
             </form>
         </div>
-        <script src="Js/uhhh.js"></script>
-        <script src="libraries/p5.min.js"></script>
+    </div>
+    <script src="js/loginBG.js"></script>
+    <script src="libraries/p5.min.js"></script>
 </body>
 
 </html>

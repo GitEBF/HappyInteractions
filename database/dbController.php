@@ -1,5 +1,5 @@
 <?php
-include "BD/connexion.php";
+include "connexionInfo.php";
 $userTable = "user";
 $visitorTable = "visitor";
 $workerTable = "worker";
@@ -104,4 +104,15 @@ function connected()
         return false;
     }
 }
+
+/*
+function connected()
+{
+    if (isset($_SESSION['action'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+*/
 ?>
