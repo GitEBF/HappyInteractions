@@ -45,7 +45,15 @@ require "dbController.php";
             echo "Error: " . $sql . "<br>" . $dbConnection->error;
         }
         endConnection($dbConnection);
-        echo '<a href="index.php" class="leaveButton"></a>';
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['leave'])) {
+            $_SESSION['page'] = "main";
+            Header('Location:index.php');
+        }
+        ?> 
+            <form method="post" class="">
+                <input type="submit" class="leaveButton" name="leave">
+            </form>
+        <?php
 
         // ---------------------------------- //
         //        Afficher évenements         //
@@ -67,7 +75,7 @@ require "dbController.php";
                                     <input type="submit" name="selection" value="<?php echo $row["id"]; ?>" />
                                     <div class="card" id="<?php echo $row["id"]; ?>selection">
                                         <div class="card-content">
-                                            <div class="button-container"> <!-- New container for buttons -->
+                                            <div class="button-container">
                                                 <a href="modification.php?id=<?php echo $row["id"] ?>" class="editButton"></a>
                                                 <a href="zoom.php?id=<?php echo $row["id"] ?>" class="zoomButton"></a>
                                             </div>
@@ -163,5 +171,4 @@ require "dbController.php";
         activity.style.backgroundColor = 'greenyellow';
     </script>
 </body>
-
 </html>

@@ -93,10 +93,6 @@ require "dbController.php";
             <input type="submit" name="ajouter">
         </form>
 
-        <!-- ---------------------------------- -->
-        <!--        Afficher évenements         -->
-        <!-- ---------------------------------- -->
-
         <?php
     }
 
