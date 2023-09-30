@@ -4,6 +4,7 @@
 
 <?php
 session_start();
+
 require "database/dbController.php";
 require "php/formMethodController.php";
 //$dbConnection = createConnection(); -- create a connection
