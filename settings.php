@@ -49,10 +49,13 @@ require "database/dbController.php";
             $_SESSION['page'] = "main";
             Header('Location:index.php');
         }
-        ?> 
-            <form method="post" class="">
-                <input type="submit" class="leaveButton" name="leave">
-            </form>
+        ?>
+        <form method="post" class="hide-submit">
+            <label>
+                <a class="leaveButton"></a>
+                <input type="submit" name="leave">
+            </label>
+        </form>
         <?php
 
         // ---------------------------------- //
@@ -176,4 +179,5 @@ require "database/dbController.php";
         activity.style.backgroundColor = 'greenyellow';
     </script>
 </body>
+
 </html>
