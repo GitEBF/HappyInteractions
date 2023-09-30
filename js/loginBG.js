@@ -1,13 +1,13 @@
 var cnv;
 var midsvg, sadsvg, happysvg;
 function preload() {
-    midsvg = loadImage('Js/midIcon.svg');
-    sadsvg = loadImage('Js/sadIcon.svg');
-    happysvg = loadImage('Js/happyIcon.svg');
+    midsvg = loadImage('images/midIcon.svg');
+    sadsvg = loadImage('images/sadIcon.svg');
+    happysvg = loadImage('images/happyIcon.svg');
 
-    midsvgColored = loadImage('Js/midIconColored.svg');
-    sadsvgColored = loadImage('Js/sadIconColored.svg');
-    happysvgColored = loadImage('Js/happyIconColored.svg');
+    midsvgColored = loadImage('images/midIconColored.svg');
+    sadsvgColored = loadImage('images/sadIconColored.svg');
+    happysvgColored = loadImage('images/happyIconColored.svg');
 }
 
 function setup() {
