@@ -127,6 +127,11 @@ require "database/dbController.php";
         <form method='post'>
             <input type="submit" name="deco" value="Déconnexion">
         </form>
+
+        <form method='post'>
+            <input type="hidden" name="action" value="evenement">
+            <input type="submit" name="eventId" value="" />
+        </form>
         <?php
 
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['deco'])) {
