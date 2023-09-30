@@ -31,8 +31,6 @@ require "dbController.php";
         $user = $_SESSION['username'];
 
         $sql = "SELECT * FROM user WHERE name = '$user'";
-        $sqlDepartement = "SELECT * FROM departement";
-        $departementListe = mysqli_query($dbConnection, $sqlDepartement);
 
 
 
@@ -46,86 +44,11 @@ require "dbController.php";
             echo "Error: " . $sql . "<br>" . $dbConnection->error;
         }
         endConnection($dbConnection);
-
+        echo '<a href="index.php" class="leaveButton"></a>';
 
         // ---------------------------------- //
-        //        Ajouter évenements          //
+        //        Afficher évenements         //
         // ---------------------------------- //
-    
-        $nomErreur = $dateErreur = $descriptionErreur = "";
-        $name = $description = "";
-        $erreur = false;
-
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['ajouter'])) {
-            if (empty($_POST['name'])) {
-                $nomErreur = "Le nom ne peut pas être vide";
-                $erreur = true;
-            } else if (empty($_POST['date'])) {
-                $dateErreur = "La date ne peut pas être vide";
-                $erreur = true;
-            } else if (empty($_POST['description'])) {
-                $descriptionErreur = "La date ne peut pas être vide";
-                $erreur = true;
-            }
-            if (!$erreur) {
-                $name = $_POST['name'];
-                $date = $_POST['date'];
-                $description = $_POST['description'];
-                $idDepartement = $_POST['departement'];
-                $ajouterConnexion = createConnection();
-                $sqlAjouter = "INSERT INTO activity (name,date,description,idDepartement) VALUES('$name','$date','$description','$idDepartement')";
-                if ($ajouterConnexion->query($sqlAjouter) === TRUE) {
-                    Header('Location:settings.php');
-                } else {
-                    echo "Error: " . $sqlAjouter . "<br>" . $ajouterConnexion->error;
-                }
-                endConnection($ajouterConnexion);
-            }
-        }
-
-        ?>
-        <a href="index.php" class="leaveButton"></a>
-        <h2>Ajouter type beat</h2>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            Nom : <input type="text" name="name"><br>
-            <p style="color:red;">
-                <?php echo $nomErreur; ?>
-            </p>
-            Date : <input type="date" name="date"><br>
-            <p style="color:red;">
-                <?php echo $dateErreur; ?>
-            </p>
-            Description : <input type="text" name="description"><br>
-            <p style="color:red;">
-                <?php echo $descriptionErreur; ?>
-            </p>
-            Departement : <select name="departement">
-                <?php
-                while (
-                    $category = mysqli_fetch_array(
-                        $departementListe,
-                        MYSQLI_ASSOC
-                    )
-                ):
-                    ;
-                    ?>
-                    <option value="<?php echo $category["id"];
-                    ?>">
-                        <?php echo $category["name"];
-                        ?>
-                    </option>
-                    <?php
-                endwhile;
-                ?>
-            </select><a href="departement.php" class="editButton"></a><br>
-            <input type="submit" name="ajouter">
-        </form>
-
-        <!-- ---------------------------------- -->
-        <!--        Afficher évenements         -->
-        <!-- ---------------------------------- -->
-
-        <?php
 
         $afficherConnexion = createConnection();
         $sqlConnexion = "SELECT * FROM activity";
@@ -148,8 +71,8 @@ require "dbController.php";
                             </p>
                         </div>
                     </label>
-                    <a href="modification.php?id=<?php echo $row["id"] ?>" class="editButton"></a>
-                    <a href="zoom.php?id=<?php echo $row["id"] ?>" class="zoomButton"></a></br>
+                    <a href="modification.php?id=<?php echo $row["id"] ?>" class="editButton"></a> <!-- Modifier évenements -->
+                    <a href="zoom.php?id=<?php echo $row["id"] ?>" class="zoomButton"></a></br> <!-- Zoom sur évenement -->
                     <?php
                 }
         } else {
@@ -157,12 +80,11 @@ require "dbController.php";
         }
         echo '</form>';
         endConnection($afficherConnexion);
-
+        echo '<a href="ajouter.php">Ajouter un évenement</a>';
 
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['selection'])) {
 
             $_SESSION['id'] = $_POST['selection'];
-            echo $_SESSION['id'];
 
             $dbConnectionSelection = createConnection();
             $id = $_SESSION['id'];
@@ -197,11 +119,25 @@ require "dbController.php";
             }
 
 
+            ?>
+            <!-- ---------------------------------- -->
+            <!--                User                -->
+            <!-- ---------------------------------- -->
+            <?php
+
+            if ($user == 'etijay') {
+                echo '<a href="user.php">Gérér les utilisateurs</a>';
+            }
+
+
     } else {
         Header('Location:index.php');
     }
     ?>
 
+        <!-- ---------------------------------- -->
+        <!--           Select évenement         -->
+        <!-- ---------------------------------- -->
 
         <script>
             var id = <?php echo json_encode($_SESSION['id']); ?> + 'selection';
