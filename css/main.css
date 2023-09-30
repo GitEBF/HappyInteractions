@@ -2,7 +2,7 @@ html, body {
     margin: 0;
     height: 100%;
 }
-.iconContainer {
+.iconContainer, .bodyContainer {
     height: 100vh;
 }
 
@@ -30,21 +30,10 @@ html, body {
     border: none;
 }
 
-.loginText{
-    transform: translateX(-9vw) translateY(-14vh);
-}
-
 .beautiful-input:focus {
     outline: none;
     border: none;
   }
-
-.icon1 {
-    margin: 0 0 1em;
-    padding: .8em 1em;
-    background: rgba(255, 255, 255, 0.94);
-}
-
 .icon {
     position: relative;
     top: 50%;

@@ -39,21 +39,20 @@ require "dbController.php";
   // connection content
   if (!connected()) { ?>
 
-    <div class="container bodyContainer">
+    <div class="container bodyContainer" id="bgCanvas">
       <div class="bg-layer">
-        <div class="position-absolute top-50 start-50 translate-middle scaledDiv">
-          <h2 class="loginText">Login</h2>
+        <div class="position-absolute header-main d-flex justify-content-center">
           <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="icon1">
-              <span class="fa fa-user"></span>
+            <div class="icon1 d-flex align-items-center">
+              <span class="fa fa-user iconInput"></span>
               <input class="beautiful-input" type="text" name="name" placeholder="Nom d'utilisateur" required>
             </div>
-            <div class="icon1">
-              <span class="fa fa-lock"></span>
+            <div class="icon1 d-flex align-items-center">
+              <span class="fa fa-lock iconInput"></span>
               <input class="beautiful-input" type="password" name="password" placeholder="Mot de passe" required>
             </div>
             <input type="hidden" name="action" value="login">
-            <input type="submit">
+            <input type="submit" class="loginButton">
         </div>
         </form>
       </div>
@@ -145,7 +144,7 @@ require "dbController.php";
       <?php if (session_status() == PHP_SESSION_ACTIVE && ifActivity()) { ?>
         <!-- emoticons fr fr -->
         <form method='post'
-          class="hide-submit d-flex justify-content-center justify-content-center iconContainer align-items-center"
+          class="hide-submit d-flex justify-content-center iconContainer align-items-center"
           id="buttonWrapper">
 
           <input type="hidden" name="action" value="emotion" />
@@ -222,6 +221,9 @@ require "dbController.php";
 
       <?php //print_r($_SESSION); ?>
     </div>
+
+    <script src="Js/uhhh.js"></script>
+	  <script src="libraries/p5.min.js"></script>
 </body>
 
 </html>

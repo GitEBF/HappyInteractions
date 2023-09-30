@@ -1,33 +1,55 @@
 .header-main {
-    max-width: 310px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 999;
-    padding: 3em 2em;
-    background: rgba(255, 255, 255, 0.04);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 900;
+    border-radius: 2%;
+    padding: 15vh 10vw 15vh 10vw;
+    background: rgba(55, 55, 55, 0.42);
     -webkit-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
     box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    
 }
 
 .bodyContainer {
-    background-image: url(../Images/mainbg.jpg);
-    background-repeat: repeat-x;
-    animation: slideleft 20000s infinite linear;
-    -webkit-animation: slideleft 20000s infinite linear;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-attachment: fixed;
-    position: relative;
-    min-width: 100%;
-    min-height: 100%;
+
     margin: 0;
     padding: 0;
 }
 
-.bg-layer {
-    background: rgba(0, 0, 0, 0.7);
-    min-height: 100vh;
-    padding: 0 !important;
+.loginText{
+    z-index: 901;
+    transform: translateX(-9vw) translateY(-14vh);
+}
+
+.loginButton{
+    text-transform: uppercase;
+    outline: 0;
+    background: var(--fourth-color);
+    width: 100%;
+    border: 0.1vw white solid;
+    padding: 15px;
+    margin-top: 2vw;
+    color: #FFFFFF;
+    background-color: rgba(55, 55, 55, 0.42);
+    font-size: 1vw;
+    border-radius: 5px;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.icon1 {
+    z-index: 902;
+    margin: 0 0 1vw;
+    padding: 1vh 5vw 1vh 1vw;
+    background: rgba(255, 255, 255, 0.94);
+}
+
+.iconInput {
+    font-size: 2vw;
+    margin-right: 1vw;
+    width: 2vw;
+    height: 2vw;
 }
