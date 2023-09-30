@@ -121,7 +121,7 @@ require "dbController.php";
                     <?php
                 endwhile;
                 ?>
-            </select><br>
+            </select><a href="departement.php" class="editButton"></a><br>
             <input type="submit" name="ajouter">
         </form>
 
@@ -161,7 +161,6 @@ require "dbController.php";
                     </label>
                     <a href="modification.php?id=<?php echo $row["id"] ?>" class="editButton"></a>
                     <a href="zoom.php?id=<?php echo $row["id"] ?>" class="zoomButton"></a></br>
-
                     <?php
                 }
         } else {
