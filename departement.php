@@ -21,16 +21,21 @@ require "dbController.php";
             if ($_POST['name'] != "") {
                 $connection = createConnection();
                 $name = $_POST['name'];
-                $sql = "INSERT INTO departement (name) VALUES ('$name')";
-                if ($connection->query($sql) === TRUE) {
-
+                $sqlVerification = "SELECT * FROM departement WHERE name = '$name'";
+                $result = $connection->query($sqlVerification);
+                if ($result->num_rows > 0) {
+                    $nomErreur = "Ce nom est déjà utilisé";
                 } else {
-                    echo "Error: " . $sql . "<br>" . $connection->error;
+                    $sql = "INSERT INTO departement (name) VALUES ('$name')";
+                    if ($connection->query($sql) === TRUE) {
+
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $connection->error;
+                    }
+                    endConnection($connection);
+                    Header('Location:settings.php');
                 }
-                endConnection($connection);
-                Header('Location:settings.php');
-            }
-            else {
+            } else {
                 $nomErreur = "Veuillez entrer un nom valide";
             }
         }
