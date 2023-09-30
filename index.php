@@ -56,8 +56,6 @@ require "dbController.php";
         </div>
         </form>
       </div>
-
-
     <?php } ?>
 
 

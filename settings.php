@@ -22,6 +22,11 @@ require "dbController.php";
     <?php
     if ($_SESSION['settings'] == 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65') {
 
+
+        // ---------------------------------- //
+        //       Update LastUsedActivity      //  
+        // ---------------------------------- //
+    
         $dbConnection = createConnection();
         $user = $_SESSION['username'];
 
@@ -43,9 +48,10 @@ require "dbController.php";
         endConnection($dbConnection);
 
 
-
-
-        //$_SESSION['settings'] = 'non';
+        // ---------------------------------- //
+        //        Ajouter évenements          //
+        // ---------------------------------- //
+    
         $nomErreur = $dateErreur = $descriptionErreur = "";
         $name = $description = "";
         $erreur = false;
@@ -66,24 +72,14 @@ require "dbController.php";
                 $date = $_POST['date'];
                 $description = $_POST['description'];
                 $idDepartement = $_POST['departement'];
-                $servername = "localhost";
-                $username = "root";
-                $passwordSQL = "root";
-                $db = "happyinteractions";
-                $con = new mysqli($servername, $username, $passwordSQL, $db);
-                if ($con->connect_error) {
-                    die("Connection failed: " . $con->connect_error);
-                }
-                echo "Connected succesfully";
-                $sql = "INSERT INTO activity (name,date,description,idDepartement) VALUES('$name','$date','$description','$idDepartement')"; //FAUT CHANGER LES DEPARTEMENTS
-                if (mysqli_query($con, $sql)) {
-                    echo "<br>Enregistrement réussi";
+                $ajouterConnexion = createConnection();
+                $sqlAjouter = "INSERT INTO activity (name,date,description,idDepartement) VALUES('$name','$date','$description','$idDepartement')";
+                if ($ajouterConnexion->query($sqlAjouter) === TRUE) {
                     Header('Location:settings.php');
                 } else {
-                    echo "Error: " . $sql . "<br>", mysqli_error($con);
+                    echo "Error: " . $sqlAjouter . "<br>" . $ajouterConnexion->error;
                 }
-
-                mysqli_close($con);
+                endConnection($ajouterConnexion);
             }
         }
 
@@ -125,22 +121,15 @@ require "dbController.php";
             <input type="submit" name="ajouter">
         </form>
 
-        <!-- Afficher les différentes activités -->
+        <!-- ---------------------------------- -->
+        <!--        Afficher évenements         -->
+        <!-- ---------------------------------- -->
 
         <?php
 
-        $servername = "localhost";
-        $username = "root";
-        $password = "root";
-        $db = "happyinteractions";
-        $conn = new mysqli($servername, $username, $password, $db);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        $conn->query('SET NAMES utf8');
-        $sql = "SELECT * FROM activity";
-        $result = $conn->query($sql);
+        $afficherConnexion = createConnection();
+        $sqlConnexion = "SELECT * FROM activity";
+        $result = $afficherConnexion->query($sqlConnexion);
 
         if ($result->num_rows > 0) {
             ?>
@@ -167,7 +156,7 @@ require "dbController.php";
             echo "non";
         }
         echo '</form>';
-        $conn->close();
+        endConnection($afficherConnexion);
 
 
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['selection'])) {
@@ -175,24 +164,27 @@ require "dbController.php";
             $_SESSION['id'] = $_POST['selection'];
             echo $_SESSION['id'];
 
-            $dbConnection = createConnection();
+            $dbConnectionSelection = createConnection();
             $id = $_SESSION['id'];
             $user = $_SESSION['username'];
 
-            $sql = "UPDATE user SET lastUsedActivity = $id WHERE name = '$user'";
+            $sqlSelection = "UPDATE user SET lastUsedActivity = $id WHERE name = '$user'";
 
-            if ($dbConnection->query($sql) === TRUE) {
+            if ($dbConnectionSelection->query($sqlSelection) === TRUE) {
 
             } else {
-                echo "Error: " . $sql . "<br>" . $dbConnection->error;
+                echo "Error: " . $sqlSelection . "<br>" . $dbConnectionSelection->error;
             }
-            endConnection($dbConnection);
-
-
+            endConnection($dbConnectionSelection);
 
         }
 
         ?>
+
+            <!-- ---------------------------------- -->
+            <!--            Déconnexion             -->
+            <!-- ---------------------------------- -->
+
             <form method='post'>
                 <input type="submit" name="deco" value="Déconnexion">
             </form>
