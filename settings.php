@@ -16,6 +16,7 @@ require "dbController.php";
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/card.css">
 </head>
 
 <body>
@@ -49,38 +50,54 @@ require "dbController.php";
         // ---------------------------------- //
         //        Afficher évenements         //
         // ---------------------------------- //
-
+    
         $afficherConnexion = createConnection();
         $sqlConnexion = "SELECT * FROM activity";
         $result = $afficherConnexion->query($sqlConnexion);
-
         if ($result->num_rows > 0) {
             ?>
             <form method='post' class="hide-submit">
-                <?php
-                while ($row = $result->fetch_assoc()) {
-                    ?>
-                    <label>
-                        <div class="activity" id="<?php echo $row["id"] ?>selection">
-                            <input type="submit" name="selection" value="<?php echo $row["id"] ?>" />
-                            <p>
-                                <?php echo $row["name"] ?>
-                            </p>
-                            <p>
-                                <?php echo $row["description"] ?>
-                            </p>
-                        </div>
-                    </label>
-                    <a href="modification.php?id=<?php echo $row["id"] ?>" class="editButton"></a> <!-- Modifier évenements -->
-                    <a href="zoom.php?id=<?php echo $row["id"] ?>" class="zoomButton"></a></br> <!-- Zoom sur évenement -->
-                    <?php
-                }
+                <div class="container">
+                    <div class="row">
+                        <?php
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <label class="labelActivity">
+                                <div class="col-xs-12 col-4 test">
+                                    <input type="submit" name="selection" value="<?php echo $row["id"]; ?>" />
+                                    <div class="card" id="<?php echo $row["id"]; ?>selection">
+                                        <div class="card-content">
+                                            <div class="button-container"> <!-- New container for buttons -->
+                                                <a href="modification.php?id=<?php echo $row["id"] ?>" class="editButton"></a>
+                                                <a href="zoom.php?id=<?php echo $row["id"] ?>" class="zoomButton"></a>
+                                            </div>
+                                            <h4 class="card-title">
+                                                <p>
+                                                    <?php echo $row['name']; ?>
+                                                </p>
+                                            </h4>
+                                            <p>
+                                                <?php echo $row['description']; ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            <?php
+                        }
+                        ?>
+                        <a href="ajouter.php">Ajouter un évenement</a>
+                    </div>
+                </div>
+            </form>
+
+            <?php
         } else {
             echo "non";
         }
-        echo '</form>';
         endConnection($afficherConnexion);
-        echo '<a href="ajouter.php">Ajouter un évenement</a>';
+        ?>
+        <?php
 
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['selection'])) {
 
@@ -103,31 +120,31 @@ require "dbController.php";
 
         ?>
 
-            <!-- ---------------------------------- -->
-            <!--            Déconnexion             -->
-            <!-- ---------------------------------- -->
+        <!-- ---------------------------------- -->
+        <!--            Déconnexion             -->
+        <!-- ---------------------------------- -->
 
-            <form method='post'>
-                <input type="submit" name="deco" value="Déconnexion">
-            </form>
-            <?php
+        <form method='post'>
+            <input type="submit" name="deco" value="Déconnexion">
+        </form>
+        <?php
 
-            if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['deco'])) {
-                session_unset();
-                session_destroy();
-                Header('Location:index.php');
-            }
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['deco'])) {
+            session_unset();
+            session_destroy();
+            Header('Location:index.php');
+        }
 
 
-            ?>
-            <!-- ---------------------------------- -->
-            <!--                User                -->
-            <!-- ---------------------------------- -->
-            <?php
+        ?>
+        <!-- ---------------------------------- -->
+        <!--                User                -->
+        <!-- ---------------------------------- -->
+        <?php
 
-            if ($user == 'etijay') {
-                echo '<a href="user.php">Gérér les utilisateurs</a>';
-            }
+        if ($user == 'etijay') {
+            echo '<a href="user.php">Gérér les utilisateurs</a>';
+        }
 
 
     } else {
@@ -135,16 +152,16 @@ require "dbController.php";
     }
     ?>
 
-        <!-- ---------------------------------- -->
-        <!--           Select évenement         -->
-        <!-- ---------------------------------- -->
+    <!-- ---------------------------------- -->
+    <!--           Select évenement         -->
+    <!-- ---------------------------------- -->
 
-        <script>
-            var id = <?php echo json_encode($_SESSION['id']); ?> + 'selection';
-            console.log(id);
-            const mallo = document.getElementById(id);
-            mallo.style.backgroundColor = 'greenyellow';
-        </script>
+    <script>
+        var id = <?php echo json_encode($_SESSION['id']); ?> + 'selection';
+        console.log(id);
+        const activity = document.getElementById(id);
+        activity.style.backgroundColor = 'greenyellow';
+    </script>
 </body>
 
 </html>
