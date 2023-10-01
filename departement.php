@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "dbController.php";
+require "database/dbController.php";
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ require "dbController.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Departement</title>
-    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/departement.css">
 </head>
 
 <body>
@@ -40,15 +40,18 @@ require "dbController.php";
             }
         }
         ?>
-        <a href="settings.php" class="leaveButton"></a>
-        <h1>Département</h1>
-        <form method="post">
-            <input type="text" placeholder="Nom du département" name="name">
-            <p style="color:red;">
-                <?php echo $nomErreur; ?>
-            </p>
-            <input type="submit" value="Ajouter">
-        </form>
+        <a href="ajouter.php" class="leaveButton"></a>
+        <div class="container">
+            <h1>Ajouter un département</h1>
+            <form method="post">
+                <label for="name">Nom</label>
+                <input type="text" id="name" placeholder="Nom département" name="name">
+                <p class="error-message">
+                    <?php echo $nomErreur; ?>
+                </p>
+                <input type="submit" value="Ajouter">
+            </form>
+        </div>
         <?php
     }
     ?>
