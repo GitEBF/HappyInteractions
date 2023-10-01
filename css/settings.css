@@ -14,6 +14,9 @@ form.hide-submit input[type="submit"] {
 }
 
 .leaveButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
     display: inline-block;
     width: 2em;
     height: 2em;
