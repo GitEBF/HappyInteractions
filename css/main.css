@@ -6,6 +6,12 @@ html, body {
     height: 100vh;
 }
 
+.bodyContainer {
+
+    margin: 0;
+    padding: 0;
+}
+
 .button {
     font-size: 1.5rem;
     border-radius: 100px;
@@ -42,9 +48,11 @@ html, body {
 }
 
 .emotionIcon {
-    margin-left: 1.5em;
-    margin-right: 1.5em;
+    width: 15vw;
+    height: 15vw;
 }
+
+
 
 .sidebar {
     width: 0;

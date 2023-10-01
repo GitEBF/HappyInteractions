@@ -13,12 +13,6 @@
     
 }
 
-.bodyContainer {
-
-    margin: 0;
-    padding: 0;
-}
-
 .loginText{
     z-index: 901;
     transform: translateX(-9vw) translateY(-14vh);

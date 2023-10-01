@@ -6,14 +6,14 @@
         <input type="submit" name=happyIcon id="happyIcon" />
         <svg class="btn emotionIcon happyIcon" id="happyIcon"
             
-            xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512" style="fill:#25D937">
+            xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512" style="fill:#7FC84C">
             <path id="happyIcon"
                 d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
         </svg>
     </label>
     <label>
         <input type="submit" name=midIcon id="midIcon" />
-        <svg class="btn emotionIcon midIcon" id="midIcon" style="fill:#E5E827"
+        <svg class="btn emotionIcon midIcon" id="midIcon" style="fill:#F8C65E"
             
             xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
             <path id="midIcon"
@@ -22,7 +22,7 @@
     </label>
     <label>
         <input type="submit" name=sadIcon id="sadIcon" />
-        <svg class="btn emotionIcon sadIcon" id="sadIcon" style="fill:#DA2626"
+        <svg class="btn emotionIcon sadIcon" id="sadIcon" style="fill:#EA5143"
         
             xmlns="http://www.w3.org/2000/svg" height="13em" viewBox="0 0 512 512">
             <path id="sadIcon"
@@ -31,9 +31,8 @@
     </label>
 </form>
 
-<?php
-// old method but still pretty good trick;
-//onclick="document.getElementById('body').innerHTML += ('<?php emotion("happyIcon") ?><!-- ');" -->
 
+<!-- <script src="js/normalBG.js"></script> -->
 
-?>
+<!-- // old method but still pretty good trick;
+//onclick="document.getElementById('body').innerHTML += ('<?php //emotion("happyIcon") ?> ');" -->

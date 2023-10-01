@@ -14,8 +14,9 @@
 <html>
 
 <body id='body'>
+
     <?php
-    
+
     if (ifActivity()) {
         include "/pages/settingsSideBar.php";
         include "/pages/interactionsButtons.php";
@@ -23,6 +24,8 @@
         include "/pages/interactionsMissingEvent.php";
     }
     ?>
+
+    <script src="libraries/p5.min.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,9 @@
 <?php
 function clickedForm()
 {
-    
+    if(!isset($_POST['action'])) {
+        return null;
+    }
     $postAction = $_POST['action'];
     $connection = createConnection();
     
@@ -59,6 +61,7 @@ function clickedForm()
                 $_SESSION['page'] = 'main';
                 $_SESSION["action"] = "inMain";
                 $_SESSION['settings'] = 'nuh uh';
+                echo "monday left me broken";
             }
 
             break;
@@ -120,6 +123,11 @@ function clickedForm()
 
         case "toMain":
             $_SESSION['page'] = "main";
+            break;
+
+        case "deconnect":
+            session_unset();
+            session_destroy();
             break;
     }
     endConnection($connection);

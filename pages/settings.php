@@ -15,107 +15,99 @@
 
 <body>
     <?php
+
+
+
+    // ---------------------------------- //
+    //       Update LastUsedActivity      //  
+    // ---------------------------------- //
     
+    updateLUActivity(null);
 
+    // ---------------------------------- //
+    //            Leave Button            //  
+    // ---------------------------------- //
+    ?>
+    <form method="post" class="">
+        <input type="hidden" name="action" value="toMain">
+        <input class="leaveButton" type="submit">
+    </form>
+    <?php
 
-        // ---------------------------------- //
-        //       Update LastUsedActivity      //  
-        // ---------------------------------- //
+    // ---------------------------------- //
+    //        Afficher évenements         //
+    // ---------------------------------- //
     
-        updateLUActivity(null);
-
-        // ---------------------------------- //
-        //            Leave Button            //  
-        // ---------------------------------- //
-        ?> 
-            <form method="post" class="hide-submit">
-                <input type="hidden" name="action" value="toMain">
-                <input class="leaveButton" type="submit">
-            </form>
-        <?php
-
-        // ---------------------------------- //
-        //        Afficher évenements         //
-        // ---------------------------------- //
-    
-        $afficherConnexion = createConnection();
-        $sqlConnexion = "SELECT * FROM activity";
-        $result = $afficherConnexion->query($sqlConnexion);
-        if ($result->num_rows > 0) {
-            ?>
-            <form method='post' class="hide-submit">
-            <input type="hidden" name="action" value="evenement" />    
-                <div class="container">
-                    <div class="row">
-                        <?php
-                        while ($row = $result->fetch_assoc()) {
-                            ?>
-                            <label class="labelActivity">
-                                <div class="col-xs-12 col-4 test">
-                                <input type="submit" name="eventId" value="<?php echo $row["id"] ?>" />    
-                                    <div class="card" id="<?php echo $row["id"]; ?>selection">
-                                        <div class="card-content">
-                                            <div class="button-container">
-                                                <a href="modification.php?id=<?php echo $row["id"] ?>" class="editButton"></a>
-                                                <a href="zoom.php?id=<?php echo $row["id"] ?>" class="zoomButton"></a>
-                                            </div>
-                                            <h4 class="card-title">
-                                                <p>
-                                                    <?php echo $row['name']; ?>
-                                                </p>
-                                            </h4>
-                                            <p>
-                                                <?php echo $row['description']; ?>
-                                            </p>
+    $afficherConnexion = createConnection();
+    $sqlConnexion = "SELECT * FROM activity";
+    $result = $afficherConnexion->query($sqlConnexion);
+    if ($result->num_rows > 0) {
+        ?>
+        <form method='post' class="hide-submit">
+            <input type="hidden" name="action" value="evenement" />
+            <div class="container">
+                <div class="row">
+                    <?php
+                    while ($row = $result->fetch_assoc()) {
+                        ?>
+                        <label class="labelActivity">
+                            <div class="col-xs-12 col-4 test">
+                                <input type="submit" name="eventId" value="<?php echo $row["id"] ?>" />
+                                <div class="card" id="<?php echo $row["id"]; ?>selection">
+                                    <div class="card-content">
+                                        <div class="button-container">
+                                            <a href="modification.php?id=<?php echo $row["id"] ?>" class="editButton"></a>
+                                            <a href="zoom.php?id=<?php echo $row["id"] ?>" class="zoomButton"></a>
                                         </div>
+                                        <h4 class="card-title">
+                                            <p>
+                                                <?php echo $row['name']; ?>
+                                            </p>
+                                        </h4>
+                                        <p>
+                                            <?php echo $row['description']; ?>
+                                        </p>
                                     </div>
                                 </div>
-                            </label>
-                            <?php
-                        }
-                        ?>
-                        <a href="ajouter.php">Ajouter un évenement</a>
-                    </div>
+                            </div>
+                        </label>
+                        <?php
+                    }
+                    ?>
+                    <a href="ajouter.php">Ajouter un évenement</a>
                 </div>
-            </form>
-
-            <?php
-        } else {
-            echo "non";
-        }
-        endConnection($afficherConnexion);
-        ?>
-
-        <!-- ---------------------------------- -->
-        <!--            Déconnexion             -->
-        <!-- ---------------------------------- -->
-
-        <form method='post'>
-            <input type="submit" name="deco" value="Déconnexion">
+            </div>
         </form>
 
-        <form method='post'>
-            <input type="hidden" name="action" value="evenement">
-            <input type="submit" name="eventId" value="" />
-        </form>
         <?php
+    } else {
+        echo "non";
+    }
+    endConnection($afficherConnexion);
+    ?>
 
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['deco'])) {
-            session_unset();
-            session_destroy();
-            Header('Location:index.php');
-        }
+    <!-- ---------------------------------- -->
+    <!--            Déconnexion             -->
+    <!-- ---------------------------------- -->
 
+    <form method='post'>
+        <input type="hidden" name="action" value="deconnect">
+        <input type="submit" value="Déconnexion">
+    </form>
 
-        ?>
-        <!-- ---------------------------------- -->
-        <!--                User                -->
-        <!-- ---------------------------------- -->
-        <?php
+    <form method='post'>
+        <input type="hidden" name="action" value="evenement">
+        <input type="submit" name="eventId" value="" />
+    </form>
 
-        if ($_SESSION['username'] == 'etijay') {
-            echo '<a href="user.php">Gérér les utilisateurs</a>';
-        }
+    <!-- ---------------------------------- -->
+    <!--                User                -->
+    <!-- ---------------------------------- -->
+    <?php
+
+    if ($_SESSION['username'] == 'etijay') {
+        echo '<a href="user.php">Gérér les utilisateurs</a>';
+    }
 
 
 
@@ -129,8 +121,9 @@
         //var id = <?php // echo json_encode($_SESSION['id']); ?> + 'selection';
         var LUA_ID = <?php echo json_encode($_SESSION['lastUsedActivity']); ?>;
         console.log(LUA_ID);
-        const activity = document.getElementById(LUA_ID+'selection');
+        const activity = document.getElementById(LUA_ID + 'selection');
         activity.style.backgroundColor = 'greenyellow';
     </script>
 </body>
+
 </html>
