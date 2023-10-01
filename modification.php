@@ -114,7 +114,7 @@ require "dbController.php";
             </form>
             <?php
         } else {
-            echo 'hey big ta toute chier';
+            echo 'modification.php: hey big ta toute chier';
         }
 
         endConnection($connection);

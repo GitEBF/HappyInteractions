@@ -36,10 +36,9 @@ if (!connected()) {
 } else {
   if($_SESSION['page'] == 'main') {
     include "/pages/interactions.php";
-  } else {
-
+  } elseif($_SESSION['page'] == 'settings' /* && Still Time */) {
+    include "/pages/settings.php";
   }
-  
 }
 ?>
 
@@ -51,7 +50,9 @@ if (!connected()) {
 
 
 <?php // USED TO DEBUG SESSION VARIABLES
-print_r($_SESSION);
+//echo "<pre style='z-index: 990;position: fixed;top: 0;right: 0;'>";
+//print_r($_SESSION);
+//echo "</pre>";
 ?>
 
 <script src="js/main.js"></script>

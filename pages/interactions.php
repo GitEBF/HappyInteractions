@@ -13,7 +13,7 @@
 </head>
 <html>
 
-<body>
+<body id='body'>
     <?php
     
     if (ifActivity()) {

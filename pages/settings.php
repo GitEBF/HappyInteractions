@@ -1,9 +1,3 @@
-<?php
-session_start();
-require "database/dbController.php";
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,37 +15,22 @@ require "database/dbController.php";
 
 <body>
     <?php
-    if ($_SESSION['settings'] == 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65') {
+    
 
 
         // ---------------------------------- //
         //       Update LastUsedActivity      //  
         // ---------------------------------- //
     
-        $dbConnection = createConnection();
-        $user = $_SESSION['username'];
+        updateLUActivity(null);
 
-        $sql = "SELECT * FROM user WHERE name = '$user'";
-
-
-
-        $result = $dbConnection->query($sql);
-
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $_SESSION['id'] = $row["lastUsedActivity"];
-        } else {
-            echo "Error: " . $sql . "<br>" . $dbConnection->error;
-        }
-        endConnection($dbConnection);
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['leave'])) {
-            $_SESSION['page'] = "main";
-            Header('Location:index.php');
-        }
+        // ---------------------------------- //
+        //            Leave Button            //  
+        // ---------------------------------- //
         ?> 
-            <form method="post" class="">
-                <input type="submit" class="leaveButton" name="leave">
+            <form method="post" class="hide-submit">
+                <input type="hidden" name="action" value="toMain">
+                <input class="leaveButton" type="submit">
             </form>
         <?php
 
@@ -65,6 +44,7 @@ require "database/dbController.php";
         if ($result->num_rows > 0) {
             ?>
             <form method='post' class="hide-submit">
+            <input type="hidden" name="action" value="evenement" />    
                 <div class="container">
                     <div class="row">
                         <?php
@@ -72,7 +52,7 @@ require "database/dbController.php";
                             ?>
                             <label class="labelActivity">
                                 <div class="col-xs-12 col-4 test">
-                                    <input type="submit" name="selection" value="<?php echo $row["id"]; ?>" />
+                                <input type="submit" name="eventId" value="<?php echo $row["id"] ?>" />    
                                     <div class="card" id="<?php echo $row["id"]; ?>selection">
                                         <div class="card-content">
                                             <div class="button-container">
@@ -105,28 +85,6 @@ require "database/dbController.php";
         }
         endConnection($afficherConnexion);
         ?>
-        <?php
-
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['selection'])) {
-
-            $_SESSION['id'] = $_POST['selection'];
-
-            $dbConnectionSelection = createConnection();
-            $id = $_SESSION['id'];
-            $user = $_SESSION['username'];
-
-            $sqlSelection = "UPDATE user SET lastUsedActivity = $id WHERE name = '$user'";
-
-            if ($dbConnectionSelection->query($sqlSelection) === TRUE) {
-
-            } else {
-                echo "Error: " . $sqlSelection . "<br>" . $dbConnectionSelection->error;
-            }
-            endConnection($dbConnectionSelection);
-
-        }
-
-        ?>
 
         <!-- ---------------------------------- -->
         <!--            Déconnexion             -->
@@ -155,14 +113,12 @@ require "database/dbController.php";
         <!-- ---------------------------------- -->
         <?php
 
-        if ($user == 'etijay') {
+        if ($_SESSION['username'] == 'etijay') {
             echo '<a href="user.php">Gérér les utilisateurs</a>';
         }
 
 
-    } else {
-        Header('Location:index.php');
-    }
+
     ?>
 
     <!-- ---------------------------------- -->
@@ -170,9 +126,10 @@ require "database/dbController.php";
     <!-- ---------------------------------- -->
 
     <script>
-        var id = <?php echo json_encode($_SESSION['id']); ?> + 'selection';
-        console.log(id);
-        const activity = document.getElementById(id);
+        //var id = <?php // echo json_encode($_SESSION['id']); ?> + 'selection';
+        var LUA_ID = <?php echo json_encode($_SESSION['lastUsedActivity']); ?>;
+        console.log(LUA_ID);
+        const activity = document.getElementById(LUA_ID+'selection');
         activity.style.backgroundColor = 'greenyellow';
     </script>
 </body>

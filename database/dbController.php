@@ -6,13 +6,13 @@ $workerTable = "worker";
 $departementTable = "departement";
 $activityTable = "activity";
 
-
 function createConnection()
 {
     //Create Connection to DB
     global $servername, $usernamedb, $passworddb, $db;
     $conn = new mysqli($servername, $usernamedb, $passworddb, $db);
     // Check Connection of DB
+
     if ($conn->connect_error) {
         die("Connection failed " . $conn->connect_error);
     } else {
@@ -23,7 +23,10 @@ function createConnection()
 function endConnection($connection)
 {
     //Close Connection to DB
-    $connection->close();
+    if($connection != null && $connection->ping()){
+        $connection->close();
+    }
+    
 }
 
 function getIdActivity() {
@@ -105,14 +108,4 @@ function connected()
     }
 }
 
-/*
-function connected()
-{
-    if (isset($_SESSION['action'])) {
-        return true;
-    } else {
-        return false;
-    }
-}
-*/
 ?>

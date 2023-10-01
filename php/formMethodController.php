@@ -1,7 +1,15 @@
 <?php
 function clickedForm()
 {
+    
     $postAction = $_POST['action'];
+    $connection = createConnection();
+    
+    if ($postAction == 'emotion') {
+        sleep(3);
+    }
+
+
     switch ($postAction) {
         case "login":
             $user = $_POST['name'];
@@ -9,7 +17,6 @@ function clickedForm()
 
             //$password = md5($password,false);
 
-            $connection = createConnection();
 
             $sql = "SELECT * FROM user where name='$user' and password='$password'";
             $result = $connection->query($sql);
@@ -20,42 +27,48 @@ function clickedForm()
                 $_SESSION["username"] = $user;
                 $_SESSION["action"] = "logged";
                 $_SESSION['page'] = 'main';
-                Header('Location: ' . $_SERVER['PHP_SELF']);
-                $_SESSION["username"] = $user;
-                $_SESSION["action"] = "logged";
-                $_SESSION['page'] = 'main';
             }
 
-            endConnection($connection);
-
             break;
+
+
+
+
+
+
         case "settings":
             $enteredPassword = $_POST['password'];
 
-            $connection = createConnection();
+
 
             if ($connection->connect_error) {
                 die("Connection failed: " . $connection->connect_error);
             }
             $user = $_SESSION["username"];
-            echo $user;
+
             $sql = "SELECT * FROM user where name='$user' AND password='$enteredPassword'";
 
             $result = $connection->query($sql);
 
             if ($result->num_rows > 0) {
-                Header('Location:settings.php');
+
                 $_SESSION['page'] = 'settings';
+                $_SESSION["action"] = "inSettings";
                 $_SESSION['settings'] = 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65';
             } else {
                 $_SESSION['page'] = 'main';
+                $_SESSION["action"] = "inMain";
                 $_SESSION['settings'] = 'nuh uh';
             }
 
-            endConnection($connection);
             break;
+
+
+
+
+
+
         case "emotions":
-            sleep(2);
             $emotionMeter = 50;
             if (isset($_POST['happyIcon'])) {
                 $emotionMeter = 100;
@@ -67,15 +80,21 @@ function clickedForm()
                 $emotionMeter = 0;
             }
             emotion($emotionMeter);
+            $_SESSION["action"] = "clickedEmotion";
             $_SESSION['page'] = 'main';
             break;
+
+
+
+
+
+
         case "evenement":
             //$password = md5($password,false);
-            $dbConnection = createConnection();
             $idActivity = $_POST['eventId'];
             $user = $_SESSION["username"];
 
-            
+
             if ($idActivity == "") {
                 $sql = "UPDATE user SET 
                 lastUsedActivity = NULL WHERE name='$user'";
@@ -83,16 +102,79 @@ function clickedForm()
                 $sql = "UPDATE user SET 
                 lastUsedActivity = $idActivity WHERE name='$user'";
             }
-            
-        
-            if ($dbConnection->query($sql) === TRUE) {
-        
+
+
+            if ($connection->query($sql) === TRUE) {
+
             } else {
-                echo "Error: " . $sql . "<br>" . $dbConnection->error;
+                echo "Error: " . $sql . "<br>" . $connection->error;
             }
-            endConnection($dbConnection);
+
 
             break;
+
+
+
+
+
+
+        case "toMain":
+            $_SESSION['page'] = "main";
+            break;
     }
+    endConnection($connection);
+}
+
+function updateLUActivity($newActivity) {
+    $connection = createConnection();
+
+    $user = $_SESSION["username"];
+
+    //$password = md5($password,false);
+
+
+    $sql = "SELECT * FROM user where name='$user'";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        $_SESSION["lastUsedActivity"] = $row['lastUsedActivity'];
+    }
+
+    endConnection($connection);
+}
+
+function getLUActivityId() {
+    $connection = createConnection();
+    
+    $id = $_SESSION['id'];
+    $user = $_SESSION['username'];
+
+    $sqlSelection = "SELECT * FROM user WHERE name = '$user'";
+
+    if ($connection->query($sqlSelection) === TRUE) {
+        $result = $connection->query($sqlSelection);
+        $row = $result->fetch_assoc();
+        $_SESSION['lastUsedActivity'] = $row['lastUsedActivity'];
+    } else {
+        echo "Error: " . $sqlSelection . "<br>" . $connection->error;
+    }
+    endConnection($connection);
+}
+
+function emotion($emotionMeter)
+{
+    $dbConnection = createConnection();
+    $idActivity = getIdActivity();
+    $sql = "INSERT INTO visitor (idActivity, emotion)
+              VALUES ($idActivity, $emotionMeter)";
+
+    if ($dbConnection->query($sql) === TRUE) {
+
+    } else {
+        echo "Error: " . $sql . "<br>" . $dbConnection->error;
+    }
+    endConnection($dbConnection);
 }
 ?>
