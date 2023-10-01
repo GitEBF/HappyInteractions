@@ -12,6 +12,7 @@ require "database/dbController.php";
     <title>Modification</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/modifier.css">
 </head>
 
 <body>
@@ -23,6 +24,8 @@ require "database/dbController.php";
         $id = $_GET['id'];
         $connection = createConnection();
 
+        $sqlDepartement = "SELECT * FROM departement";
+        $departementListe = mysqli_query($connection, $sqlDepartement);
         $sql = "SELECT * FROM activity where id='$id'";
         $result = $connection->query($sql);
 
@@ -56,6 +59,8 @@ require "database/dbController.php";
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['delete'])) {
             $connectionDelete = createConnection();
             $sqlDelete = "DELETE FROM activity WHERE id='$id'";
+            $sqlDeleteVisitor = "DELETE FROM visitor WHERE idActivity='$id'";
+            $sqlDeleteWorker = "DELETE FROM worker WHERE idActivity='$id'";
             $user = $_SESSION['username'];
             $sqlVerification = "SELECT * FROM user WHERE name = '$user'";
             $result = $connectionDelete->query($sqlVerification);
@@ -63,15 +68,23 @@ require "database/dbController.php";
                 $row = $result->fetch_assoc();
                 if ($row['lastUsedActivity'] == $id) {
                     $sql = "UPDATE user SET lastUsedActivity = null WHERE name='$user'";
-                    if ($connectionDelete->query($sql) === TRUE) {
+                    if ($connectionDelete->query($sqlDeleteVisitor) === TRUE) {
+                        if ($connectionDelete->query($sqlDeleteWorker) === TRUE) {
+                            if ($connectionDelete->query($sql) === TRUE) {
 
+                            } else {
+                                echo "Error: " . $sql . "<br>" . $connectionDelete->error;
+                            }
+                        } else {
+                            echo "Error: " . $sqlDeleteWorker . "<br>" . $connectionDelete->error;
+                        }
                     } else {
-                        echo "Error: " . $sql . "<br>" . $connectionDelete->error;
+                        echo "Error: " . $sqlDeleteVisitor . "<br>" . $connectionDelete->error;
                     }
                 }
             }
             if ($connectionDelete->query($sqlDelete) === TRUE) {
-                
+
                 Header('Location:settings.php');
             } else {
                 echo "Error: " . $sql . "<br>" . $connectionDelete->error;
@@ -83,35 +96,46 @@ require "database/dbController.php";
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             ?>
-            <a href="settings.php"><svg xmlns="http://www.w3.org/2000/svg" height="2em"
-                    viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                    <style>
-                        svg {
-                            fill: #000000
-                        }
-                    </style>
-                    <path
-                        d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
-                </svg></a>
-            <h2>Modifier type beat</h2>
-            <form method="post">
-                Nom : <input type="text" name="name" value="<?php echo $row["name"] ?>"><br>
-                <p style="color:red;">
-                    <?php echo $nomErreur; ?>
-                </p>
-                Date : <input type="date" name="date" value="<?php echo $row["date"] ?>"><br>
-                <p style="color:red;">
-                    <?php echo $dateErreur; ?>
-                </p>
-                Description : <input type="text" name="description" value="<?php echo $row["description"] ?>"><br>
-                <p style="color:red;">
-                    <?php echo $descriptionErreur; ?>
-                </p>
-                <input type="submit" name="modifier" value="Modifier">
-            </form>
-            <form method="post">
-                <input type="submit" name="delete" value="Supprimer">
-            </form>
+            <div class="container">
+                <a href="settings.php" class="leaveButton"></a>
+                <h2>Modifier</h2>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <label for="name">Nom:</label>
+                    <input type="text" name="name" value="<?php echo $row['name']; ?>">
+                    <p class="error">
+                        <?php echo $nomErreur; ?>
+                    </p>
+
+                    <label for="date">Date:</label>
+                    <input type="date" name="date" value="<?php echo $row['date']; ?>">
+                    <p class="error">
+                        <?php echo $dateErreur; ?>
+                    </p>
+
+                    <label for="description">Description:</label>
+                    <input type="text" name="description" value="<?php echo $row['description']; ?>">
+                    <p class="error">
+                        <?php echo $descriptionErreur; ?>
+                    </p>
+
+                    <label for="departement">Département:</label><a href="departement.php" class="editButton"></a>
+                    <select name="departement">
+                        <?php
+                        while ($category = mysqli_fetch_array($departementListe, MYSQLI_ASSOC)):
+                            $selected = ($category["id"] == $row["idDepartement"]) ? 'selected' : '';
+                            ?>
+                            <option value="<?php echo $category["id"]; ?>" <?php echo $selected; ?>>
+                                <?php echo $category["name"]; ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                    <br>
+                    <input type="submit" name="ajouter" value="Modifier">
+                </form>
+                <form method="post">
+                    <input type="submit" name="delete" value="Supprimer">
+                </form>
+            </div>
             <?php
         } else {
             echo 'hey big ta toute chier';

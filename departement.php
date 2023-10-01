@@ -40,7 +40,7 @@ require "database/dbController.php";
             }
         }
         ?>
-        <a href="settings.php" class="leaveButton"></a>
+        <a href="ajouter.php" class="leaveButton"></a>
         <h1>Département</h1>
         <form method="post">
             <input type="text" placeholder="Nom du département" name="name">
