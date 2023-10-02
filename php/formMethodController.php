@@ -122,6 +122,7 @@ function clickedForm()
             $_SESSION['page'] = "main";
             break;
 
+        
         case "deconnect":
             session_unset();
             session_destroy();
@@ -136,6 +137,11 @@ function clickedForm()
                     $_SESSION["subPage"] = "settingsUser";
                     break;
             }
+            
+            break;
+
+        case "setVoteType": 
+            $_SESSION["voteType"] = $_POST['voteType'];
             
             break;
     }

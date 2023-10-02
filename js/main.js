@@ -4,7 +4,7 @@ const buttonIcon = document.getElementById("buttonIcon");
 const buttonIconSetings = document.getElementById("buttonIconSetings");
 const buttonWrapper = document.getElementById('buttonWrapper');
 
-if(button != null) {
+if (button != null) {
   button.addEventListener("click", function () {
     if (sidebar.style.width === "250px") {
       sidebar.style.width = "0";

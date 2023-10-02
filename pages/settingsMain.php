@@ -61,9 +61,24 @@ endConnection($afficherConnexion);
     <input type="submit" value="Déconnexion">
 </form>
 
-<form method='post'>
-    <input type="hidden" name="action" value="evenement">
-    <input type="submit" name="eventId" value="" />
+<form method='post' class="hide-submit">
+    <label>
+        <input type="hidden" name="action" value="evenement">
+        <input type="submit" name="eventId" value="" />
+        <div class="card">
+            <p>REMOVE EVENEMENT</p>
+        </div>
+    </label>
+</form>
+
+<form method='post' class="hide-submit">
+    <label>
+        <input type="hidden" name="action" value="setVoteType">
+        <input type="submit" name="voteType" value="" />
+        <div class="card">
+            <p>REMOVE VOTE TYPE</p>
+        </div>
+    </label>
 </form>
 
 <!-- ---------------------------------- -->
