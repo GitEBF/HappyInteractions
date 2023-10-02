@@ -78,6 +78,14 @@ function ifActivity()
     }
 }
 
+function ifVoteType() {
+    if(isset($_SESSION['voteType']) && $_SESSION['voteType'] != "") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function activityExists($activity)
 {
     $dbConnection = createConnection();
