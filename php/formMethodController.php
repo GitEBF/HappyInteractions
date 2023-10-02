@@ -1,13 +1,13 @@
 <?php
 function clickedForm()
 {
-    if(!isset($_POST['action'])) {
+    if (!isset($_POST['action'])) {
         return null;
     }
     $postAction = $_POST['action'];
     $connection = createConnection();
     $_SESSION['subPage'] = '';
-    
+
     if ($postAction == 'emotion') {
         sleep(3);
     }
@@ -129,15 +129,57 @@ function clickedForm()
             break;
 
         case "settingsPage":
-            
+
             $_SESSION['page'] = "settings";
 
-            switch($_POST['subPage']) {
+            switch ($_POST['subPage']) {
                 case "settingsUser":
                     $_SESSION["subPage"] = "settingsUser";
+                    $_SESSION['userSettings'] = "";
+                    break;
+                case "deleteUser":
+                    $_SESSION["subPage"] = "settingsUser";
+                    $_SESSION['userSettings'] = "";
+                    $idDelete = $_POST['idUserSettings'];
+                    $sql = "DELETE FROM user WHERE id = '$idDelete'";
+                    if ($connection->query($sql) === TRUE) {
+
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $connection->error;
+                    }
+                    break;
+                case "editUser":
+                    $_SESSION["subPage"] = "settingsUser";
+                    $_SESSION['userSettings'] = "modify";
+                    break;
+                case 'addUser':
+                    $_SESSION["subPage"] = "settingsUser";
+                    $_SESSION['userSettings'] = "add";
                     break;
             }
-            
+
+            break;
+
+        case "addFormSubmit":
+            if ($_POST['name'] != "" && $_POST['password'] != "") {
+                $_SESSION['erreurAddUser'] = false;
+                $name = $_POST['name'];
+                $password = $_POST['password'];
+                $sql = "INSERT INTO USER (name,password,lastUsedActivity) VALUES ('$name','$password',NULL)";
+                if ($connection->query($sql) === TRUE) {
+
+                } else {
+                    echo "Error: " . $sql . "<br>" . $connection->error;
+                }
+            } else {
+                $_SESSION['page'] = "settings";
+                $_SESSION["subPage"] = "settingsUser";
+                $_SESSION['userSettings'] = "add";
+                $_SESSION['erreurAddUser'] = true;
+                $_SESSION['nomErreur'] = "Veuillez entrer un nom valide";
+                $_SESSION['passwordErreur'] = "Veuillez entrer un mot de passe valide";
+            }
+
             break;
 
         case "setVoteType": 
@@ -148,7 +190,8 @@ function clickedForm()
     endConnection($connection);
 }
 
-function updateLUActivity($newActivity) {
+function updateLUActivity($newActivity)
+{
     $connection = createConnection();
 
     $user = $_SESSION["username"];
@@ -168,9 +211,10 @@ function updateLUActivity($newActivity) {
     endConnection($connection);
 }
 
-function getLUActivityId() {
+function getLUActivityId()
+{
     $connection = createConnection();
-    
+
     $id = $_SESSION['id'];
     $user = $_SESSION['username'];
 
