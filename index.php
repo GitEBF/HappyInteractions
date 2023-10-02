@@ -10,6 +10,7 @@ require "php/formMethodController.php";
 //$dbConnection = createConnection(); -- create a connection
 //endConnection($dbConnection); -- end the connection
 $_SESSION['settings'] = 'nuh uh';
+$_SESSION['erreurAddUser'] = false;
 ?>
 
 <?php // FORCE REMOVE SESSION

@@ -66,6 +66,11 @@ endConnection($afficherConnexion);
     <input type="submit" name="eventId" value="" />
 </form>
 
+<form method="post" class="">
+    <input type="hidden" name="action" value="toMain">
+    <input class="leaveButton" type="submit">
+</form>
+
 <!-- ---------------------------------- -->
 <!--                User                -->
 <!-- ---------------------------------- -->

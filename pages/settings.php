@@ -40,10 +40,6 @@
 
 
     ?>
-    <form method="post" class="">
-        <input type="hidden" name="action" value="toMain">
-        <input class="leaveButton" type="submit">
-    </form>
 </body>
 
 </html>
