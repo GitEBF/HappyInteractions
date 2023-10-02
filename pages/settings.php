@@ -35,6 +35,9 @@
             case "settingsUser":
                 include "/pages/settingsUser.php";
                 break;
+            case "addEvent":
+                include "/pages/event/eventAdd.php";
+                break;
         }
     }
 

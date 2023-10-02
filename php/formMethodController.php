@@ -122,7 +122,7 @@ function clickedForm()
             $_SESSION['page'] = "main";
             break;
 
-        
+
         case "deconnect":
             session_unset();
             session_destroy();
@@ -156,6 +156,9 @@ function clickedForm()
                     $_SESSION["subPage"] = "settingsUser";
                     $_SESSION['userSettings'] = "add";
                     break;
+                case 'addEvent':
+                    $_SESSION["subPage"] = "addEvent";
+                    break;
             }
 
             break;
@@ -180,30 +183,52 @@ function clickedForm()
 
             break;
 
-            case "editUser":
-                if ($_POST['name'] != "" && $_POST['password'] != "") {
-                    $_SESSION['erreurAddUser'] = false;
-                    $name = $_POST['name'];
-                    $password = $_POST['password'];
-                    $id = $_SESSION['idUserSettings'];
-                    $sql = "UPDATE user SET name = '$name', password = '$password' WHERE id = '$id'";
-                    if ($connection->query($sql) === TRUE) {
-    
-                    } else {
-                        echo "Error: " . $sql . "<br>" . $connection->error;
-                    }
-                } else {
-                    $_SESSION['page'] = "settings";
-                    $_SESSION["subPage"] = "settingsUser";
-                    $_SESSION['userSettings'] = "add";
-                    $_SESSION['erreurAddUser'] = true;
-                }
-    
-                break;
+        case "editUser":
 
-        case "setVoteType": 
+            if ($_POST['name'] != "" && $_POST['password'] != "") {
+                $_SESSION['erreurAddUser'] = false;
+                $name = $_POST['name'];
+                $password = $_POST['password'];
+                $id = $_SESSION['idUserSettings'];
+                $sql = "UPDATE user SET name = '$name', password = '$password' WHERE id = '$id'";
+                if ($connection->query($sql) === TRUE) {
+
+                } else {
+                    echo "Error: " . $sql . "<br>" . $connection->error;
+                }
+            } else {
+                $_SESSION['page'] = "settings";
+                $_SESSION["subPage"] = "settingsUser";
+                $_SESSION['userSettings'] = "add";
+                $_SESSION['erreurAddUser'] = true;
+            }
+
+            break;
+
+        case "setVoteType":
             $_SESSION["voteType"] = $_POST['voteType'];
-            
+
+            break;
+
+        case "ajouterEvent":
+            if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['date']) {
+                $_SESSION['erreurEventAdd'] = false;
+                $name = $_POST['name'];
+                $description = $_POST['description'];
+                $date = $_POST['date'];
+                $departement = $_POST['departement'];
+                $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
+                if ($connection->query($sql) === TRUE) {
+
+                } else {
+                    echo "Error: " . $sql . "<br>" . $connection->error;
+                }
+            } else {
+                $_SESSION['page'] = "settings";
+                $_SESSION["subPage"] = "addEvent";
+                $_SESSION['erreurEventAdd'] = true;
+            }
+
             break;
     }
     endConnection($connection);

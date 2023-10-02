@@ -40,9 +40,13 @@ if ($result->num_rows > 0) {
                     <?php
                 }
                 ?>
-                <a href="ajouter.php">Ajouter un évenement</a>
             </div>
         </div>
+    </form>
+    <form method="post">
+        <input type="hidden" name="action" value="settingsPage" />
+        <input type="hidden" name="subPage" value="addEvent">
+        <input type="submit" value="Ajouter un événement">
     </form>
 
     <?php
