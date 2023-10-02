@@ -211,7 +211,7 @@ function clickedForm()
             break;
 
         case "ajouterEvent":
-            if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['date']) {
+            if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['date'] != "") {
                 $_SESSION['erreurEventAdd'] = false;
                 $name = $_POST['name'];
                 $description = $_POST['description'];
