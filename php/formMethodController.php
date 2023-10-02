@@ -40,9 +40,6 @@ function clickedForm()
 
         case "settings":
             $enteredPassword = $_POST['password'];
-
-
-
             if ($connection->connect_error) {
                 die("Connection failed: " . $connection->connect_error);
             }
@@ -90,27 +87,25 @@ function clickedForm()
 
 
         case "evenement":
-            //$password = md5($password,false);
-            $idActivity = $_POST['eventId'];
-            $user = $_SESSION["username"];
+                //$password = md5($password,false);
+                $user = $_SESSION["username"];
+                if ($_SESSION['lastUsedActivity'] == $_POST['eventId'] || $_POST['eventId'] == "") {
+                    $sql = "UPDATE user SET lastUsedActivity = NULL WHERE name='$user'";
+                    if ($connection->query($sql) === TRUE) {
 
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $connection->error;
+                    }
+                } else {
+                    $idActivity = $_POST['eventId'];
+                    $sql = "UPDATE user SET lastUsedActivity = $idActivity WHERE name='$user'";
+                    if ($connection->query($sql) === TRUE) {
 
-            if ($idActivity == "") {
-                $sql = "UPDATE user SET 
-                lastUsedActivity = NULL WHERE name='$user'";
-            } else {
-                $sql = "UPDATE user SET 
-                lastUsedActivity = $idActivity WHERE name='$user'";
-            }
-
-
-            if ($connection->query($sql) === TRUE) {
-
-            } else {
-                echo "Error: " . $sql . "<br>" . $connection->error;
-            }
-
-
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $connection->error;
+                    }
+                }
+            
             break;
 
 
@@ -131,8 +126,12 @@ function clickedForm()
         case "settingsPage":
 
             $_SESSION['page'] = "settings";
+            $subpage = "";
+            if (isset($_POST['subPage'])) {
+                $subpage = $_POST['subPage'];
+            }
 
-            switch ($_POST['subPage']) {
+            switch ($subpage) {
                 case "settingsUser":
                     $_SESSION["subPage"] = "settingsUser";
                     $_SESSION['userSettings'] = "";
@@ -217,6 +216,7 @@ function clickedForm()
                 $description = $_POST['description'];
                 $date = $_POST['date'];
                 $departement = $_POST['departement'];
+                $_SESSION["subPage"] = "";
                 $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
                 if ($connection->query($sql) === TRUE) {
 

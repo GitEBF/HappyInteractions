@@ -67,16 +67,6 @@ endConnection($afficherConnexion);
 
 <form method='post' class="hide-submit">
     <label>
-        <input type="hidden" name="action" value="evenement">
-        <input type="submit" name="eventId" value="" />
-        <div class="card">
-            <p>REMOVE EVENEMENT</p>
-        </div>
-    </label>
-</form>
-
-<form method='post' class="hide-submit">
-    <label>
         <input type="hidden" name="action" value="setVoteType">
         <input type="submit" name="voteType" value="" />
         <div class="card">
@@ -89,6 +79,8 @@ endConnection($afficherConnexion);
     <input type="hidden" name="action" value="toMain">
     <input class="leaveButton" type="submit">
 </form>
+
+
 
 <!-- ---------------------------------- -->
 <!--                User                -->
