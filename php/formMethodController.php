@@ -160,7 +160,7 @@ function clickedForm()
 
             break;
 
-        case "addFormSubmit":
+        case "ajouterUser":
             if ($_POST['name'] != "" && $_POST['password'] != "") {
                 $_SESSION['erreurAddUser'] = false;
                 $name = $_POST['name'];
@@ -176,11 +176,30 @@ function clickedForm()
                 $_SESSION["subPage"] = "settingsUser";
                 $_SESSION['userSettings'] = "add";
                 $_SESSION['erreurAddUser'] = true;
-                $_SESSION['nomErreur'] = "Veuillez entrer un nom valide";
-                $_SESSION['passwordErreur'] = "Veuillez entrer un mot de passe valide";
             }
 
             break;
+
+            case "editUser":
+                if ($_POST['name'] != "" && $_POST['password'] != "") {
+                    $_SESSION['erreurAddUser'] = false;
+                    $name = $_POST['name'];
+                    $password = $_POST['password'];
+                    $id = $_SESSION['idUserSettings'];
+                    $sql = "UPDATE user SET name = '$name', password = '$password' WHERE id = '$id'";
+                    if ($connection->query($sql) === TRUE) {
+    
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $connection->error;
+                    }
+                } else {
+                    $_SESSION['page'] = "settings";
+                    $_SESSION["subPage"] = "settingsUser";
+                    $_SESSION['userSettings'] = "add";
+                    $_SESSION['erreurAddUser'] = true;
+                }
+    
+                break;
 
         case "setVoteType": 
             $_SESSION["voteType"] = $_POST['voteType'];

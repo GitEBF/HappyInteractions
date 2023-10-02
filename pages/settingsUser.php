@@ -4,12 +4,8 @@
         include "/pages/user/userMain.php";
     } else {
         switch ($_SESSION['userSettings']) {
-            case "delete":
-                echo 'malllo';
-                break;
             case "modify":
-                echo 'ma te modifier moué';
-                echo $_SESSION['idUserSettings'];
+                include "/pages/user/userEdit.php";
                 break;
             case 'add':
                 include "/pages/user/userAdd.php";
