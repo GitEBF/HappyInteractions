@@ -126,6 +126,18 @@ function clickedForm()
             session_unset();
             session_destroy();
             break;
+
+        case "settingsPage":
+            
+            $_SESSION['page'] = "settings";
+
+            switch($_POST['subPage']) {
+                case "settingsUser":
+                    $_SESSION["subPage"] = "settingsUser";
+                    break;
+            }
+            
+            break;
     }
     endConnection($connection);
 }

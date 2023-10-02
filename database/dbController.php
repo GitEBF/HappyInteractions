@@ -101,7 +101,7 @@ function activityExists($activity)
 
 function connected()
 {
-    if (isset($_SESSION['action'])) {
+    if (isset($_SESSION['username'])) {
         return true;
     } else {
         return false;
