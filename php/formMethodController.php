@@ -6,6 +6,7 @@ function clickedForm()
     }
     $postAction = $_POST['action'];
     $connection = createConnection();
+    $_SESSION['subPage'] = '';
     
     if ($postAction == 'emotion') {
         sleep(3);
@@ -27,7 +28,6 @@ function clickedForm()
                 $row = $result->fetch_assoc();
 
                 $_SESSION["username"] = $user;
-                $_SESSION["action"] = "logged";
                 $_SESSION['page'] = 'main';
             }
 
@@ -55,11 +55,9 @@ function clickedForm()
             if ($result->num_rows > 0) {
 
                 $_SESSION['page'] = 'settings';
-                $_SESSION["action"] = "inSettings";
                 $_SESSION['settings'] = 'gjrduiynb u5r9867n8 584r9yb 7n 54896yb 78 8540987hbn65';
             } else {
                 $_SESSION['page'] = 'main';
-                $_SESSION["action"] = "inMain";
                 $_SESSION['settings'] = 'nuh uh';
                 echo "monday left me broken";
             }
@@ -83,7 +81,6 @@ function clickedForm()
                 $emotionMeter = 0;
             }
             emotion($emotionMeter);
-            $_SESSION["action"] = "clickedEmotion";
             $_SESSION['page'] = 'main';
             break;
 
