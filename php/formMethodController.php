@@ -87,25 +87,25 @@ function clickedForm()
 
 
         case "evenement":
-                //$password = md5($password,false);
-                $user = $_SESSION["username"];
-                if ($_SESSION['lastUsedActivity'] == $_POST['eventId'] || $_POST['eventId'] == "") {
-                    $sql = "UPDATE user SET lastUsedActivity = NULL WHERE name='$user'";
-                    if ($connection->query($sql) === TRUE) {
+            //$password = md5($password,false);
+            $user = $_SESSION["username"];
+            if ($_SESSION['lastUsedActivity'] == $_POST['eventId'] || $_POST['eventId'] == "") {
+                $sql = "UPDATE user SET lastUsedActivity = NULL WHERE name='$user'";
+                if ($connection->query($sql) === TRUE) {
 
-                    } else {
-                        echo "Error: " . $sql . "<br>" . $connection->error;
-                    }
                 } else {
-                    $idActivity = $_POST['eventId'];
-                    $sql = "UPDATE user SET lastUsedActivity = $idActivity WHERE name='$user'";
-                    if ($connection->query($sql) === TRUE) {
-
-                    } else {
-                        echo "Error: " . $sql . "<br>" . $connection->error;
-                    }
+                    echo "Error: " . $sql . "<br>" . $connection->error;
                 }
-            
+            } else {
+                $idActivity = $_POST['eventId'];
+                $sql = "UPDATE user SET lastUsedActivity = $idActivity WHERE name='$user'";
+                if ($connection->query($sql) === TRUE) {
+
+                } else {
+                    echo "Error: " . $sql . "<br>" . $connection->error;
+                }
+            }
+
             break;
 
 
@@ -210,25 +210,59 @@ function clickedForm()
             break;
 
         case "ajouterEvent":
-            if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['date'] != "") {
-                $_SESSION['erreurEventAdd'] = false;
-                $name = $_POST['name'];
-                $description = $_POST['description'];
-                $date = $_POST['date'];
-                $departement = $_POST['departement'];
-                $_SESSION["subPage"] = "";
-                $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
-                if ($connection->query($sql) === TRUE) {
+            $subpage = "";
+            if (isset($_POST['subPage'])) {
+                $subpage = $_POST['subPage'];
+            }
+            $_SESSION['mallllo'] = $subpage;
+            switch($subpage) {
+                case "addDep":
+                    $_SESSION["subPage"] = "addDep";
+                    break;
+                case "":
+                    if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['date'] != "") {
+                        $_SESSION['erreurEventAdd'] = false;
+                        $name = $_POST['name'];
+                        $description = $_POST['description'];
+                        $date = $_POST['date'];
+                        $departement = $_POST['departement'];
+                        $_SESSION["subPage"] = "";
+                        $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
+                        if ($connection->query($sql) === TRUE) {
+        
+                        } else {
+                            echo "Error: " . $sql . "<br>" . $connection->error;
+                        }
+                    } else {
+                        $_SESSION['page'] = "settings";
+                        $_SESSION["subPage"] = "addEvent";
+                        $_SESSION['erreurEventAdd'] = true;
+                    }
+        
+                    break;
+            }
+            break;
 
+        case "ajouterDepartement":
+            if ($_POST['name'] != "") {
+                $name = $_POST['name'];
+                $sqlVerification = "SELECT * FROM departement WHERE name = '$name'";
+                $result = $connection->query($sqlVerification);
+                if ($result->num_rows > 0) {
+                    $_SESSION['erreurEventAdd'] = "used";
                 } else {
-                    echo "Error: " . $sql . "<br>" . $connection->error;
+                    $sql = "INSERT INTO departement (name) VALUES ('$name')";
+                    if ($connection->query($sql) === TRUE) {
+
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $connection->error;
+                    }
+                    endConnection($connection);
+                    Header('Location:settings.php');
                 }
             } else {
-                $_SESSION['page'] = "settings";
-                $_SESSION["subPage"] = "addEvent";
                 $_SESSION['erreurEventAdd'] = true;
             }
-
             break;
     }
     endConnection($connection);

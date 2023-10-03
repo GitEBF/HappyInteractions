@@ -34,7 +34,7 @@ if ($_SESSION['erreurEventAdd']) {
             <?php echo $descriptionErreur; ?>
         </p>
 
-        <label for="departement">Département:</label><a href="departement.php" class="editButton"></a>
+        <label for="departement">Département:</label><input type="submit" class="editButton" name="subPage" value="addDep">
         <select name="departement">
             <?php
             while ($category = mysqli_fetch_array($departementListe, MYSQLI_ASSOC)):

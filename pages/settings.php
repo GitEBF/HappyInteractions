@@ -38,6 +38,9 @@
             case "addEvent":
                 include "/pages/event/eventAdd.php";
                 break;
+            case 'addDep':
+                include "/pages/event/depAdd.php";
+                break;
         }
     }
 
