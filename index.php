@@ -10,6 +10,8 @@ require "php/formMethodController.php";
 //$dbConnection = createConnection(); -- create a connection
 //endConnection($dbConnection); -- end the connection
 $_SESSION['settings'] = 'nuh uh';
+$_SESSION['erreurAddUser'] = false;
+$_SESSION['erreurEventAdd'] = false;
 ?>
 
 <?php // FORCE REMOVE SESSION
@@ -27,6 +29,7 @@ $_SESSION['settings'] = 'nuh uh';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   clickedForm();
+  header("Location: ".$_SERVER['PHP_SELF']);
 }
 
 

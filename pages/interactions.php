@@ -9,6 +9,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
+    <script src="/libraries/jquery-3.7.1.min.js"></script>
     <title>Index</title>
 </head>
 <html>
@@ -16,10 +17,14 @@
 <body id='body'>
 
     <?php
-
     if (ifActivity()) {
-        include "/pages/settingsSideBar.php";
-        include "/pages/interactionsButtons.php";
+        if (ifVoteType()) {
+            include "/pages/settingsSideBar.php";
+            include "/pages/interactionsButtons.php";
+        } else {
+            include "/pages/interactionsMissingVoteType.php";
+        }
+
     } else {
         include "/pages/interactionsMissingEvent.php";
     }
