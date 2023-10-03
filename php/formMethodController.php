@@ -89,7 +89,7 @@ function clickedForm()
         case "evenement":
             //$password = md5($password,false);
             $user = $_SESSION["username"];
-            if ($_SESSION['lastUsedActivity'] == $_POST['eventId'] || $_POST['eventId'] == "") {
+            if ($_POST['eventId'] == "") {
                 $sql = "UPDATE user SET lastUsedActivity = NULL WHERE name='$user'";
                 if ($connection->query($sql) === TRUE) {
 

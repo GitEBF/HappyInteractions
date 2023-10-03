@@ -78,3 +78,21 @@ form.hide-submit input[type="submit"] {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+.logout {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
+}

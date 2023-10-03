@@ -62,7 +62,7 @@ endConnection($afficherConnexion);
 
 <form method='post'>
     <input type="hidden" name="action" value="deconnect">
-    <input type="submit" value="Déconnexion">
+    <input type="submit" value="Déconnexion" class="logout">
 </form>
 
 <form method='post' class="hide-submit">

@@ -9,19 +9,19 @@ if ($_SESSION['erreurEventAdd']) {
 }
 ?>
 <div class="container">
-    <h1>Ajouter un département</h1>
-    <form method="post">
+    <h2>Ajouter un département</h2>
+    <form method="post" class="depForm">
         <label for="name">Nom</label>
         <input type="text" id="name" placeholder="Nom département" name="name">
         <p class="error-message">
             <?php echo $nomErreur; ?>
         </p>
         <input type="hidden" name="action" value="ajouterDepartement">
-        <input type="submit">
+        <input type="submit" class="submitDep">
     </form>
 </div>
 
 <form method="post" class="">
     <input type="hidden" name="action" value="settingsPage">
-    <input class="leaveButton" type="submit">
+    <input class="leaveButton" type="submit" name="subPage" value="addEvent">
 </form>
