@@ -29,7 +29,7 @@ $_SESSION['erreurEventAdd'] = false;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   clickedForm();
-  header("Location: ".$_SERVER['PHP_SELF']);
+  //header("Location: ".$_SERVER['PHP_SELF']);
 }
 
 

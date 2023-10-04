@@ -43,17 +43,29 @@ select {
     height: 40px;
 }
 
-.addFormSubmit {
+.button-container {
+    display: flex;
+    gap: 10px; 
+}
+
+.addFormSubmit, .addFormSubmitDelete {
+    padding: 10px 20px; 
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    border-radius: 3px;
     cursor: pointer;
+}
+
+.addFormSubmitDelete {
+    background-color: red;
 }
 
 .addFormSubmit:hover {
     background-color: #0056b3;
+}
+
+.addFormSubmitDelete:hover {
+    background-color: #b80707;
 }
 
 p.error {
