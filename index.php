@@ -53,9 +53,9 @@ if (!connected()) {
 
 
 <?php // USED TO DEBUG SESSION VARIABLES
-echo "<pre style='z-index: 990;position: fixed;top: 0;right: 0;'>";
-print_r($_SESSION);
-echo "</pre>";
+//echo "<pre style='z-index: 990;position: fixed;top: 0;right: 0;'>";
+//print_r($_SESSION);
+//echo "</pre>";
 ?>
 <script src="libraries/jquery-3.7.1.min.js"></script>
 <script src="js/main.js"></script>

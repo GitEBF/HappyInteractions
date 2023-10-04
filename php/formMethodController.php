@@ -426,7 +426,7 @@ function percentHappy()
     if ($countVisitor + $countWorker == 0) {
         $_SESSION['percentHappy'] = "Aucun vote";
     } else {
-        $_SESSION['percentHappy'] = (($happyVisitor + $happyWorker) / ($countVisitor + $countWorker)) . '%';
+        $_SESSION['percentHappy'] = round((($happyVisitor + $happyWorker) / ($countVisitor + $countWorker)),2) . '%';
     }
 
     endConnection($dbConnection);

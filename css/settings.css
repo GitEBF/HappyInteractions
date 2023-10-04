@@ -183,6 +183,8 @@ form.hide-submit input[type="submit"] {
     border-radius: 5px 0 0 5px;
     outline: none;
     color: black;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .wrap {
@@ -202,4 +204,6 @@ form.hide-submit input[type="submit"] {
     border-radius: 0 5px 5px 0;
     font-size: 20px;
     padding: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
