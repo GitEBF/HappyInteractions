@@ -1,6 +1,7 @@
 <?php
 $clickEmotion = false;
-function clickedForm() {
+function clickedForm()
+{
     if (!isset($_POST['action'])) {
         return null;
     }
@@ -8,7 +9,7 @@ function clickedForm() {
     $postAction = $_POST['action'];
     $connection = createConnection();
     $_SESSION['subPage'] = '';
-    
+
     if ($postAction == 'emotion') {
         sleep(2.3);
     }
@@ -68,30 +69,22 @@ function clickedForm() {
 
 
         case "emotion":
-<<<<<<< HEAD
-=======
+
             $emotionMeter = 50;
             if (isset($_POST['happyIcon'])) {
                 $emotionMeter = 100;
             }
             if (isset($_POST['midIcon'])) {
->>>>>>> 88aae544e6a44015c8d10d7c5423cc434bdecde4
                 $emotionMeter = 50;
-            
-                if (isset($_POST['happyIcon'])) {
-                    $emotionMeter = 100;
-                }
-                if (isset($_POST['midIcon'])) {
-                    $emotionMeter = 50;
-                }
-                if (isset($_POST['sadIcon'])) {
-                    $emotionMeter = 0;
-                }
-                emotion($emotionMeter);
-                $_SESSION['page'] = 'main';
+            }
+            if (isset($_POST['sadIcon'])) {
+                $emotionMeter = 0;
+            }
+            emotion($emotionMeter);
+            $_SESSION['page'] = 'main';
 
-        break;
-            
+            break;
+
 
 
 
