@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 if (!connected()) {
   include "/pages/login.php";
 } else {
+  updateLUActivity(null);
   if($_SESSION['page'] == 'main') {
     include "/pages/interactions.php";
   } elseif($_SESSION['page'] == 'settings' /* && Still Time */) {
