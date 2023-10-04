@@ -378,7 +378,7 @@ function getLUActivityId()
 function emotion($emotionMeter)
 {
     $dbConnection = createConnection();
-    $idActivity = getIdActivity();
+    $idActivity = $_SESSION["lastUsedActivity"];
     $sql = "INSERT INTO visitor (idActivity, emotion)
               VALUES ($idActivity, $emotionMeter)";
 
