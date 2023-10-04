@@ -66,7 +66,7 @@ function clickedForm()
 
 
 
-        case "emotions":
+        case "emotion":
             $emotionMeter = 50;
             if (isset($_POST['happyIcon'])) {
                 $emotionMeter = 100;
