@@ -33,6 +33,7 @@
     } else {
         switch ($_SESSION['subPage']) {
             case "settingsUser":
+                $_SESSION['erreurEventAdd'] = false;
                 include "/pages/settingsUser.php";
                 break;
             case "addEvent":
@@ -40,6 +41,14 @@
                 break;
             case 'addDep':
                 include "/pages/event/depAdd.php";
+                break;
+            case 'editEvent':
+                if ($_SESSION['lastUsedActivity'] != NULL) {
+                    include "/pages/event/eventEdit.php";
+                } else {
+                    echo '<script>alert("Veuillez choisir une activité")</script>';
+                    include "/pages/settingsMain.php";
+                }
                 break;
         }
     }

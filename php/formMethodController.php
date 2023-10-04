@@ -158,6 +158,9 @@ function clickedForm()
                 case 'addEvent':
                     $_SESSION["subPage"] = "addEvent";
                     break;
+                case 'editEvent':
+                    $_SESSION["subPage"] = "editEvent";
+                    break;
             }
 
             break;
@@ -215,7 +218,7 @@ function clickedForm()
                 $subpage = $_POST['subPage'];
             }
             $_SESSION['mallllo'] = $subpage;
-            switch($subpage) {
+            switch ($subpage) {
                 case "addDep":
                     $_SESSION["subPage"] = "addDep";
                     break;
@@ -229,7 +232,7 @@ function clickedForm()
                         $_SESSION["subPage"] = "";
                         $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
                         if ($connection->query($sql) === TRUE) {
-        
+
                         } else {
                             echo "Error: " . $sql . "<br>" . $connection->error;
                         }
@@ -238,7 +241,7 @@ function clickedForm()
                         $_SESSION["subPage"] = "addEvent";
                         $_SESSION['erreurEventAdd'] = true;
                     }
-        
+
                     break;
             }
             break;
@@ -250,6 +253,9 @@ function clickedForm()
                 $result = $connection->query($sqlVerification);
                 if ($result->num_rows > 0) {
                     $_SESSION['erreurEventAdd'] = "used";
+                    $_SESSION['erreurEventAdd'] = true;
+                    $_SESSION["subPage"] = "addDep";
+                    break;
                 } else {
                     $sql = "INSERT INTO departement (name) VALUES ('$name')";
                     if ($connection->query($sql) === TRUE) {
@@ -258,10 +264,71 @@ function clickedForm()
                         echo "Error: " . $sql . "<br>" . $connection->error;
                     }
                     endConnection($connection);
-                    Header('Location:settings.php');
                 }
             } else {
                 $_SESSION['erreurEventAdd'] = true;
+                $_SESSION["subPage"] = "addDep";
+            }
+            break;
+
+        case "modifierEvent":
+            $actionModifier = "";
+            $id = $_SESSION['lastUsedActivity'];
+            if (isset($_POST['actionModifier'])) {
+                $actionModifier = $_POST['actionModifier'];
+            }
+
+            switch ($actionModifier) {
+                case 'Supprimer':
+                    $sqlDelete = "DELETE FROM activity WHERE id='$id'";
+                    $sqlDeleteVisitor = "DELETE FROM visitor WHERE idActivity='$id'";
+                    $sqlDeleteWorker = "DELETE FROM worker WHERE idActivity='$id'";
+                    $user = $_SESSION['username'];
+                    $sqlVerification = "SELECT * FROM user WHERE name = '$user'";
+                    $result = $connection->query($sqlVerification);
+                    if ($result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        if ($row['lastUsedActivity'] == $id) {
+                            $sql = "UPDATE user SET lastUsedActivity = null WHERE name='$user'";
+                            if ($connection->query($sql) === TRUE) {
+
+                            } else {
+                                echo "Error: " . $sql . "<br>" . $connection->error;
+                            }
+                        }
+                    }
+                    if ($connection->query($sqlDeleteVisitor) === TRUE) {
+                        if ($connection->query($sqlDeleteWorker) === TRUE) {
+                            if ($connection->query($sqlDelete) === TRUE) {
+
+                            } else {
+                                echo "Error: " . $sql . "<br>" . $connection->error;
+                            }
+                        } else {
+                            echo "Error: " . $sqlDeleteWorker . "<br>" . $connection->error;
+                        }
+                    } else {
+                        echo "Error: " . $sqlDeleteVisitor . "<br>" . $connection->error;
+                    }
+                    break;
+                case 'Modifier':
+                    if (!empty($_POST['name']) && !empty($_POST['date']) && !empty($_POST['description'])) {
+                        $_SESSION['erreurEventAdd'] = false;
+                        $name = $_POST['name'];
+                        $date = $_POST['date'];
+                        $description = $_POST['description'];
+                        $sqlModifier = "UPDATE activity SET name='$name',date='$date',description='$description' WHERE id='$id'";
+                        if ($connection->query($sqlModifier) === TRUE) {
+
+                        } else {
+                            echo "Error: " . $sqlModifier . "<br>" . $connection->error;
+                        }
+                    } else {
+                        $_SESSION['erreurEventAdd'] = true;
+                        $_SESSION["subPage"] = "editEvent";
+                    }
+
+                    break;
             }
             break;
     }
@@ -282,7 +349,7 @@ function updateLUActivity($newActivity)
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-
+        percentHappy();
         $_SESSION["lastUsedActivity"] = $row['lastUsedActivity'];
     }
 
@@ -320,6 +387,43 @@ function emotion($emotionMeter)
     } else {
         echo "Error: " . $sql . "<br>" . $dbConnection->error;
     }
+    endConnection($dbConnection);
+}
+
+function percentHappy()
+{
+    $dbConnection = createConnection();
+    $idActivity = getIdActivity();
+    $sqlVisitor = "SELECT sum(emotion) FROM visitor WHERE idActivity = '$idActivity'";
+    $sqlCountVisitor = "SELECT count(emotion) FROM visitor WHERE idActivity = '$idActivity'";
+    $sqlWorker = "SELECT sum(emotion) FROM worker WHERE idActivity = '$idActivity'";
+    $sqlCountWorker = "SELECT count(emotion) FROM worker WHERE idActivity = '$idActivity'";
+    $resultVisitor = $dbConnection->query($sqlVisitor);
+    $resultCountVisitor = $dbConnection->query($sqlCountVisitor);
+    $resultWorker = $dbConnection->query($sqlWorker);
+    $resultCountWorker = $dbConnection->query($sqlCountWorker);
+    if ($resultVisitor->num_rows > 0) {
+        $rowVisitor = $resultVisitor->fetch_assoc();
+        $rowCountVisitor = $resultCountVisitor->fetch_assoc();
+        $happyVisitor = $rowVisitor['sum(emotion)'];
+        $countVisitor = $rowCountVisitor['count(emotion)'];
+    } else {
+        $happyVisitor = 0;
+    }
+    if ($resultWorker->num_rows > 0) {
+        $rowWorker = $resultWorker->fetch_assoc();
+        $rowCountWorker = $resultCountWorker->fetch_assoc();
+        $happyWorker = $rowWorker['sum(emotion)'];
+        $countWorker = $rowCountWorker['count(emotion)'];
+    } else {
+        $happyWorker = 0;
+    }
+    if ($countVisitor + $countWorker == 0) {
+        $_SESSION['percentHappy'] = "Aucun vote";
+    } else {
+        $_SESSION['percentHappy'] = (($happyVisitor + $happyWorker) / ($countVisitor + $countWorker)) . '%';
+    }
+
     endConnection($dbConnection);
 }
 ?>
