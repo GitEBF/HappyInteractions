@@ -99,16 +99,19 @@ form.hide-submit input[type="submit"] {
 
 .features-icons {
     padding-bottom: 7rem;
-  }
-  .features-icons .features-icons-item {
+}
+
+.features-icons .features-icons-item {
     max-width: 20rem;
-  }
-  .features-icons .features-icons-item .features-icons-icon {
+}
+
+.features-icons .features-icons-item .features-icons-icon {
     height: 7rem;
-  }
-  .features-icons .features-icons-item .features-icons-icon i {
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
     font-size: 4.5rem;
-  }
+}
 
 .addButton {
     width: 1em;
@@ -121,12 +124,12 @@ form.hide-submit input[type="submit"] {
     color: transparent;
 }
 
-.row > .listeOptions {
+.row>.listeOptions {
     flex: 1;
     border: 1px solid black;
     border-radius: 10px;
-    margin: 10px; 
-    padding: 15px; 
+    margin: 10px;
+    padding: 15px;
 }
 
 .listeOptions:hover {
@@ -145,4 +148,58 @@ form.hide-submit input[type="submit"] {
     background-size: contain;
     border: 0;
     color: transparent;
+}
+
+.activityContainer {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    padding-top:0;
+    height: 400px;
+    overflow-y: scroll;
+    margin-top:3em;
+}
+
+.activityContainer::-webkit-scrollbar {
+    width: 12px;
+}
+
+.activityContainer::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+}
+
+.search {
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.searchTerm {
+    width: 100%;
+    border: 3px solid black;
+    border-right: none;
+    height: 36px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: black;
+}
+
+.wrap {
+    padding-left:0 !important;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid black;
+    background: black;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    font-size: 20px;
+    padding: 0;
 }

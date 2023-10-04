@@ -9,9 +9,28 @@ $sqlConnexion = "SELECT * FROM activity";
 $result = $afficherConnexion->query($sqlConnexion);
 if ($result->num_rows > 0) {
     ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#searchInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".labelActivity").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
     <form method='post' class="hide-submit">
         <input type="hidden" name="action" value="evenement" />
-        <div class="container">
+        <div class="container activityContainer">
+            <div class="wrap container">
+                <div class="search">
+                    <input type="text" id="searchInput" class="searchTerm">
+                    <div class="searchButton">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <?php
                 while ($row = $result->fetch_assoc()) {
