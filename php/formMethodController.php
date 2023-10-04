@@ -1,7 +1,6 @@
 <?php
 $clickEmotion = false;
-function clickedForm()
-{
+function clickedForm() {
     if (!isset($_POST['action'])) {
         return null;
     }
