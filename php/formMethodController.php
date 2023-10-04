@@ -1,15 +1,17 @@
 <?php
+$clickEmotion = false;
 function clickedForm()
 {
     if (!isset($_POST['action'])) {
         return null;
     }
+
     $postAction = $_POST['action'];
     $connection = createConnection();
     $_SESSION['subPage'] = '';
-
+    
     if ($postAction == 'emotion') {
-        sleep(3);
+        sleep(2.3);
     }
 
 
@@ -66,21 +68,23 @@ function clickedForm()
 
 
 
-        case "emotions":
-            $emotionMeter = 50;
-            if (isset($_POST['happyIcon'])) {
-                $emotionMeter = 100;
-            }
-            if (isset($_POST['midIcon'])) {
+        case "emotion":
                 $emotionMeter = 50;
-            }
-            if (isset($_POST['sadIcon'])) {
-                $emotionMeter = 0;
-            }
-            emotion($emotionMeter);
-            $_SESSION['page'] = 'main';
-            break;
+            
+                if (isset($_POST['happyIcon'])) {
+                    $emotionMeter = 100;
+                }
+                if (isset($_POST['midIcon'])) {
+                    $emotionMeter = 50;
+                }
+                if (isset($_POST['sadIcon'])) {
+                    $emotionMeter = 0;
+                }
+                emotion($emotionMeter);
+                $_SESSION['page'] = 'main';
 
+        break;
+            
 
 
 
@@ -311,8 +315,9 @@ function getLUActivityId()
 function emotion($emotionMeter)
 {
     $dbConnection = createConnection();
-    $idActivity = $_SESSION["lastUsedActivity"];
-    $sql = "INSERT INTO visitor (idActivity, emotion)
+    $idActivity = $_SESSION['lastUsedActivity'];
+    $typeVote = $_SESSION['voteType'];
+    $sql = "INSERT INTO $typeVote (idActivity, emotion)
               VALUES ($idActivity, $emotionMeter)";
 
     if ($dbConnection->query($sql) === TRUE) {

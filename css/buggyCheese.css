@@ -1,0 +1,42 @@
+
+
+.cheese {
+    margin-right: 5vh;
+    margin-left: 5vh;
+}
+
+.cheesy {
+  margin-right: 5vh;
+}
+
+
+.biggie {
+    font-size: 200%;
+}
+ 
+@media (min-aspect-ratio: 3/10) {
+    .buggy {
+
+      height: 10vh;
+    }
+   
+
+}
+
+@media (min-aspect-ratio: 3/4) {
+    .buggy {
+
+      height: 10vh;
+    }
+   
+
+}
+
+@media (min-aspect-ratio: 3/3) {
+    .buggy {
+
+      height: 14vw;
+    }
+   
+
+}

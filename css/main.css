@@ -1,8 +1,13 @@
-html, body {
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@700&display=swap');
+
+html,
+body {
     margin: 0;
     height: 100%;
 }
-.iconContainer, .bodyContainer {
+
+.iconContainer,
+.bodyContainer {
     height: 100vh;
 }
 
@@ -31,7 +36,7 @@ html, body {
     border-radius: 4%;
 }
 
-.beautiful-input{
+.beautiful-input {
     background: none;
     border: none;
 }
@@ -39,7 +44,8 @@ html, body {
 .beautiful-input:focus {
     outline: none;
     border: none;
-  }
+}
+
 .icon {
     position: relative;
     top: 50%;
@@ -47,10 +53,7 @@ html, body {
     text-align: center;
 }
 
-.emotionIcon {
-    width: 15vw;
-    height: 15vw;
-}
+
 
 
 
@@ -107,81 +110,21 @@ html, body {
 }
 
 
-.glass{
+.glass {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
-    border:1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
-.btn:hover {
-    transform: translateY(-3px);
-    filter:brightness(85%);
+form.hide-submit input[type="submit"] {
+    display: none;
 }
 
-.btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+.merriweather {
+
+    transform: translateY(250%) scale(250%);
+    font-family: 'Merriweather Sans', sans-serif;
 }
-
-.btn::after {
-    content: "";
-    height: 100%;
-    width: 100%;
-    border-radius: 100px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    transition: all .4s;
-}
-
-.emotionDisapear {
-    animation: scaleToZero 0.8s linear;
-    animation-fill-mode: forwards;
-}
-
-.emotionBiggify {
-    animation: scaleBiggify 0.8s linear;
-    animation-fill-mode: forwards;
-}
-
-@keyframes scaleToZero {
-    0% {
-        width: 13em;
-        z-index: 0;
-    }
-
-    20% {
-        width: 14em;
-    }
-
-    100% {
-        width: 0;
-        margin: 0 0 0 0;
-        padding: 0 0 0 0;
-    }
-}
-
-@keyframes scaleBiggify {
-    0% {
-        transform: scaleX(1) scaleY(1);
-        height: 13em;
-        z-index: 1;
-    }
-
-    20% {
-        transform: scaleX(0.8) scaleY(0.8);
-        height: 13em;
-    }
-
-    100% {
-        transform: scaleX(1.5) scaleY(1.5);
-        margin: 0 0 0 0;
-        height: 13em;
-    }
-}
-
-form.hide-submit input[type="submit"] { display: none;}

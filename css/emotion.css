@@ -1,0 +1,73 @@
+.emotionIcon {
+    width: 24vw;
+    height: 24vw;
+}
+
+.emotionDisapear {
+    animation: scaleToZero 0.8s linear;
+    animation-fill-mode: forwards;
+}
+
+.emotionBiggify {
+    animation: scaleBiggify 0.8s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes scaleToZero {
+    0% {
+        width: 22vw;
+        z-index: 0;
+    }
+
+    20% {
+        width: calc(initial*1.2);
+    }
+
+    100% {
+        width: 0;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;
+    }
+}
+
+@keyframes scaleBiggify {
+    0% {
+        transform: scaleX(1) scaleY(1);
+
+        z-index: 1;
+    }
+
+    20% {
+        transform: scaleX(0.8) scaleY(0.8);
+
+    }
+
+    100% {
+        transform: scaleX(1.5) scaleY(1.5);
+        margin: 0 0 0 0;
+
+    }
+}
+
+
+.btn:hover {
+    transform: translateY(-3px);
+    filter:brightness(85%);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn::after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all .4s;
+}
+

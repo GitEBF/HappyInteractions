@@ -1,3 +1,5 @@
+
+
 const button = document.getElementById("loginButton");
 const sidebar = document.getElementById("loginSidebar");
 const buttonIcon = document.getElementById("buttonIcon");
