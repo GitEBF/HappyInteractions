@@ -127,12 +127,12 @@ function clickedForm()
 
 
         case 'toMainFromSettings':
-            
-                if (isset($_POST['checkboxVoteType']) && $_POST['checkboxVoteType'] == 'on') {
-                    $_SESSION["voteType"] = 'worker';
-                } else {
-                    $_SESSION["voteType"] = 'visitor';
-                }
+
+            if (isset($_POST['checkboxVoteType']) && $_POST['checkboxVoteType'] == 'on') {
+                $_SESSION["voteType"] = 'worker';
+            } else {
+                $_SESSION["voteType"] = 'visitor';
+            }
             $_SESSION['page'] = "main";
             break;
 
@@ -161,11 +161,13 @@ function clickedForm()
                     $_SESSION["subPage"] = "settingsUser";
                     $_SESSION['userSettings'] = "";
                     $idDelete = safe($_POST['idUserSettings']);
-                    $sql = "DELETE FROM user WHERE id = '$idDelete'";
-                    if ($connection->query($sql) === TRUE) {
+                    if ($idDelete != 1) {
+                        $sql = "DELETE FROM user WHERE id = '$idDelete'";
+                        if ($connection->query($sql) === TRUE) {
 
-                    } else {
-                        echo "Error: " . $sql . "<br>" . $connection->error;
+                        } else {
+                            echo "Error: " . $sql . "<br>" . $connection->error;
+                        }
                     }
                     break;
                 case "editUser":
