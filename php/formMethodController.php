@@ -24,7 +24,7 @@ function clickedForm()
     switch ($postAction) {
         case "login":
             $user = safe($_POST['name']);
-            $password = safe($_POST['password']);
+            $password = md5(safe($_POST['password']));
 
             //$password = md5($password,false);
 
@@ -47,7 +47,7 @@ function clickedForm()
 
 
         case "settings":
-            $enteredPassword = safe($_POST['password']);
+            $enteredPassword = md5(safe($_POST['password']));
             if ($connection->connect_error) {
                 die("Connection failed: " . $connection->connect_error);
             }
@@ -206,7 +206,7 @@ function clickedForm()
                     $_SESSION['erreurAddUser'] = true;
                     break;
                 } else {
-                    $password = safe($_POST['password']);
+                    $password = md5(safe($_POST['password']));
                     $sql = "INSERT INTO USER (name,password,lastUsedActivity) VALUES ('$name','$password',NULL)";
                     if ($connection->query($sql) === TRUE) {
 
@@ -229,7 +229,7 @@ function clickedForm()
                 $id = $_SESSION['idUserSettings'];
                 $_SESSION['erreurAddUser'] = false;
                 $name = safe($_POST['name']);
-
+                
                 $sql = "SELECT * FROM user WHERE id = '$id'";
                 $result = $connection->query($sql);
                 if ($result->num_rows > 0) {
@@ -238,7 +238,8 @@ function clickedForm()
                         $_SESSION['username'] = $name;
                     }
                 }
-                $password = safe($_POST['password']);
+                $password = md5(safe($_POST['password']));
+
                 $sql = "UPDATE user SET name = '$name', password = '$password' WHERE id = '$id'";
                 if ($connection->query($sql) === TRUE) {
 
