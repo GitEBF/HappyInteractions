@@ -30,6 +30,7 @@
 .labelActivity {
     width: 33%;
     padding: none;
+    display: initial;
 }
 
 .test {
