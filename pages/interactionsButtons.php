@@ -1,4 +1,23 @@
-<h1 class="merriweather text-center">Evenement</h1>
+<h1 class="merriweather text-center">
+<?php
+    $connection = createConnection();
+
+    $activityId = $_SESSION["lastUsedActivity"];
+    $sql = "SELECT * FROM activity where id='$activityId'";
+    $result = $connection->query($sql);
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        echo $row['name'];
+    } else {
+        echo "activity";
+    }
+
+
+    endConnection($connection);
+
+    ?>
+</h1>
 
 <form method='post' class="hide-submit d-flex justify-content-center iconContainer align-items-center"
     id="buttonWrapper">

@@ -10,10 +10,10 @@ function clickedForm()
     $connection = createConnection();
     $_SESSION['subPage'] = '';
 
-    if ($postAction == 'emotion') {
+    if ($postAction == 'emotion' && (!isset($_SESSION["debounceEmotion"]) || $_SESSION["debounceEmotion"] == false)) {
+        $_SESSION["debounceEmotion"] = true;
         sleep(2.3);
     }
-
 
     switch ($postAction) {
         case "login":
@@ -68,22 +68,25 @@ function clickedForm()
 
 
         case "emotion":
-
-            $emotionMeter = 50;
-            if (isset($_POST['happyIcon'])) {
-                $emotionMeter = 100;
-            }
-            if (isset($_POST['midIcon'])) {
+            if ($_SESSION["debounceEmotion"] == false) {
                 $emotionMeter = 50;
+                if (isset($_POST['happyIcon'])) {
+                    $emotionMeter = 100;
+                }
+                if (isset($_POST['midIcon'])) {
+                    $emotionMeter = 50;
+                }
+                if (isset($_POST['sadIcon'])) {
+                    $emotionMeter = 0;
+                }
+                emotion($emotionMeter);
+                $_SESSION['page'] = 'main';
+    
+                $_SESSION["debounceEmotion"] = true;
+                header("Location: ".$_SERVER['PHP_SELF']);
             }
-            if (isset($_POST['sadIcon'])) {
-                $emotionMeter = 0;
-            }
-            emotion($emotionMeter);
-            $_SESSION['page'] = 'main';
 
             break;
-
 
 
 
@@ -211,7 +214,10 @@ function clickedForm()
             break;
 
         case "setVoteType":
-            $_SESSION["voteType"] = safe($_POST['voteType']);
+            if ($_POST['voteType'] == '' || $_POST['voteType'] == 'worker' || $_POST['voteType'] == 'visitor') {
+                $_SESSION["voteType"] = safe($_POST['voteType']);
+            }
+            
 
             break;
 

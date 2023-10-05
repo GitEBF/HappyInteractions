@@ -16,7 +16,7 @@
 <html>
 
 <body id='body'>
-
+    <div class="overlay" id="overlay"></div>
     <?php
     if (ifActivity()) {
         if (ifVoteType()) {

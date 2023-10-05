@@ -13,6 +13,17 @@
     animation-fill-mode: forwards;
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.01); /* Adjust the last value (alpha) to control transparency */
+    z-index: 999; /* Ensure the overlay is on top of other elements */
+    display: none;
+}
+
 @keyframes scaleToZero {
     0% {
         width: 22vw;

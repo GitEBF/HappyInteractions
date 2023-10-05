@@ -32,6 +32,7 @@ if (buttonWrapper != null) {
     var emotionIcons = document.getElementsByClassName("emotionIcon");
     console.dir(event.target.id);
     if (event.target.id != null && event.target.id != "buttonWrapper") {
+      document.getElementById('overlay').style.display = 'block';
       for (i = 0; i < emotionIcons.length; i++) {
         if (emotionIcons[i].id != event.target.id) {
           emotionIcons[i].classList.add("emotionDisapear");
