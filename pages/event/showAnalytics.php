@@ -1,10 +1,13 @@
-<div class="d-flex justify-content-center container">
+<div class="container">
     <div class="row">
-        <div class="col-4">
-            <div>
-                <canvas id="myChart"></canvas>
-                <canvas id="myChart2"></canvas>
-            </div>
+        <div class="col-md-6">
+        <h2 class="text-center">Étudiant</h2>
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <div class="col-md-6">
+        <h2 class="text-center">Organisateur</h2>
+            <canvas id="myChart2"></canvas>
         </div>
     </div>
 </div>
@@ -12,8 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-
-
     function chartVisitor(analytics) {
         var ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
@@ -96,10 +97,10 @@ $id = $_SESSION['lastUsedActivity'];
 $sql = "SELECT * FROM visitor where idActivity='$id'";
 $result = $connection->query($sql);
 if ($result->num_rows > 0) {
-
-    for ($i = 0; $i < ($result->num_rows); $i++) {
+    
+    for($i=0;$i<($result->num_rows);$i++) {
         $row = $result->fetch_assoc();
-        switch ($row['emotion']) {
+        switch($row['emotion']) {
             case 0:
                 $bad = $bad + 1;
                 break;
@@ -117,10 +118,10 @@ if ($result->num_rows > 0) {
 $sql = "SELECT * FROM worker where idActivity='$id'";
 $result = $connection->query($sql);
 if ($result->num_rows > 0) {
-
-    for ($i = 0; $i < ($result->num_rows); $i++) {
+    
+    for($i=0;$i<($result->num_rows);$i++) {
         $row = $result->fetch_assoc();
-        switch ($row['emotion']) {
+        switch($row['emotion']) {
             case 0:
                 $badW = $badW + 1;
                 break;
