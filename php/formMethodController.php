@@ -268,7 +268,6 @@ function clickedForm()
             if (isset($_POST['subPage'])) {
                 $subpage = $_POST['subPage'];
             }
-            $_SESSION['mallllo'] = $subpage;
             switch ($subpage) {
                 case "addDep":
                     $_SESSION["subPage"] = "addDep";
