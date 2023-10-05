@@ -173,12 +173,22 @@ function clickedForm()
             if ($_POST['name'] != "" && $_POST['password'] != "") {
                 $_SESSION['erreurAddUser'] = false;
                 $name = $_POST['name'];
-                $password = $_POST['password'];
-                $sql = "INSERT INTO USER (name,password,lastUsedActivity) VALUES ('$name','$password',NULL)";
-                if ($connection->query($sql) === TRUE) {
-
+                $sqlVerification = "SELECT * FROM user WHERE name = '$name'";
+                $result = $connection->query($sqlVerification);
+                if ($result->num_rows > 0) {
+                    $_SESSION['page'] = "settings";
+                    $_SESSION["subPage"] = "settingsUser";
+                    $_SESSION['userSettings'] = "add";
+                    $_SESSION['erreurAddUser'] = true;
+                    break;
                 } else {
-                    echo "Error: " . $sql . "<br>" . $connection->error;
+                    $password = $_POST['password'];
+                    $sql = "INSERT INTO USER (name,password,lastUsedActivity) VALUES ('$name','$password',NULL)";
+                    if ($connection->query($sql) === TRUE) {
+
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $connection->error;
+                    }
                 }
             } else {
                 $_SESSION['page'] = "settings";
@@ -230,15 +240,24 @@ function clickedForm()
                     if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['date'] != "") {
                         $_SESSION['erreurEventAdd'] = false;
                         $name = $_POST['name'];
-                        $description = $_POST['description'];
-                        $date = $_POST['date'];
-                        $departement = $_POST['departement'];
-                        $_SESSION["subPage"] = "";
-                        $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
-                        if ($connection->query($sql) === TRUE) {
-
+                        $sqlVerification = "SELECT * FROM activity WHERE name = '$name'";
+                        $result = $connection->query($sqlVerification);
+                        if ($result->num_rows > 0) {
+                            $_SESSION['page'] = "settings";
+                            $_SESSION["subPage"] = "addEvent";
+                            $_SESSION['erreurEventAdd'] = true;
+                            break;
                         } else {
-                            echo "Error: " . $sql . "<br>" . $connection->error;
+                            $description = $_POST['description'];
+                            $date = $_POST['date'];
+                            $departement = $_POST['departement'];
+                            $_SESSION["subPage"] = "";
+                            $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
+                            if ($connection->query($sql) === TRUE) {
+
+                            } else {
+                                echo "Error: " . $sql . "<br>" . $connection->error;
+                            }
                         }
                     } else {
                         $_SESSION['page'] = "settings";
