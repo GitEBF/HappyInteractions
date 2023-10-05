@@ -1,74 +1,140 @@
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+<div>
+    <canvas id="myChart2"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    
+    function chartVisitor(analytics) {
+        var ctx = document.getElementById('myChart');
+        console.log(analytics)
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Bon', 'Moyen', 'Mauvais'],
+                datasets: [{
+                    label: '# de Votes',
+                    data: analytics,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function chartWorker(analytics) {
+        var ctx = document.getElementById('myChart2');
+        console.log(analytics)
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Bon', 'Moyen', 'Mauvais'],
+                datasets: [{
+                    label: '# de Votes',
+                    data: analytics,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+</script>
+
 <?php
-$id = $_SESSION['lastUsedActivity'];
 $connection = createConnection();
+$good = 0;
+$mid = 0;
+$bad = 0;
 
-$sql = "SELECT * FROM activity where id='$id'";
-$sqlHappy = "SELECT COUNT(*) FROM visitor where idActivity='$id' AND emotion='100'";
-$sqlNeutral = "SELECT COUNT(*) FROM visitor where idActivity='$id' AND emotion='50'";
-$sqlSad = "SELECT COUNT(*) FROM visitor where idActivity='$id' AND emotion='0'";
-$sqlHappyWorker = "SELECT COUNT(*) FROM worker where idActivity='$id' AND emotion='100'";
-$sqlNeutralWorker = "SELECT COUNT(*) FROM worker where idActivity='$id' AND emotion='50'";
-$sqlSadWorker = "SELECT COUNT(*) FROM worker where idActivity='$id' AND emotion='0'";
+$goodW = 0;
+$midW = 0;
+$badW = 0;
+
+
+$id = $_SESSION['lastUsedActivity'];
+
+$sql = "SELECT * FROM visitor where idActivity='$id'";
 $result = $connection->query($sql);
-$resultHappy = $connection->query($sqlHappy);
-$resultNeutral = $connection->query($sqlNeutral);
-$resultSad = $connection->query($sqlSad);
-$resultHappyWorker = $connection->query($sqlHappyWorker);
-$resultNeutralWorker = $connection->query($sqlNeutralWorker);
-$resultSadWorker = $connection->query($sqlSadWorker);
 if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $rowHappy = $resultHappy->fetch_assoc();
-    $rowNeutral = $resultNeutral->fetch_assoc();
-    $rowSad = $resultSad->fetch_assoc();
-    $rowHappyWorker = $resultHappyWorker->fetch_assoc();
-    $rowNeutralWorker = $resultNeutralWorker->fetch_assoc();
-    $rowSadWorker = $resultSadWorker->fetch_assoc();
+    
+    for($i=0;$i<($result->num_rows);$i++) {
+        $row = $result->fetch_assoc();
+        switch($row['emotion']) {
+            case 0:
+                $bad = $bad + 1;
+                break;
+            case 50:
+                $mid = $mid + 1;
+                break;
+            case 100:
+                $good = $good + 1;
+                break;
+        }
+    }
 
-    ?>
-
-    <form method="post" class="">
-        <input type="hidden" name="action" value="settingsPage">
-        <input class="leaveButton" type="submit">
-    </form>
-    <h1>
-        <?php echo $row['name']; ?>
-    </h1>
-    <p>Visiteur</p>
-    <?php echo $rowHappy['COUNT(*)']; ?>
-    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="fill:#25D937">
-        <path id="happyIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-    </svg><br>
-    <?php echo $rowNeutral['COUNT(*)']; ?>
-    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="fill:#E5E827">
-        <path id="happyIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-    </svg><br>
-    <?php echo $rowSad['COUNT(*)']; ?>
-    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="fill:#DA2626">
-        <path id="happyIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-    </svg>
-    <p>Employeur</p>
-    <?php echo $rowHappyWorker['COUNT(*)']; ?>
-    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="fill:#25D937">
-        <path id="happyIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-    </svg><br>
-    <?php echo $rowNeutralWorker['COUNT(*)']; ?>
-    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="fill:#E5E827">
-        <path id="happyIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-    </svg><br>
-    <?php echo $rowSadWorker['COUNT(*)']; ?>
-    <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512" style="fill:#DA2626">
-        <path id="happyIcon"
-            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM164.1 325.5C182 346.2 212.6 368 256 368s74-21.8 91.9-42.5c5.8-6.7 15.9-7.4 22.6-1.6s7.4 15.9 1.6 22.6C349.8 372.1 311.1 400 256 400s-93.8-27.9-116.1-53.5c-5.8-6.7-5.1-16.8 1.6-22.6s16.8-5.1 22.6 1.6zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
-    </svg>
-    <?php
 }
+
+$sql = "SELECT * FROM worker where idActivity='$id'";
+$result = $connection->query($sql);
+if ($result->num_rows > 0) {
+    
+    for($i=0;$i<($result->num_rows);$i++) {
+        $row = $result->fetch_assoc();
+        switch($row['emotion']) {
+            case 0:
+                $badW = $badW + 1;
+                break;
+            case 50:
+                $midW = $midW + 1;
+                break;
+            case 100:
+                $goodW = $goodW + 1;
+                break;
+        }
+    }
+
+}
+
 endConnection($connection);
+
+$visitorArray = array(
+    0 => $good,
+    1 => $mid,
+    2 => $bad
+);
+
+$workerArray = array(
+    0 => $goodW,
+    1 => $midW,
+    2 => $badW
+);
+
+echo '<script>chartVisitor(' . json_encode($visitorArray) . ')</script>';
+echo '<script>chartWorker(' . json_encode($workerArray) . ')</script>';
 
 
 ?>
+
+<form method="post" class="">
+    <input type="hidden" name="action" value="settingsPage">
+    <input class="leaveButton" type="submit">
+</form>
