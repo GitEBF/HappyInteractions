@@ -329,32 +329,25 @@ function clickedForm()
                     $sqlDeleteVisitor = "DELETE FROM visitor WHERE idActivity='$id'";
                     $sqlDeleteWorker = "DELETE FROM worker WHERE idActivity='$id'";
                     $user = $_SESSION['username'];
-                    $sqlVerification = "SELECT * FROM user WHERE name = '$user'";
-                    $result = $connection->query($sqlVerification);
-                    if ($result->num_rows > 0) {
-                        $row = $result->fetch_assoc();
-                        if ($row['lastUsedActivity'] == $id) {
-                            $sql = "UPDATE user SET lastUsedActivity = null WHERE name='$user'";
-                            if ($connection->query($sql) === TRUE) {
+                    $sqlVerification = "UPDATE user SET lastUsedActivity = null WHERE name='$user'";
+                    if ($connection->query($sqlVerification) === TRUE) {
+                        if ($connection->query($sqlDeleteVisitor) === TRUE) {
+                            if ($connection->query($sqlDeleteWorker) === TRUE) {
+                                if ($connection->query($sqlDelete) === TRUE) {
 
+                                } else {
+                                    echo "Vous ne pouvez pas supprimer votre seule activité";
+                                }
                             } else {
-                                echo "Error: " . $sql . "<br>" . $connection->error;
-                            }
-                        }
-                    }
-                    if ($connection->query($sqlDeleteVisitor) === TRUE) {
-                        if ($connection->query($sqlDeleteWorker) === TRUE) {
-                            if ($connection->query($sqlDelete) === TRUE) {
-
-                            } else {
-                                echo "Error: " . $sql . "<br>" . $connection->error;
+                                echo "Error: " . $sqlDeleteWorker . "<br>" . $connection->error;
                             }
                         } else {
-                            echo "Error: " . $sqlDeleteWorker . "<br>" . $connection->error;
+                            echo "Error: " . $sqlDeleteVisitor . "<br>" . $connection->error;
                         }
                     } else {
-                        echo "Error: " . $sqlDeleteVisitor . "<br>" . $connection->error;
+                        echo "Error: " . $sqlVerification . "<br>" . $connection->error;
                     }
+
                     break;
                 case 'Modifier':
                     if (!empty($_POST['name']) && !empty($_POST['date']) && !empty($_POST['description'])) {
