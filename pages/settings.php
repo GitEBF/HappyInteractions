@@ -29,33 +29,33 @@
     // ---------------------------------- //
     
     if ($_SESSION['subPage'] == "") {
-        include "/pages/settingsMain.php";
+        include "./pages/settingsMain.php";
     } else {
         switch ($_SESSION['subPage']) {
             case "settingsUser":
                 $_SESSION['erreurEventAdd'] = false;
-                include "/pages/settingsUser.php";
+                include "./pages/settingsUser.php";
                 break;
             case "addEvent":
-                include "/pages/event/eventAdd.php";
+                include "./pages/event/eventAdd.php";
                 break;
             case 'addDep':
-                include "/pages/event/depAdd.php";
+                include "./pages/event/depAdd.php";
                 break;
             case 'editEvent':
                 if ($_SESSION['lastUsedActivity'] != NULL) {
-                    include "/pages/event/eventEdit.php";
+                    include "./pages/event/eventEdit.php";
                 } else {
                     echo '<script>alert("Veuillez choisir une activité")</script>';
-                    include "/pages/settingsMain.php";
+                    include "./pages/settingsMain.php";
                 }
                 break;
             case 'showAnalytics':
                 if ($_SESSION['lastUsedActivity'] != NULL) {
-                    include "/pages/event/showAnalytics.php";
+                    include "./pages/event/showAnalytics.php";
                 } else {
                     echo '<script>alert("Veuillez choisir une activité")</script>';
-                    include "/pages/settingsMain.php";
+                    include "./pages/settingsMain.php";
                 }
                 break;
         }

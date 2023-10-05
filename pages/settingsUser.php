@@ -1,14 +1,14 @@
 <div class="container bodyContainer">
     <?php
     if ($_SESSION['userSettings'] == "") {
-        include "/pages/user/userMain.php";
+        include "./pages/user/userMain.php";
     } else {
         switch ($_SESSION['userSettings']) {
             case "modify":
-                include "/pages/user/userEdit.php";
+                include "./pages/user/userEdit.php";
                 break;
             case 'add':
-                include "/pages/user/userAdd.php";
+                include "./pages/user/userAdd.php";
                 break;
         }
     }

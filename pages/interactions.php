@@ -20,14 +20,14 @@
     <?php
     if (ifActivity()) {
         if (ifVoteType()) {
-            include "/pages/settingsSideBar.php";
-            include "/pages/interactionsButtons.php";
+            include "./pages/settingsSideBar.php";
+            include "./pages/interactionsButtons.php";
         } else {
-            include "/pages/interactionsMissingVoteType.php";
+            include "./pages/interactionsMissingVoteType.php";
         }
 
     } else {
-        include "/pages/interactionsMissingEvent.php";
+        include "./pages/interactionsMissingEvent.php";
     }
     ?>
 

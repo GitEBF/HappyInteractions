@@ -35,13 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 // if not logged: Load login.php, if logged: continue
 if (!connected()) {
-  include "/pages/login.php";
+  include "./pages/login.php";
 } else {
   updateLUActivity(null);
   if($_SESSION['page'] == 'main') {
-    include "/pages/interactions.php";
+    include "./pages/interactions.php";
   } elseif($_SESSION['page'] == 'settings' /* && Still Time */) {
-    include "/pages/settings.php";
+    include "./pages/settings.php";
   }
 }
 ?>
@@ -54,9 +54,6 @@ if (!connected()) {
 
 
 <?php // USED TO DEBUG SESSION VARIABLES
-echo "<pre style='z-index: 990;position: fixed;top: 0;right: 0;'>";
-print_r($_SESSION);
-echo "</pre>";
 $_SESSION["debounceEmotion"] = false;
 ?>
 <script src="libraries/jquery-3.7.1.min.js"></script>
