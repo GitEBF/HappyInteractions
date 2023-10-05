@@ -82,15 +82,10 @@ function clickedForm()
                 }
                 emotion($emotionMeter);
                 $_SESSION['page'] = 'main';
-<<<<<<< HEAD
     
                 $_SESSION["debounceEmotion"] = true;
                 header("Location: ".$_SERVER['PHP_SELF']);
-=======
 
-                $_SESSION["debounceEmotion"] = true;
-                header("Location: " . $_SERVER['PHP_SELF']);
->>>>>>> 9a405a9fdeeb34f0e458035a1e48d3003ac0a5c3
             }
 
             break;
