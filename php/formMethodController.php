@@ -226,10 +226,19 @@ function clickedForm()
         case "editUser":
 
             if ($_POST['name'] != "" && $_POST['password'] != "") {
+                $id = $_SESSION['idUserSettings'];
                 $_SESSION['erreurAddUser'] = false;
                 $name = safe($_POST['name']);
+
+                $sql = "SELECT * FROM user WHERE id = '$id'";
+                $result = $connection->query($sql);
+                if ($result->num_rows > 0) {
+                    $row = $result->fetch_assoc();
+                    if ($_SESSION['username'] == $row['name']) {
+                        $_SESSION['username'] = $name;
+                    }
+                }
                 $password = safe($_POST['password']);
-                $id = $_SESSION['idUserSettings'];
                 $sql = "UPDATE user SET name = '$name', password = '$password' WHERE id = '$id'";
                 if ($connection->query($sql) === TRUE) {
 
