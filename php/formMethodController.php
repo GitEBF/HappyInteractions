@@ -82,7 +82,7 @@ function clickedForm()
                 }
                 emotion($emotionMeter);
                 $_SESSION['page'] = 'main';
-    
+
                 $_SESSION["debounceEmotion"] = true;
                 header("Location: ".$_SERVER['PHP_SELF']);
 
@@ -140,6 +140,9 @@ function clickedForm()
             }
 
             switch ($subpage) {
+                case 'showAnalytics':
+                    $_SESSION["subPage"] = "showAnalytics";
+                    break;
                 case "settingsUser":
                     $_SESSION["subPage"] = "settingsUser";
                     $_SESSION['userSettings'] = "";
@@ -229,7 +232,7 @@ function clickedForm()
             if ($_POST['voteType'] == '' || $_POST['voteType'] == 'worker' || $_POST['voteType'] == 'visitor') {
                 $_SESSION["voteType"] = safe($_POST['voteType']);
             }
-            
+
 
             break;
 

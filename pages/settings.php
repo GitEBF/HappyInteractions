@@ -50,6 +50,9 @@
                     include "/pages/settingsMain.php";
                 }
                 break;
+            case 'showAnalytics':
+                include "/pages/event/showAnalytics.php";
+                break;
         }
     }
 
