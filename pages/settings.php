@@ -51,7 +51,12 @@
                 }
                 break;
             case 'showAnalytics':
-                include "/pages/event/showAnalytics.php";
+                if ($_SESSION['lastUsedActivity'] != NULL) {
+                    include "/pages/event/showAnalytics.php";
+                } else {
+                    echo '<script>alert("Veuillez choisir une activité")</script>';
+                    include "/pages/settingsMain.php";
+                }
                 break;
         }
     }
