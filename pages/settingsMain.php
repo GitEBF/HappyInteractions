@@ -1,3 +1,29 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const switchToggle = document.getElementById("switchToggle");
+        const switchText = document.getElementById("switchText");
+
+        switchToggle.addEventListener("change", function () {
+            if (switchToggle.checked) {
+                switchText.textContent = "Organisateur";
+            } else {
+                switchText.textContent = "Étudiant";
+            }
+        });
+    });
+</script>
+<form method='post' class="hide-submit">
+    <div class="center">
+        <label>
+            <input type="submit" name="action" value="setVoteType">
+            <label class="switch">
+                <input type="checkbox" id="switchToggle">
+                <span class="slider"></span>
+            </label>
+        </label>
+        <p id="switchText">Étudiant</p>
+    </div>
+</form>
 <?php
 
 // ---------------------------------- //
@@ -124,11 +150,19 @@ endConnection($afficherConnexion);
                     <label>
             </div>
             <div class="col-lg-4 listeOptions">
-                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary happyButton"></i>
-                    </div>
-                    <h3 id="percentHappy">Aucun vote</h3>
-                </div>
+                <label>
+                    <form method="post" class='hide-submit' role="button">
+                        <input type="hidden" name="action" value="settingsPage" />
+                        <input type="hidden" name="subPage" value="showAnalytics">
+                        <input type="submit">
+                        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                            <div class="features-icons-icon d-flex"><i
+                                    class="bi-terminal m-auto text-primary happyButton"></i>
+                            </div>
+                            <h3 id="percentHappy">Aucun vote</h3>
+                        </div>
+                    </form>
+                </label>
             </div>
         </div>
     </div>
