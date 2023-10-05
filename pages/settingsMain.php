@@ -19,11 +19,14 @@
     <div class="center">
         <label>
             <label class="switch">
-                <input type="checkbox" id="switchToggle" name="checkboxVoteType" <?php if ($_SESSION["voteType"] === 'worker') echo 'checked'; ?>>
+                <input type="checkbox" id="switchToggle" name="checkboxVoteType" <?php if ($_SESSION["voteType"] === 'worker')
+                    echo 'checked'; ?>>
                 <span class="slider"></span>
             </label>
         </label>
-        <p id="switchText"><?php echo ($_SESSION["voteType"] === 'worker') ? 'Organisateur' : 'Étudiant'; ?></p>
+        <p id="switchText">
+            <?php echo ($_SESSION["voteType"] === 'worker') ? 'Organisateur' : 'Étudiant'; ?>
+        </p>
     </div>
     <input type="hidden" name="action" value="toMainFromSettings">
     <input class="leaveButton" type="submit">
@@ -147,8 +150,16 @@ endConnection($afficherConnexion);
             </label>
         </div>
         <?php
-
-        if ($_SESSION['username'] == 'etijay') {
+        $connection = createConnection();
+        $user = $_SESSION['username'];
+        $sql = "SELECT * FROM user where name='$user'";
+        $result = $connection->query($sql);
+        $userId = 999;
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $userId = $row['id'];
+        }
+        if ($userId == '1') {
             ?>
             <label class="col-4 listeUser">
                 <form method="post" class='hide-submit' role="button">

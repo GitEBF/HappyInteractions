@@ -6,7 +6,7 @@ function clickedForm()
         return null;
     }
 
-    $postAction = safe($_POST['action']);
+    $postAction = safe($_POST['action']); 
     $connection = createConnection();
     $_SESSION['subPage'] = '';
 
@@ -14,6 +14,11 @@ function clickedForm()
         $_SESSION["debounceEmotion"] = true;
         sleep(2.3);
         $_SESSION["debounceEmotion"] = false;
+    }
+    if(isset($_SESSION['name']) && !checkUser($connection)) {
+        $postAction = "";
+        session_unset();
+        session_destroy();
     }
 
     switch ($postAction) {
@@ -478,5 +483,14 @@ function desafe($data)
 {
     $data = stripslashes($data);
     $data = htmlspecialchars_decode($data);
+}
+
+function checkUser($connection) {
+    $user = safe($_SESSION['name']);
+    $sql = "SELECT * FROM user where name='$user'";
+    $result = $connection->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+    }
 }
 ?>
