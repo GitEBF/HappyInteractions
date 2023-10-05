@@ -9,7 +9,7 @@ if (!$_SESSION['erreurAddUser']) {
 }
 
 $dbConnection = createConnection();
-$id = $_POST['idUserSettings'];
+$id = safe($_POST['idUserSettings']);
 $_SESSION['idUserSettings'] = $id;
 $sql = "SELECT * FROM user WHERE id = '$id'";
 $result = $dbConnection->query($sql);
