@@ -6,7 +6,7 @@ function clickedForm()
         return null;
     }
 
-    $postAction = $_POST['action'];
+    $postAction = safe($_POST['action']);
     $connection = createConnection();
     $_SESSION['subPage'] = '';
 
@@ -17,8 +17,8 @@ function clickedForm()
 
     switch ($postAction) {
         case "login":
-            $user = $_POST['name'];
-            $password = $_POST['password'];
+            $user = safe($_POST['name']);
+            $password = safe($_POST['password']);
 
             //$password = md5($password,false);
 
@@ -41,7 +41,7 @@ function clickedForm()
 
 
         case "settings":
-            $enteredPassword = $_POST['password'];
+            $enteredPassword = safe($_POST['password']);
             if ($connection->connect_error) {
                 die("Connection failed: " . $connection->connect_error);
             }
@@ -58,7 +58,6 @@ function clickedForm()
             } else {
                 $_SESSION['page'] = 'main';
                 $_SESSION['settings'] = 'nuh uh';
-                echo "monday left me broken";
             }
 
             break;
@@ -93,7 +92,7 @@ function clickedForm()
         case "evenement":
             //$password = md5($password,false);
             $user = $_SESSION["username"];
-            if ($_POST['eventId'] == "") {
+            if (!isset($_POST['eventId']) || $_POST['eventId'] == "") {
                 $sql = "UPDATE user SET lastUsedActivity = NULL WHERE name='$user'";
                 if ($connection->query($sql) === TRUE) {
 
@@ -132,7 +131,7 @@ function clickedForm()
             $_SESSION['page'] = "settings";
             $subpage = "";
             if (isset($_POST['subPage'])) {
-                $subpage = $_POST['subPage'];
+                $subpage = safe($_POST['subPage']);
             }
 
             switch ($subpage) {
@@ -143,7 +142,7 @@ function clickedForm()
                 case "deleteUser":
                     $_SESSION["subPage"] = "settingsUser";
                     $_SESSION['userSettings'] = "";
-                    $idDelete = $_POST['idUserSettings'];
+                    $idDelete = safe($_POST['idUserSettings']);
                     $sql = "DELETE FROM user WHERE id = '$idDelete'";
                     if ($connection->query($sql) === TRUE) {
 
@@ -172,8 +171,8 @@ function clickedForm()
         case "ajouterUser":
             if ($_POST['name'] != "" && $_POST['password'] != "") {
                 $_SESSION['erreurAddUser'] = false;
-                $name = $_POST['name'];
-                $password = $_POST['password'];
+                $name = safe($_POST['name']);
+                $password = safe($_POST['password']);
                 $sql = "INSERT INTO USER (name,password,lastUsedActivity) VALUES ('$name','$password',NULL)";
                 if ($connection->query($sql) === TRUE) {
 
@@ -193,8 +192,8 @@ function clickedForm()
 
             if ($_POST['name'] != "" && $_POST['password'] != "") {
                 $_SESSION['erreurAddUser'] = false;
-                $name = $_POST['name'];
-                $password = $_POST['password'];
+                $name = safe($_POST['name']);
+                $password = safe($_POST['password']);
                 $id = $_SESSION['idUserSettings'];
                 $sql = "UPDATE user SET name = '$name', password = '$password' WHERE id = '$id'";
                 if ($connection->query($sql) === TRUE) {
@@ -212,7 +211,7 @@ function clickedForm()
             break;
 
         case "setVoteType":
-            $_SESSION["voteType"] = $_POST['voteType'];
+            $_SESSION["voteType"] = safe($_POST['voteType']);
 
             break;
 
@@ -229,10 +228,10 @@ function clickedForm()
                 case "":
                     if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['date'] != "") {
                         $_SESSION['erreurEventAdd'] = false;
-                        $name = $_POST['name'];
-                        $description = $_POST['description'];
-                        $date = $_POST['date'];
-                        $departement = $_POST['departement'];
+                        $name = safe($_POST['name']);
+                        $description = safe($_POST['description']);
+                        $date = safe($_POST['date']);
+                        $departement = safe($_POST['departement']);
                         $_SESSION["subPage"] = "";
                         $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
                         if ($connection->query($sql) === TRUE) {
@@ -252,7 +251,7 @@ function clickedForm()
 
         case "ajouterDepartement":
             if ($_POST['name'] != "") {
-                $name = $_POST['name'];
+                $name = safe($_POST['name']);
                 $sqlVerification = "SELECT * FROM departement WHERE name = '$name'";
                 $result = $connection->query($sqlVerification);
                 if ($result->num_rows > 0) {
@@ -279,7 +278,7 @@ function clickedForm()
             $actionModifier = "";
             $id = $_SESSION['lastUsedActivity'];
             if (isset($_POST['actionModifier'])) {
-                $actionModifier = $_POST['actionModifier'];
+                $actionModifier = safe($_POST['actionModifier']);
             }
 
             switch ($actionModifier) {
@@ -318,9 +317,9 @@ function clickedForm()
                 case 'Modifier':
                     if (!empty($_POST['name']) && !empty($_POST['date']) && !empty($_POST['description'])) {
                         $_SESSION['erreurEventAdd'] = false;
-                        $name = $_POST['name'];
-                        $date = $_POST['date'];
-                        $description = $_POST['description'];
+                        $name = safe($_POST['name']);
+                        $date = safe($_POST['date']);
+                        $description = safe($_POST['description']);
                         $sqlModifier = "UPDATE activity SET name='$name',date='$date',description='$description' WHERE id='$id'";
                         if ($connection->query($sqlModifier) === TRUE) {
 
@@ -430,5 +429,17 @@ function percentHappy()
     }
 
     endConnection($dbConnection);
+}
+
+function safe($data) {
+    $data = trim($data); //enleve espaces pour des %20
+    $data = addslashes($data); //Mets des backslashs devant les ' et les "
+    $data = htmlspecialchars($data); // Remplace les caractères spéciaux par leurs symboles comme < devient &lt;
+    return $data;
+}
+
+function desafe($data) {
+    $data = stripslashes($data);
+    $data = htmlspecialchars_decode($data);
 }
 ?>
