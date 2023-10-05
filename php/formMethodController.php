@@ -10,10 +10,11 @@ function clickedForm()
     $connection = createConnection();
     $_SESSION['subPage'] = '';
 
-    if ($postAction == 'emotion') {
+    if ($postAction == 'emotion' && (!isset($_SESSION["debounceEmotion"]) || $_SESSION["debounceEmotion"] == false)) {
+        $_SESSION["debounceEmotion"] = true;
         sleep(2.3);
+        $_SESSION["debounceEmotion"] = false;
     }
-
 
     switch ($postAction) {
         case "login":
@@ -68,22 +69,25 @@ function clickedForm()
 
 
         case "emotion":
-
-            $emotionMeter = 50;
-            if (isset($_POST['happyIcon'])) {
-                $emotionMeter = 100;
-            }
-            if (isset($_POST['midIcon'])) {
+            if ($_SESSION["debounceEmotion"] == false) {
                 $emotionMeter = 50;
+                if (isset($_POST['happyIcon'])) {
+                    $emotionMeter = 100;
+                }
+                if (isset($_POST['midIcon'])) {
+                    $emotionMeter = 50;
+                }
+                if (isset($_POST['sadIcon'])) {
+                    $emotionMeter = 0;
+                }
+                emotion($emotionMeter);
+                $_SESSION['page'] = 'main';
+
+                $_SESSION["debounceEmotion"] = true;
+                header("Location: " . $_SERVER['PHP_SELF']);
             }
-            if (isset($_POST['sadIcon'])) {
-                $emotionMeter = 0;
-            }
-            emotion($emotionMeter);
-            $_SESSION['page'] = 'main';
 
             break;
-
 
 
 
@@ -171,7 +175,7 @@ function clickedForm()
         case "ajouterUser":
             if ($_POST['name'] != "" && $_POST['password'] != "") {
                 $_SESSION['erreurAddUser'] = false;
-                $name = $_POST['name'];
+                $name = safe($_POST['name']);
                 $sqlVerification = "SELECT * FROM user WHERE name = '$name'";
                 $result = $connection->query($sqlVerification);
                 if ($result->num_rows > 0) {
@@ -181,13 +185,9 @@ function clickedForm()
                     $_SESSION['erreurAddUser'] = true;
                     break;
                 } else {
-                    $password = $_POST['password'];
+                    $password = safe($_POST['password']);
                     $sql = "INSERT INTO USER (name,password,lastUsedActivity) VALUES ('$name','$password',NULL)";
                     if ($connection->query($sql) === TRUE) {
-                $name = safe($_POST['name']);
-                $password = safe($_POST['password']);
-                $sql = "INSERT INTO USER (name,password,lastUsedActivity) VALUES ('$name','$password',NULL)";
-                if ($connection->query($sql) === TRUE) {
 
                     } else {
                         echo "Error: " . $sql . "<br>" . $connection->error;
@@ -242,13 +242,21 @@ function clickedForm()
                 case "":
                     if ($_POST['name'] != "" && $_POST['description'] != "" && $_POST['date'] != "") {
                         $_SESSION['erreurEventAdd'] = false;
-                        $name = $_POST['name'];
-                        $description = $_POST['description'];
-                        $date = $_POST['date'];
-                        $departement = $_POST['departement'];
-                        $_SESSION["subPage"] = "";
-                        $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
-                        if ($connection->query($sql) === TRUE) {
+                        $name = safe($_POST['name']);
+                        $sqlVerification = "SELECT * FROM activity WHERE name = '$name'";
+                        $result = $connection->query($sqlVerification);
+                        if ($result->num_rows > 0) {
+                            $_SESSION['page'] = "settings";
+                            $_SESSION["subPage"] = "addEvent";
+                            $_SESSION['erreurEventAdd'] = true;
+                            break;
+                        } else {
+                            $description = safe($_POST['description']);
+                            $date = safe($_POST['date']);
+                            $departement = safe($_POST['departement']);
+                            $_SESSION["subPage"] = "";
+                            $sql = "INSERT INTO activity (name,date,idDepartement,description) VALUES ('$name','$date','$departement','$description')";
+                            if ($connection->query($sql) === TRUE) {
 
                             } else {
                                 echo "Error: " . $sql . "<br>" . $connection->error;
@@ -440,20 +448,22 @@ function percentHappy()
     if ($countVisitor + $countWorker == 0) {
         $_SESSION['percentHappy'] = "Aucun vote";
     } else {
-        $_SESSION['percentHappy'] = round((($happyVisitor + $happyWorker) / ($countVisitor + $countWorker)),2) . '%';
+        $_SESSION['percentHappy'] = round((($happyVisitor + $happyWorker) / ($countVisitor + $countWorker)), 2) . '%';
     }
 
     endConnection($dbConnection);
 }
 
-function safe($data) {
+function safe($data)
+{
     $data = trim($data); //enleve espaces pour des %20
     $data = addslashes($data); //Mets des backslashs devant les ' et les "
     $data = htmlspecialchars($data); // Remplace les caractères spéciaux par leurs symboles comme < devient &lt;
     return $data;
 }
 
-function desafe($data) {
+function desafe($data)
+{
     $data = stripslashes($data);
     $data = htmlspecialchars_decode($data);
 }
