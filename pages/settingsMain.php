@@ -2,27 +2,31 @@
     document.addEventListener("DOMContentLoaded", function () {
         const switchToggle = document.getElementById("switchToggle");
         const switchText = document.getElementById("switchText");
+        const voteTypeInput = document.getElementById("voteType");
 
         switchToggle.addEventListener("change", function () {
             if (switchToggle.checked) {
                 switchText.textContent = "Organisateur";
+                voteTypeInput.value = "worker";
             } else {
                 switchText.textContent = "Étudiant";
+                voteTypeInput.value = "visitor";
             }
         });
     });
 </script>
-<form method='post' class="hide-submit">
+<form method="post" class="">
     <div class="center">
         <label>
-            <input type="submit" name="action" value="setVoteType">
             <label class="switch">
-                <input type="checkbox" id="switchToggle">
+                <input type="checkbox" id="switchToggle" name="checkboxVoteType" <?php if ($_SESSION["voteType"] === 'worker') echo 'checked'; ?>>
                 <span class="slider"></span>
             </label>
         </label>
-        <p id="switchText">Étudiant</p>
+        <p id="switchText"><?php echo ($_SESSION["voteType"] === 'worker') ? 'Organisateur' : 'Étudiant'; ?></p>
     </div>
+    <input type="hidden" name="action" value="toMainFromSettings">
+    <input class="leaveButton" type="submit">
 </form>
 <?php
 
@@ -101,95 +105,68 @@ endConnection($afficherConnexion);
     <input type="submit" value="Déconnexion" class="logout">
 </form>
 
-<form method='post' class="hide-submit">
-    <label>
-        <input type="hidden" name="action" value="setVoteType">
-        <input type="submit" name="voteType" value="" />
-        <div class="card">
-            <p>REMOVE VOTE TYPE</p>
-        </div>
-    </label>
-</form>
-
-<form method="post" class="">
-    <input type="hidden" name="action" value="toMain">
-    <input class="leaveButton" type="submit">
-</form>
-
 <section class="features-icons text-center">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 listeOptions">
-                <label>
-                    <form method="post" class='hide-submit' role="button">
-                        <input type="hidden" name="action" value="settingsPage" />
-                        <input type="hidden" name="subPage" value="addEvent">
-                        <input type="submit">
-                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                            <div class="features-icons-icon d-flex"><i
-                                    class="bi-window m-auto text-primary addButton"></i>
-                            </div>
-                            <h3>Ajouter un événement</h3>
+            <label class="col-sm-4 listeOptions labelLeft">
+                <form method="post" class='hide-submit' role="button">
+                    <input type="hidden" name="action" value="settingsPage" />
+                    <input type="hidden" name="subPage" value="addEvent">
+                    <input type="submit">
+                    <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                        <div class="features-icons-icon d-flex"><i class="bi-window m-auto text-primary addButton"></i>
                         </div>
-                    </form>
-                    <label>
-            </div>
-            <div class="col-lg-4 listeOptions">
-                <label>
-                    <form method="post" class='hide-submit' role="button">
-                        <input type="hidden" name="action" value="settingsPage" />
-                        <input type="hidden" name="subPage" value="editEvent">
-                        <input type="submit">
-                        <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                            <div class="features-icons-icon d-flex"><i
-                                    class="bi-layers m-auto text-primary editButton"></i>
-                            </div>
-                            <h3>Modifier l'événement</h3>
+                        <h3>Ajouter un événement</h3>
+                    </div>
+                </form>
+            </label>
+            <label class="col-sm-4 listeOptions">
+                <form method="post" class='hide-submit' role="button">
+                    <input type="hidden" name="action" value="settingsPage" />
+                    <input type="hidden" name="subPage" value="editEvent">
+                    <input type="submit">
+                    <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                        <div class="features-icons-icon d-flex"><i class="bi-layers m-auto text-primary editButton"></i>
                         </div>
-                    </form>
-                    <label>
-            </div>
-            <div class="col-lg-4 listeOptions">
-                <label>
-                    <form method="post" class='hide-submit' role="button">
-                        <input type="hidden" name="action" value="settingsPage" />
-                        <input type="hidden" name="subPage" value="showAnalytics">
-                        <input type="submit">
-                        <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                            <div class="features-icons-icon d-flex"><i
-                                    class="bi-terminal m-auto text-primary happyButton"></i>
-                            </div>
-                            <h3 id="percentHappy">Aucun vote</h3>
+                        <h3>Modifier l'événement</h3>
+                    </div>
+                </form>
+            </label>
+            <label class="col-sm-4 listeOptions labelRight">
+                <form method="post" class='hide-submit' role="button">
+                    <input type="hidden" name="action" value="settingsPage" />
+                    <input type="hidden" name="subPage" value="showAnalytics">
+                    <input type="submit">
+                    <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                        <div class="features-icons-icon d-flex"><i
+                                class="bi-terminal m-auto text-primary happyButton"></i>
                         </div>
-                    </form>
-                </label>
-            </div>
+                        <h3 id="percentHappy">Aucun vote</h3>
+                    </div>
+                </form>
+            </label>
         </div>
+        <?php
+
+        if ($_SESSION['username'] == 'etijay') {
+            ?>
+            <label class="col-4 listeUser">
+                <form method="post" class='hide-submit' role="button">
+                    <input type="hidden" name="action" value="settingsPage">
+                    <input type="submit" name="subPage" value="settingsUser" />
+                    <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                        <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary userButton"></i>
+                        </div>
+                        <h3>Utilisateurs</h3>
+                    </div>
+                </form>
+            </label>
+            <?php
+        }
+        ?>
     </div>
 </section>
 
-
-
-<!-- ---------------------------------- -->
-<!--                User                -->
-<!-- ---------------------------------- -->
-<?php
-
-if ($_SESSION['username'] == 'etijay') {
-    ?>
-
-
-    <form method='post'>
-        <input type="hidden" name="action" value="settingsPage">
-        <input type="submit" name="subPage" value="settingsUser" />
-    </form>
-
-    <?php
-}
-
-
-
-?>
 
 <!-- ---------------------------------- -->
 <!--           Select évenement         -->

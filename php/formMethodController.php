@@ -84,7 +84,7 @@ function clickedForm()
                 $_SESSION['page'] = 'main';
 
                 $_SESSION["debounceEmotion"] = true;
-                header("Location: ".$_SERVER['PHP_SELF']);
+                header("Location: " . $_SERVER['PHP_SELF']);
 
             }
 
@@ -125,6 +125,16 @@ function clickedForm()
             $_SESSION['page'] = "main";
             break;
 
+
+        case 'toMainFromSettings':
+            
+                if (isset($_POST['checkboxVoteType']) && $_POST['checkboxVoteType'] == 'on') {
+                    $_SESSION["voteType"] = 'worker';
+                } else {
+                    $_SESSION["voteType"] = 'visitor';
+                }
+            $_SESSION['page'] = "main";
+            break;
 
         case "deconnect":
             session_unset();
