@@ -1,3 +1,29 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const switchToggle = document.getElementById("switchToggle");
+        const switchText = document.getElementById("switchText");
+
+        switchToggle.addEventListener("change", function () {
+            if (switchToggle.checked) {
+                switchText.textContent = "Organisateur";
+            } else {
+                switchText.textContent = "Étudiant";
+            }
+        });
+    });
+</script>
+<form method='post' class="hide-submit">
+    <div class="center">
+        <label>
+            <input type="submit" name="action" value="setVoteType">
+            <label class="switch">
+                <input type="checkbox" id="switchToggle">
+                <span class="slider"></span>
+            </label>
+        </label>
+        <p id="switchText">Étudiant</p>
+    </div>
+</form>
 <?php
 
 // ---------------------------------- //
