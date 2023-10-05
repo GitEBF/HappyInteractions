@@ -15,8 +15,7 @@
 
 
     function chartVisitor(analytics) {
-        var ctx = document.getElementById('myChart');
-        console.log(analytics)
+        var ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
@@ -24,6 +23,16 @@
                 datasets: [{
                     label: '# de Votes',
                     data: analytics,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)', 
+                        'rgba(255, 206, 86, 0.6)', 
+                        'rgba(255, 99, 132, 0.6)'  
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
                     borderWidth: 1
                 }]
             },
@@ -38,8 +47,7 @@
     }
 
     function chartWorker(analytics) {
-        var ctx = document.getElementById('myChart2');
-        console.log(analytics)
+        var ctx = document.getElementById('myChart2').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
@@ -47,6 +55,16 @@
                 datasets: [{
                     label: '# de Votes',
                     data: analytics,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 206, 86, 0.6)', 
+                        'rgba(255, 99, 132, 0.6)'  
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
                     borderWidth: 1
                 }]
             },
